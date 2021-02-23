@@ -17,7 +17,7 @@ interface IFeeApprover {
 
     function setTokenUniswapPair(address _tokenUniswapPair) external;
 
-    function setHal9kVaultAddress(address _hal9kVaultAddress) external;
+    function setEonsVaultAddress(address _EonsVaultAddress) external;
 
     function sync() external;
 

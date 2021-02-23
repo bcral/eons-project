@@ -1,29 +1,27 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.7.0;
 
-import "@openzeppelin/contracts-ethereum-package/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts-ethereum-package/contracts/math/SafeMath.sol";
-import "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/IERC20.sol"; // for WETH
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/math/SafeMath.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol"; // for WETH
 import "@uniswap/v2-core/contracts/interfaces/IUniswapV2Factory.sol";
-import "@openzeppelin/contracts-ethereum-package/contracts/Initializable.sol";
 import "hardhat/console.sol";
 
-contract FeeApprover is OwnableUpgradeSafe {
+contract FeeApprover is Ownable {
     using SafeMath for uint256;
     
     // In this contract, e do calculate fee and the real amount to be sent to the recepient
 
     function initialize(
-        address _Hal9kAddress,
+        address _EonsAddress,
         address _WETHAddress,
         address _uniswapFactory
-    ) public initializer {
-        OwnableUpgradeSafe.__Ownable_init();
-        hal9kTokenAddress = _Hal9kAddress;
+    ) public {
+        eonsTokenAddress = _EonsAddress;
         WETHAddress = _WETHAddress;
         tokenUniswapPair = IUniswapV2Factory(_uniswapFactory).getPair(
             WETHAddress,
-            hal9kTokenAddress
+            eonsTokenAddress
         );
         feePercentX100 = 10;
         paused = true; // We start paused until sync post LGE happens.
@@ -32,8 +30,8 @@ contract FeeApprover is OwnableUpgradeSafe {
     address tokenUniswapPair;
     IUniswapV2Factory public uniswapFactory;
     address internal WETHAddress;
-    address hal9kTokenAddress;
-    address hal9kVaultAddress;
+    address eonsTokenAddress;
+    address eonsVaultAddress;
     uint8 public feePercentX100; // max 255 = 25.5% artificial clamp
     uint256 public lastTotalSupplyOfLPTokens;
     bool paused;
@@ -47,8 +45,8 @@ contract FeeApprover is OwnableUpgradeSafe {
         feePercentX100 = _feeMultiplier;
     }
     
-    function setHal9kVaultAddress(address _hal9kVaultAddress) public onlyOwner {
-        hal9kVaultAddress = _hal9kVaultAddress;
+    function setEonsVaultAddress(address _eonsVaultAddress) public onlyOwner {
+        eonsVaultAddress = _eonsVaultAddress;
     }
 
     function sync() public {
@@ -76,8 +74,8 @@ contract FeeApprover is OwnableUpgradeSafe {
                 "Liquidity withdrawals forbidden"
             );
 
-        if (sender == hal9kVaultAddress || sender == tokenUniswapPair) {
-            // Dont have a fee when hal9kvault is sending, or infinite loop
+        if (sender == eonsVaultAddress || sender == tokenUniswapPair) {
+            // Dont have a fee when eonsvault is sending, or infinite loop
             // And when pair is sending ( buys are happening, no tax on it)
             transferToFeeDistributorAmount = 0;
             transferToAmount = amount;

@@ -12,7 +12,7 @@ import '@openzeppelin/contracts/math/SafeMath.sol';
 import './interfaces/IFeeApprover.sol';
 import './EonsVault.sol';
 
-contract Eonsv1Router is OwnableUpgradeSafe {
+contract Eonsv1Router is Ownable {
     using SafeMath for uint256;
     mapping(address => uint256) public hardAlqo;
 
@@ -29,8 +29,7 @@ contract Eonsv1Router is OwnableUpgradeSafe {
         address uniV2Factory,
         address feeApprover,
         address eonsVault
-    ) public initializer {
-        OwnableUpgradeSafe.__Ownable_init();
+    ) public onlyOwner {
         _alqoToken = alqoToken;
         _WETH = IWETH(WETH);
         _uniV2Factory = uniV2Factory;
@@ -61,7 +60,7 @@ contract Eonsv1Router is OwnableUpgradeSafe {
         }
     }
 
-    function addLiquidityETHOnly(address payable to, bool autoStake)
+    function addLiquidityETHOnly(address payable to)
         public
         payable
     {
@@ -73,11 +72,11 @@ contract Eonsv1Router is OwnableUpgradeSafe {
 
         _WETH.deposit{value: msg.value}();
 
-        (uint256 reserveWeth, uint256 reserveHal9k) = getPairReserves();
-        uint256 outHal9k = UniswapV2Library.getAmountOut(
+        (uint256 reserveWeth, uint256 reserveAlqo) = getPairReserves();
+        uint256 outAlqo = UniswapV2Library.getAmountOut(
             buyAmount,
             reserveWeth,
-            reserveHal9k
+            reserveAlqo
         );
 
         _WETH.transfer(_eonsWETHPair, buyAmount);
@@ -88,62 +87,59 @@ contract Eonsv1Router is OwnableUpgradeSafe {
         );
 
         IUniswapV2Pair(_eonsWETHPair).swap(
-            _alqoToken == token0 ? outHal9k : 0,
-            _alqoToken == token1 ? outHal9k : 0,
+            _alqoToken == token0 ? outAlqo : 0,
+            _alqoToken == token1 ? outAlqo : 0,
             address(this),
             ''
         );
 
-        _addLiquidity(outHal9k, buyAmount, to, autoStake);
+        _addLiquidity(outAlqo, buyAmount, to);
 
         _feeApprover.sync();
     }
 
     function _addLiquidity(
-        uint256 hal9kAmount,
+        uint256 alqoAmount,
         uint256 wethAmount,
-        address payable to,
-        bool autoStake
+        address payable to
     ) internal {
-        (uint256 wethReserve, uint256 hal9kReserve) = getPairReserves();
+        (uint256 wethReserve, uint256 alqoReserve) = getPairReserves();
 
-        // Get the amount of Hal9K token representing equivalent value to weth amount
-        uint256 optimalHal9kAmount = UniswapV2Library.quote(
+        // Get the amount of ALQO token representing equivalent value to weth amount
+        uint256 optimalAlqoAmount = UniswapV2Library.quote(
             wethAmount,
             wethReserve,
-            hal9kReserve
+            alqoReserve
         );
 
         uint256 optimalWETHAmount;
 
-        if (optimalHal9kAmount > hal9kAmount) {
+        if (optimalAlqoAmount > alqoAmount) {
             optimalWETHAmount = UniswapV2Library.quote(
-                hal9kAmount,
-                hal9kReserve,
+                alqoAmount,
+                alqoReserve,
                 wethReserve
             );
-            optimalHal9kAmount = hal9kAmount;
+            optimalAlqoAmount = alqoAmount;
         } else optimalWETHAmount = wethAmount;
 
         assert(_WETH.transfer(_eonsWETHPair, optimalWETHAmount));
         assert(
-            IERC20(_alqoToken).transfer(_eonsWETHPair, optimalHal9kAmount)
+            IERC20(_alqoToken).transfer(_eonsWETHPair, optimalAlqoAmount)
         );
 
-        if (autoStake) {
-            IUniswapV2Pair(_eonsWETHPair).mint(address(this));
-            _eonsVault.depositFor(
-                to,
-                0,
-                IUniswapV2Pair(_eonsWETHPair).balanceOf(address(this))
-            );
-        } else IUniswapV2Pair(_eonsWETHPair).mint(to);
+        IUniswapV2Pair(_eonsWETHPair).mint(address(this));
+        _eonsVault.depositFor(
+            to,
+            0,
+            IUniswapV2Pair(_eonsWETHPair).balanceOf(address(this))
+        );
 
         //refund dust
-        if (hal9kAmount > optimalHal9kAmount)
+        if (alqoAmount > optimalAlqoAmount)
             IERC20(_alqoToken).transfer(
                 to,
-                hal9kAmount.sub(optimalHal9kAmount)
+                alqoAmount.sub(optimalAlqoAmount)
             );
 
         if (wethAmount > optimalWETHAmount) {
@@ -165,11 +161,11 @@ contract Eonsv1Router is OwnableUpgradeSafe {
         view
         returns (uint256 liquidity)
     {
-        (uint256 reserveWeth, uint256 reserveHal9k) = getPairReserves();
+        (uint256 reserveWeth, uint256 reserveAlqo) = getPairReserves();
         uint256 outHal9k = UniswapV2Library.getAmountOut(
             ethAmt.div(2),
             reserveWeth,
-            reserveHal9k
+            reserveAlqo
         );
         uint256 _totalSupply = IUniswapV2Pair(_eonsWETHPair).totalSupply();
 
@@ -178,11 +174,11 @@ contract Eonsv1Router is OwnableUpgradeSafe {
             _alqoToken
         );
         (uint256 amount0, uint256 amount1) = token0 == _alqoToken
-            ? (outHal9k, ethAmt.div(2))
-            : (ethAmt.div(2), outHal9k);
+            ? (outAlqo, ethAmt.div(2))
+            : (ethAmt.div(2), outAlqo);
         (uint256 _reserve0, uint256 _reserve1) = token0 == _alqoToken
-            ? (reserveHal9k, reserveWeth)
-            : (reserveWeth, reserveHal9k);
+            ? (reserveAlqo, reserveWeth)
+            : (reserveWeth, reserveAlqo);
             
         liquidity = Math.min(
             amount0.mul(_totalSupply) / _reserve0,
@@ -193,7 +189,7 @@ contract Eonsv1Router is OwnableUpgradeSafe {
     function getPairReserves()
         internal
         view
-        returns (uint256 wethReserves, uint256 hal9kReserves)
+        returns (uint256 wethReserves, uint256 alqoReserves)
     {
         (address token0, ) = UniswapV2Library.sortTokens(
             address(_WETH),
@@ -201,7 +197,7 @@ contract Eonsv1Router is OwnableUpgradeSafe {
         );
         (uint256 reserve0, uint256 reserve1, ) = IUniswapV2Pair(_eonsWETHPair)
             .getReserves();
-        (wethReserves, hal9kReserves) = token0 == _alqoToken
+        (wethReserves, alqoReserves) = token0 == _alqoToken
             ? (reserve1, reserve0)
             : (reserve0, reserve1);
     }
