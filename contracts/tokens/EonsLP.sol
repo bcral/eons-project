@@ -11,9 +11,9 @@ contract EonsLP is ERC20, Ownable {
     using SafeMath for uint;
 
     string private _name;
-    // uint256 private INITIAL_MINT_SUPPLY = 10000000 * (10 ** 18);
+    uint256 private INITIAL_MINT_SUPPLY = 10000000 * (10 ** 18);
 
-    constructor() public ERC20("EonsLP", "ELP") {
+    constructor() public ERC20("EonsLP", "ENS") {
 
     }
 
