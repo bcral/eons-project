@@ -3,7 +3,7 @@ pragma solidity ^0.7.0;
 
 import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
 
-interface IEonsVault {
+interface IEonsUniVault {
   function getUserStakedAmount(uint256 _pid, address _userAddress) external view returns (uint256 stakedAmount);
   function isContract(address addr) external view returns (bool);
   function add(IERC20 token, bool withdrawable, uint pid) external;

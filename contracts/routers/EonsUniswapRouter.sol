@@ -5,12 +5,13 @@ import '@uniswap/v2-core/contracts/interfaces/IUniswapV2Factory.sol';
 import '@uniswap/v2-core/contracts/interfaces/IUniswapV2Pair.sol';
 import '@uniswap/v2-periphery/contracts/interfaces/IWETH.sol';
 import '@uniswap/v2-periphery/contracts/libraries/UniswapV2Library.sol';
+import '@uniswap/lib/contracts/libraries/TransferHelper.sol';
 import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
 import '@openzeppelin/contracts/access/Ownable.sol';
 import '@openzeppelin/contracts/math/SafeMath.sol';
 
 import '../interfaces/IFeeApprover.sol';
-import '../interfaces/IEonsVault.sol';
+import '../interfaces/IEonsUniVault.sol';
 import '../libraries/Math.sol';
 
 contract EonsUniswapRouter is Ownable {
@@ -20,13 +21,14 @@ contract EonsUniswapRouter is Ownable {
 	address public _eonsToken;
 	address public _eonsWETHPair;
 	IFeeApprover public _feeApprover;
-	IEonsVault public _eonsVault;
+	IEonsUniVault public _eonsUniVault;
 	IWETH public _WETH;
 	address public _uniV2Factory;
+	uint private _uniLpIncome;
 
 	event FeeApproverChanged(address indexed newAddress, address indexed oldAddress);
 
-	function initialize(address eonsToken, address WETH, address uniV2Factory, address feeApprover, address eonsVault) public onlyOwner {
+	function initialize(address eonsToken, address WETH, address uniV2Factory, address feeApprover, address eonsUniVault) public onlyOwner {
 		_eonsToken = eonsToken;
 		_WETH = IWETH(WETH);
 		_uniV2Factory = uniV2Factory;
@@ -35,13 +37,13 @@ contract EonsUniswapRouter is Ownable {
 				WETH,
 				_eonsToken
 		);
-		_eonsVault = IEonsVault(eonsVault);
+		_eonsUniVault = IEonsUniVault(eonsUniVault);
 		refreshApproval();
 	}
 
 	function refreshApproval() public {
 		IUniswapV2Pair(_eonsWETHPair).approve(
-				address(_eonsVault),
+				address(_eonsUniVault),
 				uint256(-1)
 		);
 	}
@@ -52,8 +54,13 @@ contract EonsUniswapRouter is Ownable {
 		}
 	}
 
-	function getLpAmount() public view onlyOwner returns(uint amount) {
-		return IUniswapV2Pair(_eonsWETHPair).balanceOf(address(this));
+	function getLpAmount() public onlyOwner returns(uint amount) {
+		_uniLpIncome = IUniswapV2Pair(_eonsWETHPair).balanceOf(address(this));
+		return _uniLpIncome;
+	}
+
+	function getTotalSupplyOfUniLp() public view returns(uint amount) {
+		return IUniswapV2Pair(_eonsWETHPair).totalSupply();
 	}
 
 	function addLiquidity(address payable to, uint256 eonsAmount) public payable {
@@ -122,6 +129,39 @@ contract EonsUniswapRouter is Ownable {
 		_feeApprover.sync();
 	}
 
+	    // **** REMOVE LIQUIDITY ****
+    function removeLiquidity(
+        address tokenA,
+        address tokenB,
+        uint liquidity,
+        address to
+    ) public virtual override returns (uint amountA, uint amountB) {
+        IUniswapV2Pair(_eonsWETHPair).transferFrom(msg.sender, _eonsWETHPair, liquidity); // send liquidity to pair
+        (uint amount0, uint amount1) = IUniswapV2Pair(_eonsWETHPair).burn(to);
+        (address token0,) = UniswapV2Library.sortTokens(tokenA, tokenB);
+        (amountA, amountB) = tokenA == token0 ? (amount0, amount1) : (amount1, amount0);
+    }
+    function removeLiquidityETH(
+        address token,
+        uint liquidity,
+        uint amountTokenMin,
+        uint amountETHMin,
+        address to
+    ) public virtual returns (uint amountToken, uint amountETH) {
+        (amountToken, amountETH) = removeLiquidity(
+            token,
+            WETH,
+            liquidity,
+            amountTokenMin,
+            amountETHMin,
+            address(this),
+            deadline
+        );
+        TransferHelper.safeTransfer(token, to, amountToken);
+        IWETH(WETH).withdraw(amountETH);
+        TransferHelper.safeTransferETH(to, amountETH);
+    }
+
 	function _addLiquidity(
 		uint256 eonsAmount,
 		uint256 wethAmount,
@@ -154,7 +194,7 @@ contract EonsUniswapRouter is Ownable {
 
 		uint lp = IUniswapV2Pair(_eonsWETHPair).mint(address(this));
 
-		_eonsVault.depositFor(to, 0, lp);
+		_eonsUniVault.depositFor(to, 0, lp);
 
 		//refund dust
 		if (eonsAmount > optimalEonsAmount)
