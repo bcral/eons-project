@@ -7,7 +7,9 @@ import "@openzeppelin/contracts/utils/Address.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "hardhat/console.sol";
 
-contract EonsLP is ERC20, Ownable {
+import '../utilities/MinterRole.sol';
+
+contract EonsLP is ERC20, Ownable, MinterRole {
     using SafeMath for uint;
 
     string private _name;
@@ -17,24 +19,28 @@ contract EonsLP is ERC20, Ownable {
 
     }
 
-    /// @dev Mint ALP. Only owner can mint
-    function mint(address recepient, uint _amount) public onlyOwner {
-        require(totalSupply().add(_amount) <= INITIAL_MINT_SUPPLY, 'Minting now allowed');
-        _mint(recepient, _amount);
+    function addMinter(address minter) external override onlyOwner {
+        _addMinter(minter);
     }
 
-    /// @dev Burn ALP from caller
-    function burn(uint256 _amount) external {
-        _burn(_msgSender(), _amount);
+    /// @dev Mint ELP. Only minter can mint
+    function mint(address recepient, uint amount) public onlyMinter {
+        require(totalSupply().add(amount) <= INITIAL_MINT_SUPPLY, 'Minting now allowed');
+        _mint(recepient, amount);
+    }
+
+    /// @dev Burn ELP from caller
+    function burn(uint256 amount) external {
+        _burn(_msgSender(), amount);
     }
 
     /// @dev Burn ALP from given account. Caller must have proper allowance.
-    function burnFrom(address _account, uint256 _amount) external {
+    function burnFrom(address account, uint256 _amount) external {
         uint256 decreasedAllowance =
-            allowance(_account, _msgSender()).sub(_amount, "ERC20: burn amount exceeds allowance");
+            allowance(account, _msgSender()).sub(_amount, "ERC20: burn amount exceeds allowance");
 
-        _approve(_account, _msgSender(), decreasedAllowance);
-        _burn(_account, _amount);
+        _approve(account, _msgSender(), decreasedAllowance);
+        _burn(account, _amount);
     }
 
     /**

@@ -2,10 +2,11 @@
 pragma solidity ^0.7.0;
 
 import '@openzeppelin/contracts/token/ERC20/ERC20.sol';
+import "@openzeppelin/contracts/access/Ownable.sol";
 
 import '../utilities/MinterRole.sol';
 
-contract EonsETH is ERC20 {
+contract EonsETH is ERC20, MinterRole, Ownable {
 
   constructor() public ERC20('Eons ETH', 'eETH') {
 
@@ -15,7 +16,7 @@ contract EonsETH is ERC20 {
     _mint(recepient, amount);
   }
 
-  function addMinter(address minter) external override onlyMinter {
+  function addMinter(address minter) external override onlyOwner {
     _addMinter(minter);
   }
 }

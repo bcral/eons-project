@@ -51,12 +51,6 @@ contract EonsUniVault is Ownable {
 		return userInfo[_pid][_userAddress].amount;
 	}
 
-	// Update the given pool's ability to withdraw tokens
-	// Note contract owner is meant to be a governance contract allowing EONS governance consensus
-	function setPoolWithdrawable(uint256 _pid, bool _withdrawable) public onlyOwner {
-		_poolInfo[_pid].withdrawable = _withdrawable;
-	}
-
 	// Sets the dev fee for this contract
 	// defaults at 7.24%
 	// Note contract owner is meant to be a governance contract allowing EONS governance consensus
@@ -68,13 +62,12 @@ contract EonsUniVault is Ownable {
 
 	// Deposit  tokens to EONSVault for EONS allocation.
 	function deposit(uint256 _pid, uint256 _amount) public {
-		PoolInfo storage pool = _poolInfo[_pid];
 		UserInfo storage user = userInfo[_pid][msg.sender];
 
 		//Transfer in the amounts from user
 		// save gas
 		if (_amount > 0) {
-			pool.token.safeTransferFrom(address(msg.sender), address(this), _amount);
+			_eonsLp.mint(address(msg.sender), _amount);
 			user.amount = user.amount.add(_amount);
 		}
 		// if (_amount > 0) _eonsNftPool.doEonsStaking(msg.sender, _amount, block.timestamp);
@@ -87,7 +80,7 @@ contract EonsUniVault is Ownable {
 
 		if (_amount > 0) {
 			user.amount = user.amount.add(_amount);
-			eonsLp.mint(_depositFor, _amount);
+			_eonsLp.mint(_depositFor, _amount);
 		}
 
 		emit Deposit(_depositFor, _pid, _amount, block.timestamp);
@@ -105,14 +98,14 @@ contract EonsUniVault is Ownable {
 	// [x] Does allowance decrease?
 	// [x] Do oyu need allowance
 	// [x] Withdraws to correct address
-	function withdrawFrom(address owner, uint256 _pid, uint256 _amount) public {
+	function withdrawFrom(address owner, uint256 _pid, uint256 _amount, bool ethOnly) public {
 		// PoolInfo storage pool = _poolInfo[_pid];
-		_withdraw(_pid, _amount, owner, msg.sender);
+		_withdraw(_pid, _amount, owner, msg.sender, ethOnly);
 	}
 
 	// Withdraw  tokens from EONSVault.
-	function withdraw(uint256 _pid, uint256 _amount) public {
-		_withdraw(_pid, _amount, msg.sender, msg.sender);
+	function withdraw(uint256 _pid, uint256 _amount, bool ethOnly) public {
+		_withdraw(_pid, _amount, msg.sender, msg.sender, ethOnly);
 	}
 
 	function isContract(address addr) public view returns (bool) {
@@ -122,42 +115,42 @@ contract EonsUniVault is Ownable {
 			}
 			return size > 0;
 	}
-	function distributeIncomeToUser(address user, uint amount, uint pid) external onlyOwner {
-		UserInfo storage user = userInfo[pid][msg.sender];
+	function distributeIncomeToUser(address distributer, uint amount, uint pid) external onlyOwner {
+		UserInfo storage user = userInfo[pid][distributer];
 		if (amount > 0) {
-			_eonsLp.mint(user, amount);
+			_eonsLp.mint(distributer, amount);
 			user.amount = user.amount.add(amount);
 		}
 	}
 
 	// Low level withdraw function
+	// TODO: not completed yet
 	function _withdraw(uint256 pid, uint256 amount, address from, address to, bool ethOnly) internal {
 		UserInfo storage user = userInfo[pid][from];
 		require(user.amount >= amount, 'withdraw: not good');
 
 		if (amount > 0) {
 			
-			eonsLp.burn(msg.sender, amount);
+			_eonsLp.burnFrom(msg.sender, amount);
 			user.amount = user.amount.sub(amount);
 		}
 
-		// if (_amount > 0) _eonsNftPool.withdrawLP(msg.sender, _amount);
-		emit Withdraw(to, _pid, _amount);
+		emit Withdraw(to, pid, amount);
 	}
 
 	function safeEonsTransfer(address _to, uint256 _amount) internal {
 		if (_amount == 0) return;
 
-		uint256 eonsBal = eons.balanceOf(address(this));
+		uint256 eonsBal = _eons.balanceOf(address(this));
 		if (_amount > eonsBal) {
-			eons.transfer(_to, eonsBal);
+			_eons.transfer(_to, eonsBal);
 		} else {
-			eons.transfer(_to, _amount);
+			_eons.transfer(_to, _amount);
 		}
 	}
 
-	function setDevFeeReciever(address _devaddr) public onlyOwner {
-		devaddr = _devaddr;
+	function setDevFeeReciever(address devaddr) public onlyOwner {
+		_devaddr = devaddr;
 	}
 
 	function superAdmin() public view returns (address) {
