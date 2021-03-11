@@ -15,11 +15,12 @@ contract EonsAaveVault is Ownable {
     address aToken;
     address eToken;
     uint profit;
+    uint income;
     uint timestamp;
   }
 
   struct UserInfo {
-    uint amount;
+    uint percentage;
   }
 
   mapping(uint => PoolInfo) private _poolInfo;  // pid => PoolInfo
@@ -37,43 +38,47 @@ contract EonsAaveVault is Ownable {
   }
 
   function addPool(address aToken, address eToken, uint pid) external onlyOwner {
-    _poolInfo[pid] = PoolInfo({eToken: eToken, aToken: aToken, aTokenIncome: 0});
+    _poolInfo[pid] = PoolInfo({eToken: eToken, aToken: aToken, income: 0, profit: 0, timestamp: block.timestamp});
   }
 
   function depositFor(address recipient, uint amount, uint pid) external {
     poolInfo memory pool = _poolInfo[pid];
     IEonsETH(pool.eToken).mint(recepient, amount);
     UserInfo storage user = _userInfo[recipient][pid];
-    user.amount = user.amount.add(amount);
+    user.percentage = pool.aToken.balanceOf(router).div(amount).mul(100);
     if (_isNew(pid, recipient)) {
       _users[pid].push(recipient);
     }
   }
 
-  function setProfit(uint pid, uint profit) external onlyOwner {
+  function distributeProfit(uint pid, uint profit) external onlyOwner {
     PoolInfo storage pool = _poolInfo[pid];
     pool.profit = profit;
     pool.timestamp = block.timestamp;
   }
 
-  function ditributeProfitToUser(uint pid, address user) external onlyOwner {
-
+  function distributeProfitToUser(uint pid, address user) external onlyOwner {
+    PoolInfo memory _pool = _poolInfo[pid];
+    address[] memory _user = _users[pid];
+    for (uint32 i = 0; i < user.length; i++) {
+      uint profitByPercentage = _pool.profit.mul(_userInfo[user[i]][pid].percentage).div(100);
+      _pool.eToken.mint(user[i], profit);
+    }
   }
 
-  function calcProfitFor(uint pid) external returns (uint) {
+  function calcAndDistributeProfitFor(uint pid) external returns (uint) {
     PoolInfo storage pool = _poolInfo[pid];
     uint income = IERC20(pool.aToken).balanceOf(router);
-    uint profit = income - asset.income;
-    asset.income = income;
+    uint profit = income.sub(pool.income);
+    pool.income = income;
+    distributeProfitToUser(pid, profit);
     return profit;
   }
 
   function _isNew(uint pid, address user) internal view returns (bool) {
-    address[] memory users = _users[pid];
-    for (uint i = 0; i < users.length; i++) {
-      if (keccak256(abi.encodePacked(user) == keccak256(abi.encodePacked(users[i]))) {
-        return true;
-      }
+    UserInfo memory user = _userInfo[user][pid];
+    if (user.amount == 0) {
+      return true;
     }
     return false;
   }

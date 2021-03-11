@@ -35,7 +35,7 @@ contract EonsAaveRouter is Ownable {
     _assetInfo[pid] = AssetInfo({reserve: reserve, aToken: aToken, income: 0});
   }
 
-  function deposit(uint amount, uint pid) external {
+  function deposit(uint amount, uint pid) external payable {
     AssetInfo memory asset = _assetInfo[pid];
     require(asset.reserve, 'reserve address of this pool not be given yet');
 
@@ -55,6 +55,6 @@ contract EonsAaveRouter is Ownable {
   }
 
   function _deposit(address reserve, uint amount) private {
-    _lendingPool.deposit(reserve, amount, address(this), _referralCode);
+    _lendingPool.deposit.value(msg.value)(reserve, amount, address(this), _referralCode);
   }
 }
