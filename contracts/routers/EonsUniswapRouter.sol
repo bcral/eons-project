@@ -1,21 +1,21 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.7.0;
+pragma solidity >=0.7.0;
 
 import '@uniswap/v2-core/contracts/interfaces/IUniswapV2Factory.sol';
 import '@uniswap/v2-core/contracts/interfaces/IUniswapV2Pair.sol';
 import '@uniswap/v2-periphery/contracts/interfaces/IWETH.sol';
-import '@uniswap/v2-periphery/contracts/libraries/UniswapV2Library.sol';
 import '@uniswap/lib/contracts/libraries/TransferHelper.sol';
-import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
-import '@openzeppelin/contracts/access/Ownable.sol';
-import '@openzeppelin/contracts/math/SafeMath.sol';
+import '@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol';
+import '@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol';
+import '@openzeppelin/contracts-upgradeable/math/SafeMathUpgradeable.sol';
 
 import '../interfaces/IFeeApprover.sol';
 import '../interfaces/IEonsUniVault.sol';
 import '../libraries/Math.sol';
+import '../libraries/UniswapV2Library.sol';
 
-contract EonsUniswapRouter is Ownable {
-	using SafeMath for uint256;
+contract EonsUniswapRouter is OwnableUpgradeable {
+	using SafeMathUpgradeable for uint256;
 	mapping(address => uint256) public hardEons;
 
 	address public _eonsToken;
@@ -28,7 +28,7 @@ contract EonsUniswapRouter is Ownable {
 
 	event FeeApproverChanged(address indexed newAddress, address indexed oldAddress);
 
-	function initialize(address eonsToken, address WETH, address uniV2Factory, address feeApprover, address eonsUniVault) public onlyOwner {
+	function initialize(address eonsToken, address WETH, address uniV2Factory, address feeApprover, address eonsUniVault) public initializer {
 		_eonsToken = eonsToken;
 		_WETH = IWETH(WETH);
 		_uniV2Factory = uniV2Factory;
@@ -135,7 +135,7 @@ contract EonsUniswapRouter is Ownable {
         address tokenB,
         uint liquidity,
         address to
-    ) public virtual override returns (uint amountA, uint amountB) {
+    ) public virtual returns (uint amountA, uint amountB) {
         IUniswapV2Pair(_eonsWETHPair).transferFrom(msg.sender, _eonsWETHPair, liquidity); // send liquidity to pair
         (uint amount0, uint amount1) = IUniswapV2Pair(_eonsWETHPair).burn(to);
         (address token0,) = UniswapV2Library.sortTokens(tokenA, tokenB);
@@ -150,15 +150,12 @@ contract EonsUniswapRouter is Ownable {
     ) public virtual returns (uint amountToken, uint amountETH) {
         (amountToken, amountETH) = removeLiquidity(
             token,
-            WETH,
+            address(_WETH),
             liquidity,
-            amountTokenMin,
-            amountETHMin,
-            address(this),
-            deadline
+            address(this)
         );
         TransferHelper.safeTransfer(token, to, amountToken);
-        IWETH(WETH).withdraw(amountETH);
+        _WETH.withdraw(amountETH);
         TransferHelper.safeTransferETH(to, amountETH);
     }
 

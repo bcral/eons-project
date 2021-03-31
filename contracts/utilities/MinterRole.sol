@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.7.0;
+pragma solidity >=0.7.0;
 
-import "@openzeppelin/contracts/GSN/Context.sol";
-import "hardhat/console.sol";
+import '@openzeppelin/contracts-upgradeable/GSN/ContextUpgradeable.sol';
+import 'hardhat/console.sol';
 
 import './Roles.sol';
 
-contract MinterRole is Context {
+contract MinterRole is ContextUpgradeable {
 	using Roles for Roles.Role;
 
 	event MinterAdded(address indexed account);
@@ -14,13 +14,14 @@ contract MinterRole is Context {
 
 	Roles.Role private _minters;
 
-	constructor () {
+	function __MinterRole_init() public initializer {
+		__Context_init();
 		_addMinter(_msgSender());
 	}
 
 	modifier onlyMinter() {
-		console.log("MsgSender is ", _msgSender());
-		require(isMinter(_msgSender()), "MinterRole: caller does not have the Minter role");
+		console.log('MsgSender is ', _msgSender());
+		require(isMinter(_msgSender()), 'MinterRole: caller does not have the Minter role');
 		_;
 	}
 

@@ -1,19 +1,19 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.7.0;
+pragma solidity >=0.7.0;
 
-import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
-import '@openzeppelin/contracts/token/ERC20/SafeERC20.sol';
-import '@openzeppelin/contracts/utils/EnumerableSet.sol';
-import '@openzeppelin/contracts/math/SafeMath.sol';
-import '@openzeppelin/contracts/access/Ownable.sol';
+import '@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol';
+import '@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol';
+import '@openzeppelin/contracts-upgradeable/math/SafeMathUpgradeable.sol';
+import '@openzeppelin/contracts-upgradeable/token/ERC20/SafeERC20Upgradeable.sol';
+import '@openzeppelin/contracts-upgradeable/utils/EnumerableSetUpgradeable.sol';
 import 'hardhat/console.sol';
 
 import '../interfaces/IEonsLP.sol';
 // EONS Vault distributes fees equally amongst staked pools
 // Have fun reading it. Hopefully it's bug-free. God bless.
-contract EonsUniVault is Ownable {
-	using SafeMath for uint256;
-	using SafeERC20 for IERC20;
+contract EonsUniVault is OwnableUpgradeable {
+	using SafeMathUpgradeable for uint256;
+	using SafeERC20Upgradeable for IERC20Upgradeable;
 
 	// Info of each user.
 	struct UserInfo {
@@ -24,7 +24,7 @@ contract EonsUniVault is Ownable {
 
 	// The EONSLP TOKEN!
 	IEonsLP private _eonsLp;
-	IERC20 private _eons;
+	IERC20Upgradeable private _eons;
 
 	// Dev address.
 	address private _devaddr;
@@ -41,7 +41,7 @@ contract EonsUniVault is Ownable {
 
 	constructor(address eonsLp, address eons, address devaddr, address superAdmin) public onlyOwner {
 		DEV_FEE = 1500;
-		_eons = IERC20(eons);
+		_eons = IERC20Upgradeable(eons);
 		_eonsLp = IEonsLP(eonsLp);
 		_devaddr = devaddr;
 		_superAdmin = superAdmin;

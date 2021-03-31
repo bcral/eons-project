@@ -1,22 +1,21 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.7.0;
+pragma solidity >=0.7.0;
 
-import '@openzeppelin/contracts/token/ERC20/ERC20.sol';
-import "@openzeppelin/contracts/access/Ownable.sol";
+import '@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol';
+import '@openzeppelin/contracts-upgradeable/math/SafeMathUpgradeable.sol';
+import '@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol';
 
 import '../utilities/MinterRole.sol';
 
-contract EonsETH is ERC20, MinterRole, Ownable {
+contract EonsETH is ERC20Upgradeable, MinterRole, OwnableUpgradeable {
 
-  constructor() public ERC20('Eons ETH', 'eETH') {
-
+  function initialize() public initializer {
+    __ERC20_init('Eons ETH', 'eETH');
+    __MinterRole_init();
+    __Ownable_init();
   }
 
   function mint(address recepient, uint amount) external onlyMinter {
     _mint(recepient, amount);
-  }
-
-  function addMinter(address minter) external override onlyOwner {
-    _addMinter(minter);
   }
 }

@@ -1,31 +1,27 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.7.0;
+pragma solidity >=0.7.0;
 
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "@openzeppelin/contracts/math/SafeMath.sol";
-import "@openzeppelin/contracts/utils/Address.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
+import '@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol';
+import '@openzeppelin/contracts-upgradeable/math/SafeMathUpgradeable.sol';
+import '@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol';
+import '@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol';
 import "hardhat/console.sol";
 
 import '../utilities/MinterRole.sol';
 
-contract EonsLP is ERC20, Ownable, MinterRole {
-    using SafeMath for uint;
+contract EonsLP is ERC20Upgradeable, OwnableUpgradeable, MinterRole {
+    using SafeMathUpgradeable for uint;
 
     string private _name;
-    uint256 private INITIAL_MINT_SUPPLY = 10000000 * (10 ** 18);
 
-    constructor() public ERC20("EonsLP", "ENS") {
-
-    }
-
-    function addMinter(address minter) external override onlyOwner {
-        _addMinter(minter);
+    function initialize() public initializer {
+        __ERC20_init('EONS LP', 'ELP');
+        __MinterRole_init();
+        __Ownable_init();
     }
 
     /// @dev Mint ELP. Only minter can mint
     function mint(address recepient, uint amount) public onlyMinter {
-        require(totalSupply().add(amount) <= INITIAL_MINT_SUPPLY, 'Minting now allowed');
         _mint(recepient, amount);
     }
 

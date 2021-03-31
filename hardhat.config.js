@@ -1,5 +1,7 @@
 require('@nomiclabs/hardhat-waffle');
-require("@nomiclabs/hardhat-etherscan");
+require('@nomiclabs/hardhat-etherscan');
+require('@openzeppelin/hardhat-upgrades');
+require('dotenv').config();
 
 // This is a sample Hardhat task. To learn how to create your own go to
 // https://hardhat.org/guides/create-task.html
@@ -18,18 +20,24 @@ task('accounts', 'Prints the list of accounts', async () => {
  * @type import('hardhat/config').HardhatUserConfig
  */
 module.exports = {
-  defaultNetwork: 'rinkeby',
+  defaultNetwork: 'kovan',
   networks: {
     hardhat: {},
     rinkeby: {
-      url: 'https://rinkeby.infura.io/v3/53762114270846ca8f1a1a278cdf0b9a',
+      url: `https://rinkeby.infura.io/v3/${process.env.INFURA_PROJECT_ID}`,
       accounts: {mnemonic: 'solve glimpse eight match hold wreck school violin boost sight domain half'},
       live: true,
       saveDeployments: true
     },
+    kovan: {
+      url: `https://kovan.infura.io/v3/${process.env.INFURA_PROJECT_ID}`,
+      accounts: {mnemonic: process.env.MNEMONIC},
+      live: true,
+      saveDeployments: true
+    },
     mainnet: {
-      url: 'https://mainnet.infura.io/v3/53762114270846ca8f1a1a278cdf0b9a',
-      accounts: {mnemonic: 'solve glimpse eight match hold wreck school violin boost sight domain half'},
+      url: `https://mainnet.infura.io/v3/${process.env.INFURA_PROJECT_ID}`,
+      accounts: {mnemonic: process.env.MNEMONIC},
       live: true,
       saveDeployments: true
     }
@@ -42,7 +50,7 @@ module.exports = {
     }
   },
   etherscan: {
-    apiKey: 'CMNMRMTGRCVEWZ8GZMTXCDB1MXMHBS8S88'
+    apiKey: process.env.ETHERSCAN_API_KEY
   },
   paths: {
     sources: './contracts',
