@@ -17,7 +17,7 @@ if (process.env.NETWORK == 'mainnet') {
   wethAddress = '0xc778417E063141139Fce010982780140Aa0cD5Ab';
 }
 
-const eonsProxyAddress = '';
+const eonsProxyAddress = '0x2e7b49902D54f2d3a020D9AdfAE6E2a33c707f6d';
 const eonsLpProxyAddress = '';
 
 const deploy = async (tokenName, initializerName) => {
@@ -26,6 +26,9 @@ const deploy = async (tokenName, initializerName) => {
     const smartContract = await hre.upgrades.deployProxy(SmartContract, {initializer: initializerName});
     await smartContract.deployed();
     console.log(`[deploy] deployed ${tokenName} to => `, smartContract.address);
+    // console.log('Transferring ownership of ProxyAdmin...');
+    // console.log('*****', await hre.upgrades.admin.transferProxyAdminOwnership('0xD01A3bA68E7acdD8A5EBaB68d6d6CfA313fec272'));
+    // console.log('Transferred ownership of ProxyAdmin to:', '0xD01A3bA68E7acdD8A5EBaB68d6d6CfA313fec272');
   } catch (error) {
     console.log('[deploy] error => ', error);
   }
@@ -35,8 +38,8 @@ const upgrade = async (tokenName, proxyAddress) => {
   try {
     const SmartContract = await hre.ethers.getContractFactory(tokenName);
     console.log('[upgrade] preparing upgrade...');
-    const address = await hre.upgrades.prepareUpgrade(proxyAddress, SmartContract);
-    console.log(`[upgrade] upgraded ${tokenName} at => `, address);
+    const address = await hre.upgrades.upgradeProxy(proxyAddress, SmartContract);
+    console.log(`[upgrade] upgraded ${tokenName}`);
   } catch (error) {
     console.log('[upgrade] error => ', error);
   }
