@@ -20,7 +20,7 @@ task('accounts', 'Prints the list of accounts', async () => {
  * @type import('hardhat/config').HardhatUserConfig
  */
 module.exports = {
-  defaultNetwork: 'kovan',
+  defaultNetwork: 'binanceTestnet',
   networks: {
     hardhat: {},
     rinkeby: {
@@ -40,6 +40,20 @@ module.exports = {
       accounts: {mnemonic: process.env.MNEMONIC},
       live: true,
       saveDeployments: true
+    },
+    binanceTestnet: {
+      url: "https://data-seed-prebsc-1-s1.binance.org:8545",
+      chainId: 97,
+      accounts: {mnemonic: process.env.MNEMONIC},
+      live: true,
+      saveDeployments: true
+    },
+    binanceMainnet: {
+      url: "https://bsc-dataseed.binance.org/",
+      chainId: 56,
+      accounts: {mnemonic: process.env.MNEMONIC},
+      live: true,
+      saveDeployments: true
     }
   },
   solidity: '0.7.3',
@@ -50,7 +64,11 @@ module.exports = {
     }
   },
   etherscan: {
-    apiKey: process.env.ETHERSCAN_API_KEY
+    // Ethereum
+    // apiKey: process.env.ETHERSCAN_API_KEY,
+
+    // Binance
+    apiKey: process.env.BINANCE_ETHERSCAN_API_KEY
   },
   paths: {
     sources: './contracts',

@@ -9,7 +9,12 @@
     "deploy:hardhat": "npx hardhat run --network localhost scripts/deploy.js",
     "deploy:kovan": "npx hardhat run --network kovan scripts/deploy.js",
     "deploy:mainnet": "npx hardhat run --network mainnet scripts/deploy.js",
-    "verify": "node scripts/verify.js"
+    "deploy:binanceTestnet": "npx hardhat run --network binanceTestnet scripts/deploy-binance-testnet.js",
+    "deploy:binanceMainnet": "npx hardhat run --network binanceMainnet scripts/deploy-binance-mainnet.js",
+    "verify:kovan": "node scripts/verify-kovan.js",
+    "verify:mainnet": "node scripts/verify-mainnet.js",
+    "verify:binanceTestnet": "node scripts/verify-binance-testnet.js",
+    "verify:binanceMainnet": "node scripts/verify-binance-mainnet.js"
   },
   "repository": {
     "type": "git",

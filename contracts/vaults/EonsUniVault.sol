@@ -39,7 +39,7 @@ contract EonsUniVault is OwnableUpgradeable {
 	event EmergencyWithdraw(address indexed user, uint256 indexed pid, uint256 amount);
 	event Approval(address indexed owner, address indexed spender, uint256 _pid, uint256 value);
 
-	constructor(address eonsLp, address eons, address devaddr, address superAdmin) public onlyOwner {
+	function initialize(address eonsLp, address eons, address devaddr, address superAdmin) public onlyOwner {
 		DEV_FEE = 1500;
 		_eons = IERC20Upgradeable(eons);
 		_eonsLp = IEonsLP(eonsLp);
