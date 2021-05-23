@@ -36,7 +36,7 @@ contract EonsAaveRouter is OwnableUpgradeable {
     _assetInfo[pid] = AssetInfo({reserve: reserve, aToken: aToken, income: 0});
   }
 
-  function deposit(uint amount, uint pid) external payable {
+  function deposit(uint amount, uint pid) external {
     AssetInfo memory asset = _assetInfo[pid];
     require(asset.reserve != address(0), 'reserve address of this pool not be given yet');
 
@@ -48,7 +48,7 @@ contract EonsAaveRouter is OwnableUpgradeable {
 
   function depositETH() external payable {
     AssetInfo memory asset = _assetInfo[1]; // for WETH. pid 1 represents ETH.
-    require(asset.reserve != address(0), 'reserve address of this pool not be given yet');
+    require(asset.reserve != address(0), 'reserve address of this pool has not been given yet');
     IWETH(asset.reserve).deposit{value: msg.value}();
     IWETH(asset.reserve).approve(address(_lendingPool), msg.value);
     _lendingPool.deposit(asset.reserve, msg.value, address(this), _referralCode);
