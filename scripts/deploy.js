@@ -17,25 +17,26 @@ if (process.env.NETWORK == 'mainnet') {
   wethAddress = '0xc778417E063141139Fce010982780140Aa0cD5Ab';
 }
 
-const aaveLendingPoolAddress = '';  // should be updated with getting latest lending pool address from lending pool provider contract
+const aaveLendingPoolProviderAddress = '0x88757f2f99175387ab4c6a4b3067c77a695b0349';  // should be updated with getting latest lending pool address from lending pool provider contract
 const uniswapV2FactoryAddress = '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f';
 const uniswapV2RouterAddress = '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D';
 const devAddr = '0xD01A3bA68E7acdD8A5EBaB68d6d6CfA313fec272';
 
-let eonsProxyAddress = '';
-let eonsLpProxyAddress = '';
-let eonsETHProxyAddress = '';
-let eonsAaveVaultProxyAddress = '';
-let eonsAaveRouterProxyAddress = '';
+let eonsProxyAddress = '0x0D7490af9668df0abb8b68476460e37b5E46C3Fa';
+let eonsLpProxyAddress = '0x64c28e057B776Fb253F8ef1716403FF1CECE6759';
+let eonsETHProxyAddress = '0x08ccE465DF5e4E4ce04554d786e492b3A84baA5c';
+let eonsAaveVaultProxyAddress = '0xb90f37B4dC1653BF272571F92C45294244BF56C6';
+let eonsUniVaultProxyAddress = '';
+let eonsAaveRouterProxyAddress = '0x7DCA10F4d2Bc0550E33dB3C469e34620e5Cf8Cd1';
 let eonsUniRouterProxyAddress = '';
-let feeApprover = '';
+let feeApprover = '0x5b495DaC603817B9AA54874DBb66e117cFa7e525';
 
 const deploy = async (tokenName, initializerName, args = []) => {
   try {
     const SmartContract = await hre.ethers.getContractFactory(tokenName);
     const smartContract = await hre.upgrades.deployProxy(SmartContract, args, {initializer: initializerName});
     await smartContract.deployed();
-    console.log(`[deploy] deployed ${tokenName} to => `, smartContract.address);
+    console.log(`[deploy] deployed ${tokenName} proxy to => `, smartContract.address);
     // console.log('Transferring ownership of ProxyAdmin...');
     // console.log('*****', await hre.upgrades.admin.transferProxyAdminOwnership('0xD01A3bA68E7acdD8A5EBaB68d6d6CfA313fec272'));
     // console.log('Transferred ownership of ProxyAdmin to:', '0xD01A3bA68E7acdD8A5EBaB68d6d6CfA313fec272');
@@ -87,15 +88,15 @@ const deployEonsAaveVault = async () => {
   if (eonsAaveVaultProxyAddress) {
     await upgrade('EonsAaveVault', eonsAaveVaultProxyAddress);
   } else {
-    await deploy('EonsAaveVault', 'initialize');
+    await deploy('EonsAaveVault', 'initialize', [eonsProxyAddress]);
   }
 };
 
 const deployEonsUniVault = async () => {
   if (eonsUniVaultProxyAddress) {
-    await upgrade('EonsUniVault', eonsUniVaultProxyAddress);
+    await upgrade('EonsUniswapVault', eonsUniVaultProxyAddress);
   } else {
-    await deploy('EonsUniVault', 'initialize', [eonsLpProxyAddress, eonsProxyAddress, devAddr, devAddr]);
+    await deploy('EonsUniswapVault', 'initialize', [eonsLpProxyAddress, eonsProxyAddress, devAddr, devAddr]);
   }
 };
 
@@ -103,15 +104,16 @@ const deployEonsAaveRouter = async () => {
   if (eonsAaveRouterProxyAddress) {
     await upgrade('EonsAaveRouter', eonsAaveRouterProxyAddress);
   } else {
-    await deploy('EonsAaveRouter', 'initialize', [aaveLendingPoolAddress, eonsAaveVaultProxyAddress]);
+    await deploy('EonsAaveRouter', 'initialize', [aaveLendingPoolProviderAddress, eonsAaveVaultProxyAddress]);
   }
 };
 
 const deployFeeApprover = async () => {
   const FeeApprover = await hre.ethers.getContractFactory('FeeApprover');
-  feeApprover = await FeeApprover.deploy(eonsProxyAddress, wethAddress, uniswapV2FactoryAddress);
+  feeApprover = await FeeApprover.deploy();
   await feeApprover.deployed();
-  console.log('RiddleKeyVault deployed to:', riddleKeyVault.address);
+  await feeApprover.initialize(eonsProxyAddress, wethAddress, uniswapV2FactoryAddress);
+  console.log('feeApprover deployed to:', feeApprover.address);
 };
 
 const deployEonsUniRouter = async () => {
@@ -123,14 +125,14 @@ const deployEonsUniRouter = async () => {
 };
 
 const main = async () => {
-  await deployEonsToken();
-  await deployEonsLPToken();
-  await deployEonsETHToken();
-  await deployFeeApprover();
-  await deployEonsAaveVault();
+  // await deployEonsToken();
+  // await deployEonsLPToken();
+  // await deployEonsETHToken();
+  // await deployFeeApprover();
+  // await deployEonsAaveVault();
   await deployEonsUniVault();
-  await deployEonsAaveRouter();
-  await deployEonsUniRouter();
+  // await deployEonsAaveRouter();
+  // await deployEonsUniRouter();
 };
 
 main();
