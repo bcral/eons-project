@@ -11,7 +11,8 @@ import 'hardhat/console.sol';
 import '../interfaces/IWETH.sol';
 import '../interfaces/ILendingPool.sol';
 import '../interfaces/ILendingPoolAddressesProvider.sol';
-import '../interfaces/IEonsAaveVault.sol';
+import '../interfaces/IAToken.sol';
+import '../interfaces/IWETHGateway.sol';
 
 contract EonsAaveRouter is OwnableUpgradeable {
   using AddressUpgradeable for address;
@@ -24,48 +25,75 @@ contract EonsAaveRouter is OwnableUpgradeable {
     uint income;
   }
 
-  ILendingPoolAddressesProvider private _lendingPoolAddressesProvider;
-  IEonsAaveVault private _eonsAaveVault;
-  mapping(uint => AssetInfo) private _assetInfo; // pid => aToken reserve address
-  uint16 public _referralCode; 
+  event WithdrawError(uint256 indexed pid, string indexed erorr);
 
-  function initialize(address lendingPoolProvider, address eonsAaveVault) public initializer {
-    _lendingPoolAddressesProvider = ILendingPoolAddressesProvider(lendingPoolProvider);
-    _eonsAaveVault = IEonsAaveVault(eonsAaveVault);
-    _eonsAaveVault.setRouterAddress(address(this));
-    _referralCode = 0;
+  ILendingPoolAddressesProvider public lendingPoolAddressesProvider;
+  mapping(uint => AssetInfo) public assetInfo; // pid => aToken reserve address
+  IWETHGateway wethGateway;
+  uint16 public referralCode;
+
+  function initialize(address _lendingPoolProvider, address _wethGateway) public initializer {
+    lendingPoolAddressesProvider = ILendingPoolAddressesProvider(_lendingPoolProvider);
+    referralCode = 0;
+    wethGateway = IWETHGateway(_wethGateway);
+    __Ownable_init();
   }
 
-  function addAaveToken(address reserve, address aToken, uint pid) public onlyOwner {
-    _assetInfo[pid] = AssetInfo({reserve: reserve, aToken: aToken, income: 0});
+  function getAsset(uint256 _pid) external view returns (address aToken, address reserve, uint256 income) {
+    aToken = assetInfo[_pid].aToken;
+    reserve = assetInfo[_pid].reserve;
+    income = assetInfo[_pid].income;
   }
 
-  function deposit(uint amount, uint pid) external {
-    AssetInfo memory asset = _assetInfo[pid];
+  function pendingRewardOf(uint256 _pid) external view returns (uint256) {
+    AssetInfo memory asset = assetInfo[_pid];
+    uint256 pending = IAToken(asset.aToken).scaledBalanceOf(address(this));
+    return pending;
+  }
+
+  function totalStakedOf(uint _pid) external view returns (uint256) {
+    AssetInfo storage asset = assetInfo[_pid];
+    uint totalDepositValue = IAToken(asset.aToken).balanceOf(address(this));
+    return totalDepositValue;
+  }
+
+  function addAaveToken(address _reserve, address _aToken, uint _pid) public onlyOwner {
+    assetInfo[_pid] = AssetInfo({reserve: _reserve, aToken: _aToken, income: 0});
+  }
+
+  function updateAaveToken(uint256 _pid, address _reserve, address _aToken) public onlyOwner {
+    AssetInfo storage asset = assetInfo[_pid];
+    asset.reserve = _reserve;
+    asset.aToken = _aToken;
+  }
+
+  function deposit(uint _amount, uint _pid, address _user) external {
+    AssetInfo memory asset = assetInfo[_pid];
     require(asset.reserve != address(0), 'reserve address of this pool not be given yet');
 
-    IERC20Upgradeable(asset.reserve).transferFrom(msg.sender, address(this), amount);
-    ILendingPool lendingPool = ILendingPool(_lendingPoolAddressesProvider.getLendingPool());
-    IERC20Upgradeable(asset.reserve).approve(address(lendingPool), amount);
-    lendingPool.deposit(asset.reserve, amount, address(this), _referralCode);
-    _eonsAaveVault.depositFor(msg.sender, amount, pid);
+    IERC20Upgradeable(asset.reserve).safeTransferFrom(_user, address(this), _amount);
+    ILendingPool lendingPool = ILendingPool(lendingPoolAddressesProvider.getLendingPool());
+    IERC20Upgradeable(asset.reserve).safeApprove(address(lendingPool), _amount);
+
+    lendingPool.deposit(asset.reserve, _amount, address(this), referralCode);
   }
 
-  function depositETH() external payable {
-    AssetInfo memory asset = _assetInfo[1]; // for WETH. pid 1 represents ETH.
-    require(asset.reserve != address(0), 'reserve address of this pool has not been given yet');
-    IWETH(asset.reserve).deposit{value: msg.value}();
-    IWETH(asset.reserve).approve(address(_lendingPoolAddressesProvider), msg.value);
-    ILendingPool lendingPool = ILendingPool(_lendingPoolAddressesProvider.getLendingPool());
-    IERC20Upgradeable(asset.reserve).safeApprove(address(lendingPool), msg.value);
+  function withdraw(uint _pid, uint _amount, address _recipient) external {
+    AssetInfo memory asset = assetInfo[_pid];
+    ILendingPool lendingPool = ILendingPool(lendingPoolAddressesProvider.getLendingPool());
+    try IAToken(asset.aToken).approve(address(wethGateway), _amount) returns (bool) {
 
-    lendingPool.deposit(asset.reserve, msg.value, address(this), _referralCode);
-    _eonsAaveVault.depositFor(msg.sender, msg.value, 1);
-  }
+    } catch Error(string memory reason) {
+      emit WithdrawError(_pid, reason);
+    }
+    if (_pid == 1) {  // if withdrawing eth. hard coded
+      wethGateway.withdrawETH(address(lendingPool), _amount, _recipient);
+    } else {
+      try lendingPool.withdraw(asset.reserve, _amount, _recipient) returns (uint256 returnedVaule) {
 
-  function withdraw(uint pid, uint amount) external {
-    AssetInfo memory asset = _assetInfo[pid]; // for WETH. pid 1 represents ETH.
-    ILendingPool lendingPool = ILendingPool(_lendingPoolAddressesProvider.getLendingPool());
-    lendingPool.withdraw(asset.reserve, amount, msg.sender);
+      } catch Error(string memory reason) {
+        emit WithdrawError(_pid, reason);
+      }
+    }
   }
 }

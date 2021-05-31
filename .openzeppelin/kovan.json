@@ -1,9 +1,9 @@
 {
   "manifestVersion": "3.1",
   "impls": {
-    "5c73fba3ae2e627502f5636b8e7f2a7d77a3ee45c601c49336fb8602182f0045": {
-      "address": "0x106495D74B346978fa399Ce882bADEdfc1477191",
-      "txHash": "0x6627cc40b8b9b621396587537d064880fa735bfc1d0a8ae8d1a38690a0b9e228",
+    "851c1856694b0764a4a05b8f0c517090d877782291d089dd1b4fde06e02124a3": {
+      "address": "0x19E39faa889Ad1f78cd701517B3907c9feB42fad",
+      "txHash": "0x4cc77371c310cf27400afc69cb49527409a5847934df6ec06db1800617922c6c",
       "layout": {
         "storage": [
           {
@@ -23,1430 +23,6 @@
             "label": "______gap",
             "type": "t_array(t_uint256)50_storage",
             "src": "contracts\\utilities\\Initializable.sol:62"
-          },
-          {
-            "contract": "ContextUpgradeable",
-            "label": "__gap",
-            "type": "t_array(t_uint256)50_storage",
-            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:31"
-          },
-          {
-            "contract": "ERC20Upgradeable",
-            "label": "_balances",
-            "type": "t_mapping(t_address,t_uint256)",
-            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:37"
-          },
-          {
-            "contract": "ERC20Upgradeable",
-            "label": "_allowances",
-            "type": "t_mapping(t_address,t_mapping(t_address,t_uint256))",
-            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:39"
-          },
-          {
-            "contract": "ERC20Upgradeable",
-            "label": "_totalSupply",
-            "type": "t_uint256",
-            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:41"
-          },
-          {
-            "contract": "ERC20Upgradeable",
-            "label": "_name",
-            "type": "t_string_storage",
-            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:43"
-          },
-          {
-            "contract": "ERC20Upgradeable",
-            "label": "_symbol",
-            "type": "t_string_storage",
-            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:44"
-          },
-          {
-            "contract": "ERC20Upgradeable",
-            "label": "_decimals",
-            "type": "t_uint8",
-            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:45"
-          },
-          {
-            "contract": "ERC20Upgradeable",
-            "label": "__gap",
-            "type": "t_array(t_uint256)44_storage",
-            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:312"
-          },
-          {
-            "contract": "OwnableUpgradeable",
-            "label": "_owner",
-            "type": "t_address",
-            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:20"
-          },
-          {
-            "contract": "OwnableUpgradeable",
-            "label": "__gap",
-            "type": "t_array(t_uint256)49_storage",
-            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:74"
-          },
-          {
-            "contract": "MinterRole",
-            "label": "_minters",
-            "type": "t_struct(Role)6595_storage",
-            "src": "contracts\\utilities\\MinterRole.sol:15"
-          },
-          {
-            "contract": "Eons",
-            "label": "_name",
-            "type": "t_string_storage",
-            "src": "contracts\\tokens\\Eons.sol:15"
-          },
-          {
-            "contract": "Eons",
-            "label": "_approvedMinter",
-            "type": "t_mapping(t_address,t_uint256)",
-            "src": "contracts\\tokens\\Eons.sol:16"
-          }
-        ],
-        "types": {
-          "t_string_storage": {
-            "label": "string"
-          },
-          "t_mapping(t_address,t_uint256)": {
-            "label": "mapping(address => uint256)"
-          },
-          "t_address": {
-            "label": "address"
-          },
-          "t_uint256": {
-            "label": "uint256"
-          },
-          "t_struct(Role)6595_storage": {
-            "label": "struct Roles.Role",
-            "members": [
-              {
-                "label": "bearer",
-                "type": "t_mapping(t_address,t_bool)"
-              }
-            ]
-          },
-          "t_mapping(t_address,t_bool)": {
-            "label": "mapping(address => bool)"
-          },
-          "t_bool": {
-            "label": "bool"
-          },
-          "t_array(t_uint256)49_storage": {
-            "label": "uint256[49]"
-          },
-          "t_mapping(t_address,t_mapping(t_address,t_uint256))": {
-            "label": "mapping(address => mapping(address => uint256))"
-          },
-          "t_uint8": {
-            "label": "uint8"
-          },
-          "t_array(t_uint256)44_storage": {
-            "label": "uint256[44]"
-          },
-          "t_array(t_uint256)50_storage": {
-            "label": "uint256[50]"
-          }
-        }
-      }
-    },
-    "c41cb91dde22ba7e04aecd1d2902782a967f7f310dcee17ad90c1ac803d76e82": {
-      "address": "0x33cac7A7770Ba9F30E00d4477355419E31B29DfD",
-      "txHash": "0xca30aedd049457ace12d4c39413a99c3100ada9b8a3fecef017ada7aefa0ab96",
-      "layout": {
-        "storage": [
-          {
-            "contract": "Initializable",
-            "label": "_initialized",
-            "type": "t_bool",
-            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\Initializable.sol:25"
-          },
-          {
-            "contract": "Initializable",
-            "label": "_initializing",
-            "type": "t_bool",
-            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\Initializable.sol:30"
-          },
-          {
-            "contract": "ContextUpgradeable",
-            "label": "__gap",
-            "type": "t_array(t_uint256)50_storage",
-            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:31"
-          },
-          {
-            "contract": "ERC20Upgradeable",
-            "label": "_balances",
-            "type": "t_mapping(t_address,t_uint256)",
-            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:37"
-          },
-          {
-            "contract": "ERC20Upgradeable",
-            "label": "_allowances",
-            "type": "t_mapping(t_address,t_mapping(t_address,t_uint256))",
-            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:39"
-          },
-          {
-            "contract": "ERC20Upgradeable",
-            "label": "_totalSupply",
-            "type": "t_uint256",
-            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:41"
-          },
-          {
-            "contract": "ERC20Upgradeable",
-            "label": "_name",
-            "type": "t_string_storage",
-            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:43"
-          },
-          {
-            "contract": "ERC20Upgradeable",
-            "label": "_symbol",
-            "type": "t_string_storage",
-            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:44"
-          },
-          {
-            "contract": "ERC20Upgradeable",
-            "label": "_decimals",
-            "type": "t_uint8",
-            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:45"
-          },
-          {
-            "contract": "ERC20Upgradeable",
-            "label": "__gap",
-            "type": "t_array(t_uint256)44_storage",
-            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:312"
-          },
-          {
-            "contract": "OwnableUpgradeable",
-            "label": "_owner",
-            "type": "t_address",
-            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:20"
-          },
-          {
-            "contract": "OwnableUpgradeable",
-            "label": "__gap",
-            "type": "t_array(t_uint256)49_storage",
-            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:74"
-          },
-          {
-            "contract": "MinterRole",
-            "label": "_minters",
-            "type": "t_struct(Role)1812_storage",
-            "src": "contracts\\utilities\\MinterRole.sol:15"
-          },
-          {
-            "contract": "Eons",
-            "label": "_name",
-            "type": "t_string_storage",
-            "src": "contracts\\tokens\\Eons.sol:15"
-          },
-          {
-            "contract": "Eons",
-            "label": "_approvedMinter",
-            "type": "t_mapping(t_address,t_uint256)",
-            "src": "contracts\\tokens\\Eons.sol:16"
-          }
-        ],
-        "types": {
-          "t_string_storage": {
-            "label": "string"
-          },
-          "t_mapping(t_address,t_uint256)": {
-            "label": "mapping(address => uint256)"
-          },
-          "t_address": {
-            "label": "address"
-          },
-          "t_uint256": {
-            "label": "uint256"
-          },
-          "t_struct(Role)1812_storage": {
-            "label": "struct Roles.Role",
-            "members": [
-              {
-                "label": "bearer",
-                "type": "t_mapping(t_address,t_bool)"
-              }
-            ]
-          },
-          "t_mapping(t_address,t_bool)": {
-            "label": "mapping(address => bool)"
-          },
-          "t_bool": {
-            "label": "bool"
-          },
-          "t_array(t_uint256)49_storage": {
-            "label": "uint256[49]"
-          },
-          "t_mapping(t_address,t_mapping(t_address,t_uint256))": {
-            "label": "mapping(address => mapping(address => uint256))"
-          },
-          "t_uint8": {
-            "label": "uint8"
-          },
-          "t_array(t_uint256)44_storage": {
-            "label": "uint256[44]"
-          },
-          "t_array(t_uint256)50_storage": {
-            "label": "uint256[50]"
-          }
-        }
-      }
-    },
-    "320ef6fd2e70f0df2667d52bade36b7f82f6c8ac7640e3efe0eaaeb0dc2ae6c8": {
-      "address": "0xbE3f882FD45D6058ca7335B209497316034aE3BF",
-      "txHash": "0x0cdfc7ef269d846c7cc36da15983a9df419c13ea12651dfcea144d1414ec1f2d",
-      "layout": {
-        "storage": [
-          {
-            "contract": "Initializable",
-            "label": "_initialized",
-            "type": "t_bool",
-            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\Initializable.sol:25"
-          },
-          {
-            "contract": "Initializable",
-            "label": "_initializing",
-            "type": "t_bool",
-            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\Initializable.sol:30"
-          },
-          {
-            "contract": "ContextUpgradeable",
-            "label": "__gap",
-            "type": "t_array(t_uint256)50_storage",
-            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:31"
-          },
-          {
-            "contract": "ERC20Upgradeable",
-            "label": "_balances",
-            "type": "t_mapping(t_address,t_uint256)",
-            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:37"
-          },
-          {
-            "contract": "ERC20Upgradeable",
-            "label": "_allowances",
-            "type": "t_mapping(t_address,t_mapping(t_address,t_uint256))",
-            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:39"
-          },
-          {
-            "contract": "ERC20Upgradeable",
-            "label": "_totalSupply",
-            "type": "t_uint256",
-            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:41"
-          },
-          {
-            "contract": "ERC20Upgradeable",
-            "label": "_name",
-            "type": "t_string_storage",
-            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:43"
-          },
-          {
-            "contract": "ERC20Upgradeable",
-            "label": "_symbol",
-            "type": "t_string_storage",
-            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:44"
-          },
-          {
-            "contract": "ERC20Upgradeable",
-            "label": "_decimals",
-            "type": "t_uint8",
-            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:45"
-          },
-          {
-            "contract": "ERC20Upgradeable",
-            "label": "__gap",
-            "type": "t_array(t_uint256)44_storage",
-            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:312"
-          },
-          {
-            "contract": "OwnableUpgradeable",
-            "label": "_owner",
-            "type": "t_address",
-            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:20"
-          },
-          {
-            "contract": "OwnableUpgradeable",
-            "label": "__gap",
-            "type": "t_array(t_uint256)49_storage",
-            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:74"
-          },
-          {
-            "contract": "MinterRole",
-            "label": "_minters",
-            "type": "t_struct(Role)1812_storage",
-            "src": "contracts\\utilities\\MinterRole.sol:15"
-          },
-          {
-            "contract": "Eons",
-            "label": "_name",
-            "type": "t_string_storage",
-            "src": "contracts\\tokens\\Eons.sol:15"
-          },
-          {
-            "contract": "Eons",
-            "label": "_approvedMinter",
-            "type": "t_mapping(t_address,t_uint256)",
-            "src": "contracts\\tokens\\Eons.sol:16"
-          }
-        ],
-        "types": {
-          "t_string_storage": {
-            "label": "string"
-          },
-          "t_mapping(t_address,t_uint256)": {
-            "label": "mapping(address => uint256)"
-          },
-          "t_address": {
-            "label": "address"
-          },
-          "t_uint256": {
-            "label": "uint256"
-          },
-          "t_struct(Role)1812_storage": {
-            "label": "struct Roles.Role",
-            "members": [
-              {
-                "label": "bearer",
-                "type": "t_mapping(t_address,t_bool)"
-              }
-            ]
-          },
-          "t_mapping(t_address,t_bool)": {
-            "label": "mapping(address => bool)"
-          },
-          "t_bool": {
-            "label": "bool"
-          },
-          "t_array(t_uint256)49_storage": {
-            "label": "uint256[49]"
-          },
-          "t_mapping(t_address,t_mapping(t_address,t_uint256))": {
-            "label": "mapping(address => mapping(address => uint256))"
-          },
-          "t_uint8": {
-            "label": "uint8"
-          },
-          "t_array(t_uint256)44_storage": {
-            "label": "uint256[44]"
-          },
-          "t_array(t_uint256)50_storage": {
-            "label": "uint256[50]"
-          }
-        }
-      }
-    },
-    "c28e58b6cbad22ef3e60819b948a3ec9380daca007d3fd3964b50608c3e6ec06": {
-      "address": "0x3c83337F362ca608ACcAc8e329Afa3ced9F21283",
-      "txHash": "0xec268031816c9e6cc4b855e343291135991c085ac6ffb797691262797c036f0e",
-      "layout": {
-        "storage": [
-          {
-            "contract": "Initializable",
-            "label": "_initialized",
-            "type": "t_bool",
-            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\Initializable.sol:25"
-          },
-          {
-            "contract": "Initializable",
-            "label": "_initializing",
-            "type": "t_bool",
-            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\Initializable.sol:30"
-          },
-          {
-            "contract": "ContextUpgradeable",
-            "label": "__gap",
-            "type": "t_array(t_uint256)50_storage",
-            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:31"
-          },
-          {
-            "contract": "ERC20Upgradeable",
-            "label": "_balances",
-            "type": "t_mapping(t_address,t_uint256)",
-            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:37"
-          },
-          {
-            "contract": "ERC20Upgradeable",
-            "label": "_allowances",
-            "type": "t_mapping(t_address,t_mapping(t_address,t_uint256))",
-            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:39"
-          },
-          {
-            "contract": "ERC20Upgradeable",
-            "label": "_totalSupply",
-            "type": "t_uint256",
-            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:41"
-          },
-          {
-            "contract": "ERC20Upgradeable",
-            "label": "_name",
-            "type": "t_string_storage",
-            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:43"
-          },
-          {
-            "contract": "ERC20Upgradeable",
-            "label": "_symbol",
-            "type": "t_string_storage",
-            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:44"
-          },
-          {
-            "contract": "ERC20Upgradeable",
-            "label": "_decimals",
-            "type": "t_uint8",
-            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:45"
-          },
-          {
-            "contract": "ERC20Upgradeable",
-            "label": "__gap",
-            "type": "t_array(t_uint256)44_storage",
-            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:312"
-          },
-          {
-            "contract": "OwnableUpgradeable",
-            "label": "_owner",
-            "type": "t_address",
-            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:20"
-          },
-          {
-            "contract": "OwnableUpgradeable",
-            "label": "__gap",
-            "type": "t_array(t_uint256)49_storage",
-            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:74"
-          },
-          {
-            "contract": "MinterRole",
-            "label": "_minters",
-            "type": "t_struct(Role)1869_storage",
-            "src": "contracts\\utilities\\MinterRole.sol:15"
-          },
-          {
-            "contract": "Eons",
-            "label": "_name",
-            "type": "t_string_storage",
-            "src": "contracts\\tokens\\Eons.sol:15"
-          },
-          {
-            "contract": "Eons",
-            "label": "_approvedMinter",
-            "type": "t_mapping(t_address,t_uint256)",
-            "src": "contracts\\tokens\\Eons.sol:16"
-          },
-          {
-            "contract": "Eons",
-            "label": "_transactionFee",
-            "type": "t_uint256",
-            "src": "contracts\\tokens\\Eons.sol:17"
-          },
-          {
-            "contract": "Eons",
-            "label": "_wallet",
-            "type": "t_address_payable",
-            "src": "contracts\\tokens\\Eons.sol:18"
-          }
-        ],
-        "types": {
-          "t_string_storage": {
-            "label": "string"
-          },
-          "t_mapping(t_address,t_uint256)": {
-            "label": "mapping(address => uint256)"
-          },
-          "t_address": {
-            "label": "address"
-          },
-          "t_uint256": {
-            "label": "uint256"
-          },
-          "t_address_payable": {
-            "label": "address payable"
-          },
-          "t_struct(Role)1869_storage": {
-            "label": "struct Roles.Role",
-            "members": [
-              {
-                "label": "bearer",
-                "type": "t_mapping(t_address,t_bool)"
-              }
-            ]
-          },
-          "t_mapping(t_address,t_bool)": {
-            "label": "mapping(address => bool)"
-          },
-          "t_bool": {
-            "label": "bool"
-          },
-          "t_array(t_uint256)49_storage": {
-            "label": "uint256[49]"
-          },
-          "t_mapping(t_address,t_mapping(t_address,t_uint256))": {
-            "label": "mapping(address => mapping(address => uint256))"
-          },
-          "t_uint8": {
-            "label": "uint8"
-          },
-          "t_array(t_uint256)44_storage": {
-            "label": "uint256[44]"
-          },
-          "t_array(t_uint256)50_storage": {
-            "label": "uint256[50]"
-          }
-        }
-      }
-    },
-    "0e826453836f2e05fcabff7bba8930e39b6f798f22db360b0105fe2edd069e6a": {
-      "address": "0x574FB9aDc02E09AAC6c2AE0E05fD367F7E3Ec936",
-      "txHash": "0x296cfa5d612f471b834fa2366bc29351b5dee9a3a92d152d61f8ccce14ce3b07",
-      "layout": {
-        "storage": [
-          {
-            "contract": "Initializable",
-            "label": "_initialized",
-            "type": "t_bool",
-            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\Initializable.sol:25"
-          },
-          {
-            "contract": "Initializable",
-            "label": "_initializing",
-            "type": "t_bool",
-            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\Initializable.sol:30"
-          },
-          {
-            "contract": "ContextUpgradeable",
-            "label": "__gap",
-            "type": "t_array(t_uint256)50_storage",
-            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:31"
-          },
-          {
-            "contract": "ERC20Upgradeable",
-            "label": "_balances",
-            "type": "t_mapping(t_address,t_uint256)",
-            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:37"
-          },
-          {
-            "contract": "ERC20Upgradeable",
-            "label": "_allowances",
-            "type": "t_mapping(t_address,t_mapping(t_address,t_uint256))",
-            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:39"
-          },
-          {
-            "contract": "ERC20Upgradeable",
-            "label": "_totalSupply",
-            "type": "t_uint256",
-            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:41"
-          },
-          {
-            "contract": "ERC20Upgradeable",
-            "label": "_name",
-            "type": "t_string_storage",
-            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:43"
-          },
-          {
-            "contract": "ERC20Upgradeable",
-            "label": "_symbol",
-            "type": "t_string_storage",
-            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:44"
-          },
-          {
-            "contract": "ERC20Upgradeable",
-            "label": "_decimals",
-            "type": "t_uint8",
-            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:45"
-          },
-          {
-            "contract": "ERC20Upgradeable",
-            "label": "__gap",
-            "type": "t_array(t_uint256)44_storage",
-            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:312"
-          },
-          {
-            "contract": "OwnableUpgradeable",
-            "label": "_owner",
-            "type": "t_address",
-            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:20"
-          },
-          {
-            "contract": "OwnableUpgradeable",
-            "label": "__gap",
-            "type": "t_array(t_uint256)49_storage",
-            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:74"
-          },
-          {
-            "contract": "MinterRole",
-            "label": "_minters",
-            "type": "t_struct(Role)1877_storage",
-            "src": "contracts\\utilities\\MinterRole.sol:15"
-          },
-          {
-            "contract": "Eons",
-            "label": "_name",
-            "type": "t_string_storage",
-            "src": "contracts\\tokens\\Eons.sol:15"
-          },
-          {
-            "contract": "Eons",
-            "label": "_approvedMinter",
-            "type": "t_mapping(t_address,t_uint256)",
-            "src": "contracts\\tokens\\Eons.sol:16"
-          },
-          {
-            "contract": "Eons",
-            "label": "_transactionFee",
-            "type": "t_uint256",
-            "src": "contracts\\tokens\\Eons.sol:17"
-          },
-          {
-            "contract": "Eons",
-            "label": "_wallet",
-            "type": "t_address_payable",
-            "src": "contracts\\tokens\\Eons.sol:18"
-          }
-        ],
-        "types": {
-          "t_string_storage": {
-            "label": "string"
-          },
-          "t_mapping(t_address,t_uint256)": {
-            "label": "mapping(address => uint256)"
-          },
-          "t_address": {
-            "label": "address"
-          },
-          "t_uint256": {
-            "label": "uint256"
-          },
-          "t_address_payable": {
-            "label": "address payable"
-          },
-          "t_struct(Role)1877_storage": {
-            "label": "struct Roles.Role",
-            "members": [
-              {
-                "label": "bearer",
-                "type": "t_mapping(t_address,t_bool)"
-              }
-            ]
-          },
-          "t_mapping(t_address,t_bool)": {
-            "label": "mapping(address => bool)"
-          },
-          "t_bool": {
-            "label": "bool"
-          },
-          "t_array(t_uint256)49_storage": {
-            "label": "uint256[49]"
-          },
-          "t_mapping(t_address,t_mapping(t_address,t_uint256))": {
-            "label": "mapping(address => mapping(address => uint256))"
-          },
-          "t_uint8": {
-            "label": "uint8"
-          },
-          "t_array(t_uint256)44_storage": {
-            "label": "uint256[44]"
-          },
-          "t_array(t_uint256)50_storage": {
-            "label": "uint256[50]"
-          }
-        }
-      }
-    },
-    "49fd0569fe86798f467108eb9fd3812ce88730bb32eb8fc6aaeecc0d05f150d5": {
-      "address": "0x08fa76bAA1D731F54248d45Ab19F9E8642f49b2D",
-      "txHash": "0xdfa5cf7f838c1e09dc18872912faf27c3031151d59d4965cdd3e614806d47432",
-      "layout": {
-        "storage": [
-          {
-            "contract": "Initializable",
-            "label": "initialized",
-            "type": "t_bool",
-            "src": "contracts\\utilities\\Initializable.sol:22"
-          },
-          {
-            "contract": "Initializable",
-            "label": "initializing",
-            "type": "t_bool",
-            "src": "contracts\\utilities\\Initializable.sol:27"
-          },
-          {
-            "contract": "Initializable",
-            "label": "______gap",
-            "type": "t_array(t_uint256)50_storage",
-            "src": "contracts\\utilities\\Initializable.sol:62"
-          },
-          {
-            "contract": "ContextUpgradeable",
-            "label": "__gap",
-            "type": "t_array(t_uint256)50_storage",
-            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:31"
-          },
-          {
-            "contract": "ERC20Upgradeable",
-            "label": "_balances",
-            "type": "t_mapping(t_address,t_uint256)",
-            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:37"
-          },
-          {
-            "contract": "ERC20Upgradeable",
-            "label": "_allowances",
-            "type": "t_mapping(t_address,t_mapping(t_address,t_uint256))",
-            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:39"
-          },
-          {
-            "contract": "ERC20Upgradeable",
-            "label": "_totalSupply",
-            "type": "t_uint256",
-            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:41"
-          },
-          {
-            "contract": "ERC20Upgradeable",
-            "label": "_name",
-            "type": "t_string_storage",
-            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:43"
-          },
-          {
-            "contract": "ERC20Upgradeable",
-            "label": "_symbol",
-            "type": "t_string_storage",
-            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:44"
-          },
-          {
-            "contract": "ERC20Upgradeable",
-            "label": "_decimals",
-            "type": "t_uint8",
-            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:45"
-          },
-          {
-            "contract": "ERC20Upgradeable",
-            "label": "__gap",
-            "type": "t_array(t_uint256)44_storage",
-            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:312"
-          },
-          {
-            "contract": "OwnableUpgradeable",
-            "label": "_owner",
-            "type": "t_address",
-            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:20"
-          },
-          {
-            "contract": "OwnableUpgradeable",
-            "label": "__gap",
-            "type": "t_array(t_uint256)49_storage",
-            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:74"
-          },
-          {
-            "contract": "MinterRole",
-            "label": "_minters",
-            "type": "t_struct(Role)6595_storage",
-            "src": "contracts\\utilities\\MinterRole.sol:15"
-          },
-          {
-            "contract": "EonsLP",
-            "label": "_name",
-            "type": "t_string_storage",
-            "src": "contracts\\tokens\\EonsLP.sol:15"
-          }
-        ],
-        "types": {
-          "t_string_storage": {
-            "label": "string"
-          },
-          "t_struct(Role)6595_storage": {
-            "label": "struct Roles.Role",
-            "members": [
-              {
-                "label": "bearer",
-                "type": "t_mapping(t_address,t_bool)"
-              }
-            ]
-          },
-          "t_mapping(t_address,t_bool)": {
-            "label": "mapping(address => bool)"
-          },
-          "t_address": {
-            "label": "address"
-          },
-          "t_bool": {
-            "label": "bool"
-          },
-          "t_array(t_uint256)49_storage": {
-            "label": "uint256[49]"
-          },
-          "t_uint256": {
-            "label": "uint256"
-          },
-          "t_mapping(t_address,t_uint256)": {
-            "label": "mapping(address => uint256)"
-          },
-          "t_mapping(t_address,t_mapping(t_address,t_uint256))": {
-            "label": "mapping(address => mapping(address => uint256))"
-          },
-          "t_uint8": {
-            "label": "uint8"
-          },
-          "t_array(t_uint256)44_storage": {
-            "label": "uint256[44]"
-          },
-          "t_array(t_uint256)50_storage": {
-            "label": "uint256[50]"
-          }
-        }
-      }
-    },
-    "20a9e2731ec8105986dd114866236125dce5a16c2399e507f5824ea33e1397a5": {
-      "address": "0xdeB31d3cb07f9F25D162B4cF4dBC79BC2983d39a",
-      "txHash": "0x5ca0a598e140b326efec3343825aa81bdb03b3028ba753858518b9abeda64d8f",
-      "layout": {
-        "storage": [
-          {
-            "contract": "Initializable",
-            "label": "initialized",
-            "type": "t_bool",
-            "src": "contracts\\utilities\\Initializable.sol:22"
-          },
-          {
-            "contract": "Initializable",
-            "label": "initializing",
-            "type": "t_bool",
-            "src": "contracts\\utilities\\Initializable.sol:27"
-          },
-          {
-            "contract": "Initializable",
-            "label": "______gap",
-            "type": "t_array(t_uint256)50_storage",
-            "src": "contracts\\utilities\\Initializable.sol:62"
-          },
-          {
-            "contract": "ContextUpgradeable",
-            "label": "__gap",
-            "type": "t_array(t_uint256)50_storage",
-            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:31"
-          },
-          {
-            "contract": "ERC20Upgradeable",
-            "label": "_balances",
-            "type": "t_mapping(t_address,t_uint256)",
-            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:37"
-          },
-          {
-            "contract": "ERC20Upgradeable",
-            "label": "_allowances",
-            "type": "t_mapping(t_address,t_mapping(t_address,t_uint256))",
-            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:39"
-          },
-          {
-            "contract": "ERC20Upgradeable",
-            "label": "_totalSupply",
-            "type": "t_uint256",
-            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:41"
-          },
-          {
-            "contract": "ERC20Upgradeable",
-            "label": "_name",
-            "type": "t_string_storage",
-            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:43"
-          },
-          {
-            "contract": "ERC20Upgradeable",
-            "label": "_symbol",
-            "type": "t_string_storage",
-            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:44"
-          },
-          {
-            "contract": "ERC20Upgradeable",
-            "label": "_decimals",
-            "type": "t_uint8",
-            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:45"
-          },
-          {
-            "contract": "ERC20Upgradeable",
-            "label": "__gap",
-            "type": "t_array(t_uint256)44_storage",
-            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:312"
-          },
-          {
-            "contract": "MinterRole",
-            "label": "_minters",
-            "type": "t_struct(Role)6595_storage",
-            "src": "contracts\\utilities\\MinterRole.sol:15"
-          },
-          {
-            "contract": "OwnableUpgradeable",
-            "label": "_owner",
-            "type": "t_address",
-            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:20"
-          },
-          {
-            "contract": "OwnableUpgradeable",
-            "label": "__gap",
-            "type": "t_array(t_uint256)49_storage",
-            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:74"
-          }
-        ],
-        "types": {
-          "t_address": {
-            "label": "address"
-          },
-          "t_array(t_uint256)49_storage": {
-            "label": "uint256[49]"
-          },
-          "t_uint256": {
-            "label": "uint256"
-          },
-          "t_struct(Role)6595_storage": {
-            "label": "struct Roles.Role",
-            "members": [
-              {
-                "label": "bearer",
-                "type": "t_mapping(t_address,t_bool)"
-              }
-            ]
-          },
-          "t_mapping(t_address,t_bool)": {
-            "label": "mapping(address => bool)"
-          },
-          "t_bool": {
-            "label": "bool"
-          },
-          "t_mapping(t_address,t_uint256)": {
-            "label": "mapping(address => uint256)"
-          },
-          "t_mapping(t_address,t_mapping(t_address,t_uint256))": {
-            "label": "mapping(address => mapping(address => uint256))"
-          },
-          "t_string_storage": {
-            "label": "string"
-          },
-          "t_uint8": {
-            "label": "uint8"
-          },
-          "t_array(t_uint256)44_storage": {
-            "label": "uint256[44]"
-          },
-          "t_array(t_uint256)50_storage": {
-            "label": "uint256[50]"
-          }
-        }
-      }
-    },
-    "93f3cb36828055a87f458368035b0d30b500e116b63c54ffd050d83d670d02d6": {
-      "address": "0x0d23501e5c20c5043cb6c0094cB7F2903988F477",
-      "txHash": "0x0dc317a1fb85d33e32639f83d6b7b15c31ecb2d68114618ec0c9267ac849ff33",
-      "layout": {
-        "storage": [
-          {
-            "contract": "Initializable",
-            "label": "_initialized",
-            "type": "t_bool",
-            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\Initializable.sol:25"
-          },
-          {
-            "contract": "Initializable",
-            "label": "_initializing",
-            "type": "t_bool",
-            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\Initializable.sol:30"
-          },
-          {
-            "contract": "ContextUpgradeable",
-            "label": "__gap",
-            "type": "t_array(t_uint256)50_storage",
-            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:31"
-          },
-          {
-            "contract": "OwnableUpgradeable",
-            "label": "_owner",
-            "type": "t_address",
-            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:20"
-          },
-          {
-            "contract": "OwnableUpgradeable",
-            "label": "__gap",
-            "type": "t_array(t_uint256)49_storage",
-            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:74"
-          },
-          {
-            "contract": "EonsAaveVault",
-            "label": "_poolInfo",
-            "type": "t_mapping(t_uint256,t_struct(PoolInfo)1812_storage)",
-            "src": "contracts\\vaults\\EonsAaveVault.sol:27"
-          },
-          {
-            "contract": "EonsAaveVault",
-            "label": "_userInfo",
-            "type": "t_mapping(t_address,t_mapping(t_uint256,t_struct(UserInfo)1817_storage))",
-            "src": "contracts\\vaults\\EonsAaveVault.sol:28"
-          },
-          {
-            "contract": "EonsAaveVault",
-            "label": "_users",
-            "type": "t_mapping(t_uint256,t_array(t_address)dyn_storage)",
-            "src": "contracts\\vaults\\EonsAaveVault.sol:29"
-          },
-          {
-            "contract": "EonsAaveVault",
-            "label": "router",
-            "type": "t_address",
-            "src": "contracts\\vaults\\EonsAaveVault.sol:31"
-          },
-          {
-            "contract": "EonsAaveVault",
-            "label": "eons",
-            "type": "t_contract(IERC20Upgradeable)632",
-            "src": "contracts\\vaults\\EonsAaveVault.sol:32"
-          },
-          {
-            "contract": "EonsAaveVault",
-            "label": "emissionRate",
-            "type": "t_uint256",
-            "src": "contracts\\vaults\\EonsAaveVault.sol:33"
-          },
-          {
-            "contract": "EonsAaveVault",
-            "label": "totalAllocPoint",
-            "type": "t_uint256",
-            "src": "contracts\\vaults\\EonsAaveVault.sol:34"
-          },
-          {
-            "contract": "EonsAaveVault",
-            "label": "eonsReward",
-            "type": "t_uint256",
-            "src": "contracts\\vaults\\EonsAaveVault.sol:35"
-          }
-        ],
-        "types": {
-          "t_mapping(t_uint256,t_struct(PoolInfo)1812_storage)": {
-            "label": "mapping(uint256 => struct EonsAaveVault.PoolInfo)"
-          },
-          "t_uint256": {
-            "label": "uint256"
-          },
-          "t_struct(PoolInfo)1812_storage": {
-            "label": "struct EonsAaveVault.PoolInfo",
-            "members": [
-              {
-                "label": "eToken",
-                "type": "t_address"
-              },
-              {
-                "label": "allocPoint",
-                "type": "t_uint16"
-              },
-              {
-                "label": "accEonsPerShare",
-                "type": "t_uint256"
-              },
-              {
-                "label": "depositFee",
-                "type": "t_uint16"
-              },
-              {
-                "label": "lastBlock",
-                "type": "t_uint256"
-              }
-            ]
-          },
-          "t_address": {
-            "label": "address"
-          },
-          "t_uint16": {
-            "label": "uint16"
-          },
-          "t_mapping(t_address,t_mapping(t_uint256,t_struct(UserInfo)1817_storage))": {
-            "label": "mapping(address => mapping(uint256 => struct EonsAaveVault.UserInfo))"
-          },
-          "t_mapping(t_uint256,t_struct(UserInfo)1817_storage)": {
-            "label": "mapping(uint256 => struct EonsAaveVault.UserInfo)"
-          },
-          "t_struct(UserInfo)1817_storage": {
-            "label": "struct EonsAaveVault.UserInfo",
-            "members": [
-              {
-                "label": "amount",
-                "type": "t_uint256"
-              },
-              {
-                "label": "rewardDebt",
-                "type": "t_uint256"
-              }
-            ]
-          },
-          "t_mapping(t_uint256,t_array(t_address)dyn_storage)": {
-            "label": "mapping(uint256 => address[])"
-          },
-          "t_array(t_address)dyn_storage": {
-            "label": "address[]"
-          },
-          "t_contract(IERC20Upgradeable)632": {
-            "label": "contract IERC20Upgradeable"
-          },
-          "t_array(t_uint256)49_storage": {
-            "label": "uint256[49]"
-          },
-          "t_array(t_uint256)50_storage": {
-            "label": "uint256[50]"
-          },
-          "t_bool": {
-            "label": "bool"
-          }
-        }
-      }
-    },
-    "4dcd56ec1414653e71c6fa328399ae6973dea4f84aa5dabc3441716d90c3e2c3": {
-      "address": "0x23c4C97D8BCc335f840517e5409E5Ff855627307",
-      "txHash": "0x280f9642a5c2d39bad17b84e158541df82e34b4dd83cc7e5e7d87eed8b6c6109",
-      "layout": {
-        "storage": [
-          {
-            "contract": "Initializable",
-            "label": "_initialized",
-            "type": "t_bool",
-            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\Initializable.sol:25"
-          },
-          {
-            "contract": "Initializable",
-            "label": "_initializing",
-            "type": "t_bool",
-            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\Initializable.sol:30"
-          },
-          {
-            "contract": "ContextUpgradeable",
-            "label": "__gap",
-            "type": "t_array(t_uint256)50_storage",
-            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:31"
-          },
-          {
-            "contract": "OwnableUpgradeable",
-            "label": "_owner",
-            "type": "t_address",
-            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:20"
-          },
-          {
-            "contract": "OwnableUpgradeable",
-            "label": "__gap",
-            "type": "t_array(t_uint256)49_storage",
-            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:74"
-          },
-          {
-            "contract": "EonsUniVault",
-            "label": "_eonsLp",
-            "type": "t_contract(IEonsLP)1774",
-            "src": "contracts\\vaults\\EonsUniVault.sol:26"
-          },
-          {
-            "contract": "EonsUniVault",
-            "label": "_eons",
-            "type": "t_contract(IERC20Upgradeable)632",
-            "src": "contracts\\vaults\\EonsUniVault.sol:27"
-          },
-          {
-            "contract": "EonsUniVault",
-            "label": "_devaddr",
-            "type": "t_address",
-            "src": "contracts\\vaults\\EonsUniVault.sol:30"
-          },
-          {
-            "contract": "EonsUniVault",
-            "label": "userInfo",
-            "type": "t_mapping(t_uint256,t_mapping(t_address,t_struct(UserInfo)3178_storage))",
-            "src": "contracts\\vaults\\EonsUniVault.sol:32"
-          },
-          {
-            "contract": "EonsUniVault",
-            "label": "DEV_FEE",
-            "type": "t_uint16",
-            "src": "contracts\\vaults\\EonsUniVault.sol:33"
-          },
-          {
-            "contract": "EonsUniVault",
-            "label": "_superAdmin",
-            "type": "t_address",
-            "src": "contracts\\vaults\\EonsUniVault.sol:34"
-          }
-        ],
-        "types": {
-          "t_contract(IEonsLP)1774": {
-            "label": "contract IEonsLP"
-          },
-          "t_contract(IERC20Upgradeable)632": {
-            "label": "contract IERC20Upgradeable"
-          },
-          "t_address": {
-            "label": "address"
-          },
-          "t_mapping(t_uint256,t_mapping(t_address,t_struct(UserInfo)3178_storage))": {
-            "label": "mapping(uint256 => mapping(address => struct EonsUniVault.UserInfo))"
-          },
-          "t_uint256": {
-            "label": "uint256"
-          },
-          "t_mapping(t_address,t_struct(UserInfo)3178_storage)": {
-            "label": "mapping(address => struct EonsUniVault.UserInfo)"
-          },
-          "t_struct(UserInfo)3178_storage": {
-            "label": "struct EonsUniVault.UserInfo",
-            "members": [
-              {
-                "label": "addr",
-                "type": "t_address"
-              },
-              {
-                "label": "amount",
-                "type": "t_uint256"
-              },
-              {
-                "label": "rewardDebt",
-                "type": "t_uint256"
-              }
-            ]
-          },
-          "t_uint16": {
-            "label": "uint16"
-          },
-          "t_array(t_uint256)49_storage": {
-            "label": "uint256[49]"
-          },
-          "t_array(t_uint256)50_storage": {
-            "label": "uint256[50]"
-          },
-          "t_bool": {
-            "label": "bool"
-          }
-        }
-      }
-    },
-    "acdfb94cd86dcf522ae2f253c5941923816b82f466d11adaba32dc7ae1aba9eb": {
-      "address": "0xe40291cf80a40121245C7539d7f6bbF8f3bc4b15",
-      "txHash": "0xa7d8b35e107e285430b5d55cb5474289099ea4bb785dedf91b66530e88b680e6",
-      "layout": {
-        "storage": [
-          {
-            "contract": "Initializable",
-            "label": "initialized",
-            "type": "t_bool",
-            "src": "contracts\\utilities\\Initializable.sol:22"
-          },
-          {
-            "contract": "Initializable",
-            "label": "initializing",
-            "type": "t_bool",
-            "src": "contracts\\utilities\\Initializable.sol:27"
-          },
-          {
-            "contract": "Initializable",
-            "label": "______gap",
-            "type": "t_array(t_uint256)50_storage",
-            "src": "contracts\\utilities\\Initializable.sol:62"
-          },
-          {
-            "contract": "ContextUpgradeable",
-            "label": "__gap",
-            "type": "t_array(t_uint256)50_storage",
-            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:31"
-          },
-          {
-            "contract": "OwnableUpgradeable",
-            "label": "_owner",
-            "type": "t_address",
-            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:20"
-          },
-          {
-            "contract": "OwnableUpgradeable",
-            "label": "__gap",
-            "type": "t_array(t_uint256)49_storage",
-            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:74"
-          },
-          {
-            "contract": "EonsUniswapRouter",
-            "label": "hardEons",
-            "type": "t_mapping(t_address,t_uint256)",
-            "src": "contracts\\routers\\EonsUniswapRouter.sol:19"
-          },
-          {
-            "contract": "EonsUniswapRouter",
-            "label": "_eonsToken",
-            "type": "t_address",
-            "src": "contracts\\routers\\EonsUniswapRouter.sol:21"
-          },
-          {
-            "contract": "EonsUniswapRouter",
-            "label": "_eonsWETHPair",
-            "type": "t_address",
-            "src": "contracts\\routers\\EonsUniswapRouter.sol:22"
-          },
-          {
-            "contract": "EonsUniswapRouter",
-            "label": "_feeApprover",
-            "type": "t_contract(IFeeApprover)3536",
-            "src": "contracts\\routers\\EonsUniswapRouter.sol:23"
-          },
-          {
-            "contract": "EonsUniswapRouter",
-            "label": "_eonsUniVault",
-            "type": "t_contract(IEonsUniVault)3481",
-            "src": "contracts\\routers\\EonsUniswapRouter.sol:24"
-          },
-          {
-            "contract": "EonsUniswapRouter",
-            "label": "_WETH",
-            "type": "t_contract(IWETH)3207",
-            "src": "contracts\\routers\\EonsUniswapRouter.sol:25"
-          },
-          {
-            "contract": "EonsUniswapRouter",
-            "label": "_uniV2Factory",
-            "type": "t_address",
-            "src": "contracts\\routers\\EonsUniswapRouter.sol:26"
-          },
-          {
-            "contract": "EonsUniswapRouter",
-            "label": "_uniLpIncome",
-            "type": "t_uint256",
-            "src": "contracts\\routers\\EonsUniswapRouter.sol:27"
-          }
-        ],
-        "types": {
-          "t_mapping(t_address,t_uint256)": {
-            "label": "mapping(address => uint256)"
-          },
-          "t_address": {
-            "label": "address"
-          },
-          "t_uint256": {
-            "label": "uint256"
-          },
-          "t_contract(IFeeApprover)3536": {
-            "label": "contract IFeeApprover"
-          },
-          "t_contract(IEonsUniVault)3481": {
-            "label": "contract IEonsUniVault"
-          },
-          "t_contract(IWETH)3207": {
-            "label": "contract IWETH"
-          },
-          "t_array(t_uint256)49_storage": {
-            "label": "uint256[49]"
-          },
-          "t_array(t_uint256)50_storage": {
-            "label": "uint256[50]"
-          },
-          "t_bool": {
-            "label": "bool"
-          }
-        }
-      }
-    },
-    "962a11f54add35349206853c0147dee868c270bbc727e036fcd18e086b50915b": {
-      "address": "0x8DB32F5C33a6AAe79e5e3C13e180F1963D6Da0Ff",
-      "txHash": "0x1766587f3475bcb46b4abf0c6aba3571a59e1fc477601ac4bc6d6a568e731074",
-      "layout": {
-        "storage": [
-          {
-            "contract": "Initializable",
-            "label": "_initialized",
-            "type": "t_bool",
-            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\Initializable.sol:25"
-          },
-          {
-            "contract": "Initializable",
-            "label": "_initializing",
-            "type": "t_bool",
-            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\Initializable.sol:30"
           },
           {
             "contract": "ContextUpgradeable",
@@ -1469,42 +45,42 @@
           {
             "contract": "EonsAaveRouter",
             "label": "_lendingPoolAddressesProvider",
-            "type": "t_contract(ILendingPoolAddressesProvider)1753",
-            "src": "contracts\\routers\\EnosAaveRouter.sol:27"
+            "type": "t_contract(ILendingPoolAddressesProvider)4165",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:30"
           },
           {
             "contract": "EonsAaveRouter",
             "label": "_eonsAaveVault",
-            "type": "t_contract(IEonsAaveVault)1227",
-            "src": "contracts\\routers\\EnosAaveRouter.sol:28"
+            "type": "t_contract(IEonsAaveVault)3419",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:31"
           },
           {
             "contract": "EonsAaveRouter",
-            "label": "_assetInfo",
-            "type": "t_mapping(t_uint256,t_struct(AssetInfo)1850_storage)",
-            "src": "contracts\\routers\\EnosAaveRouter.sol:29"
+            "label": "assetInfo",
+            "type": "t_mapping(t_uint256,t_struct(AssetInfo)5235_storage)",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:32"
           },
           {
             "contract": "EonsAaveRouter",
             "label": "_referralCode",
             "type": "t_uint16",
-            "src": "contracts\\routers\\EnosAaveRouter.sol:30"
+            "src": "contracts\\routers\\EnosAaveRouter.sol:33"
           }
         ],
         "types": {
-          "t_contract(ILendingPoolAddressesProvider)1753": {
+          "t_contract(ILendingPoolAddressesProvider)4165": {
             "label": "contract ILendingPoolAddressesProvider"
           },
-          "t_contract(IEonsAaveVault)1227": {
+          "t_contract(IEonsAaveVault)3419": {
             "label": "contract IEonsAaveVault"
           },
-          "t_mapping(t_uint256,t_struct(AssetInfo)1850_storage)": {
+          "t_mapping(t_uint256,t_struct(AssetInfo)5235_storage)": {
             "label": "mapping(uint256 => struct EonsAaveRouter.AssetInfo)"
           },
           "t_uint256": {
             "label": "uint256"
           },
-          "t_struct(AssetInfo)1850_storage": {
+          "t_struct(AssetInfo)5235_storage": {
             "label": "struct EonsAaveRouter.AssetInfo",
             "members": [
               {
@@ -1538,10 +114,2511 @@
           }
         }
       }
+    },
+    "40781204c76e4e842be77b3c28cdca3512ec60d18d4339f21afc2c51f87fcfe8": {
+      "address": "0x8882Ace8B12Efb20ce8738788fA8C4b4b596bB13",
+      "txHash": "0xe9624e1cd81679a575426bdb6e5d058cfa1a1138a71257ee26e42a808d4a1b97",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Initializable",
+            "label": "initialized",
+            "type": "t_bool",
+            "src": "contracts\\utilities\\Initializable.sol:22"
+          },
+          {
+            "contract": "Initializable",
+            "label": "initializing",
+            "type": "t_bool",
+            "src": "contracts\\utilities\\Initializable.sol:27"
+          },
+          {
+            "contract": "Initializable",
+            "label": "______gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "contracts\\utilities\\Initializable.sol:62"
+          },
+          {
+            "contract": "ContextUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:31"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "_owner",
+            "type": "t_address",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:20"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:74"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "poolInfo",
+            "type": "t_array(t_struct(PoolInfo)7429_storage)dyn_storage",
+            "src": "contracts\\vaults\\EonsAaveVault.sol:35"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "userInfo",
+            "type": "t_mapping(t_address,t_mapping(t_uint256,t_struct(UserInfo)7434_storage))",
+            "src": "contracts\\vaults\\EonsAaveVault.sol:36"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "router",
+            "type": "t_contract(IEonsAaveRouter)3399",
+            "src": "contracts\\vaults\\EonsAaveVault.sol:38"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "eons",
+            "type": "t_contract(IEons)3353",
+            "src": "contracts\\vaults\\EonsAaveVault.sol:39"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "totalAllocPoint",
+            "type": "t_uint256",
+            "src": "contracts\\vaults\\EonsAaveVault.sol:40"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "poolRewardRate",
+            "type": "t_uint256",
+            "src": "contracts\\vaults\\EonsAaveVault.sol:41"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "devFeeRate",
+            "type": "t_uint256",
+            "src": "contracts\\vaults\\EonsAaveVault.sol:42"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "devAddress",
+            "type": "t_address",
+            "src": "contracts\\vaults\\EonsAaveVault.sol:43"
+          }
+        ],
+        "types": {
+          "t_array(t_struct(PoolInfo)7429_storage)dyn_storage": {
+            "label": "struct EonsAaveVault.PoolInfo[]"
+          },
+          "t_struct(PoolInfo)7429_storage": {
+            "label": "struct EonsAaveVault.PoolInfo",
+            "members": [
+              {
+                "label": "symbol",
+                "type": "t_string_storage"
+              },
+              {
+                "label": "eToken",
+                "type": "t_address"
+              },
+              {
+                "label": "allocPoint",
+                "type": "t_uint16"
+              },
+              {
+                "label": "accEonsPerShare",
+                "type": "t_uint256"
+              },
+              {
+                "label": "depositFee",
+                "type": "t_uint16"
+              },
+              {
+                "label": "lastBlock",
+                "type": "t_uint256"
+              },
+              {
+                "label": "totalStaked",
+                "type": "t_uint256"
+              }
+            ]
+          },
+          "t_string_storage": {
+            "label": "string"
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_uint16": {
+            "label": "uint16"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_mapping(t_address,t_mapping(t_uint256,t_struct(UserInfo)7434_storage))": {
+            "label": "mapping(address => mapping(uint256 => struct EonsAaveVault.UserInfo))"
+          },
+          "t_mapping(t_uint256,t_struct(UserInfo)7434_storage)": {
+            "label": "mapping(uint256 => struct EonsAaveVault.UserInfo)"
+          },
+          "t_struct(UserInfo)7434_storage": {
+            "label": "struct EonsAaveVault.UserInfo",
+            "members": [
+              {
+                "label": "amount",
+                "type": "t_uint256"
+              },
+              {
+                "label": "rewardDebt",
+                "type": "t_uint256"
+              }
+            ]
+          },
+          "t_contract(IEonsAaveRouter)3399": {
+            "label": "contract IEonsAaveRouter"
+          },
+          "t_contract(IEons)3353": {
+            "label": "contract IEons"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          },
+          "t_bool": {
+            "label": "bool"
+          }
+        }
+      }
+    },
+    "deaaa4ae2571a55348f2fd0f7a909b24bd5a7a7c75f4c0ad9143d7ea5a027b87": {
+      "address": "0x47Ea7CEfd3d73693941518fbb25d1d1f2421C999",
+      "txHash": "0xe76b1c9ec6a19efd618e5aaf7f9e3879eac4c0efc7f43a78f686af2f81744018",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Initializable",
+            "label": "initialized",
+            "type": "t_bool",
+            "src": "contracts\\utilities\\Initializable.sol:22"
+          },
+          {
+            "contract": "Initializable",
+            "label": "initializing",
+            "type": "t_bool",
+            "src": "contracts\\utilities\\Initializable.sol:27"
+          },
+          {
+            "contract": "Initializable",
+            "label": "______gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "contracts\\utilities\\Initializable.sol:62"
+          },
+          {
+            "contract": "ContextUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:31"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "_owner",
+            "type": "t_address",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:20"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:74"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "_lendingPoolAddressesProvider",
+            "type": "t_contract(ILendingPoolAddressesProvider)4165",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:30"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "_eonsAaveVault",
+            "type": "t_contract(IEonsAaveVault)3419",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:31"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "assetInfo",
+            "type": "t_mapping(t_uint256,t_struct(AssetInfo)5235_storage)",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:32"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "_referralCode",
+            "type": "t_uint16",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:33"
+          }
+        ],
+        "types": {
+          "t_contract(ILendingPoolAddressesProvider)4165": {
+            "label": "contract ILendingPoolAddressesProvider"
+          },
+          "t_contract(IEonsAaveVault)3419": {
+            "label": "contract IEonsAaveVault"
+          },
+          "t_mapping(t_uint256,t_struct(AssetInfo)5235_storage)": {
+            "label": "mapping(uint256 => struct EonsAaveRouter.AssetInfo)"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_struct(AssetInfo)5235_storage": {
+            "label": "struct EonsAaveRouter.AssetInfo",
+            "members": [
+              {
+                "label": "aToken",
+                "type": "t_address"
+              },
+              {
+                "label": "reserve",
+                "type": "t_address"
+              },
+              {
+                "label": "income",
+                "type": "t_uint256"
+              }
+            ]
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_uint16": {
+            "label": "uint16"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          },
+          "t_bool": {
+            "label": "bool"
+          }
+        }
+      }
+    },
+    "8df8d86f26c1b8e6a81a40b376eb86cdaad1eca3420cdf7560cbd2964503552b": {
+      "address": "0x882f08125B8769116e28B2d8198E4CaDe8D287B8",
+      "txHash": "0x6e104d7ffc658342f0abef43bb7dad0d8947adb607b675c2ce14419c6925a834",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Initializable",
+            "label": "initialized",
+            "type": "t_bool",
+            "src": "contracts\\utilities\\Initializable.sol:22"
+          },
+          {
+            "contract": "Initializable",
+            "label": "initializing",
+            "type": "t_bool",
+            "src": "contracts\\utilities\\Initializable.sol:27"
+          },
+          {
+            "contract": "Initializable",
+            "label": "______gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "contracts\\utilities\\Initializable.sol:62"
+          },
+          {
+            "contract": "ContextUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:31"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "_owner",
+            "type": "t_address",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:20"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:74"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "_lendingPoolAddressesProvider",
+            "type": "t_contract(ILendingPoolAddressesProvider)4165",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:30"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "_eonsAaveVault",
+            "type": "t_contract(IEonsAaveVault)3419",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:31"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "assetInfo",
+            "type": "t_mapping(t_uint256,t_struct(AssetInfo)5235_storage)",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:32"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "_referralCode",
+            "type": "t_uint16",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:33"
+          }
+        ],
+        "types": {
+          "t_contract(ILendingPoolAddressesProvider)4165": {
+            "label": "contract ILendingPoolAddressesProvider"
+          },
+          "t_contract(IEonsAaveVault)3419": {
+            "label": "contract IEonsAaveVault"
+          },
+          "t_mapping(t_uint256,t_struct(AssetInfo)5235_storage)": {
+            "label": "mapping(uint256 => struct EonsAaveRouter.AssetInfo)"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_struct(AssetInfo)5235_storage": {
+            "label": "struct EonsAaveRouter.AssetInfo",
+            "members": [
+              {
+                "label": "aToken",
+                "type": "t_address"
+              },
+              {
+                "label": "reserve",
+                "type": "t_address"
+              },
+              {
+                "label": "income",
+                "type": "t_uint256"
+              }
+            ]
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_uint16": {
+            "label": "uint16"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          },
+          "t_bool": {
+            "label": "bool"
+          }
+        }
+      }
+    },
+    "322467d520aaf15d17dd2957f1bfdbb53863f7ca5bd5c181abb4db45a7364396": {
+      "address": "0x2dC550B581A92fE42102559AfD74b461C7DA74B7",
+      "txHash": "0x0c075fc711d4784b540ec5ee2229ebe078b8e08ecca5bbaa4db4b8044b44f5b9",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Initializable",
+            "label": "initialized",
+            "type": "t_bool",
+            "src": "contracts\\utilities\\Initializable.sol:22"
+          },
+          {
+            "contract": "Initializable",
+            "label": "initializing",
+            "type": "t_bool",
+            "src": "contracts\\utilities\\Initializable.sol:27"
+          },
+          {
+            "contract": "Initializable",
+            "label": "______gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "contracts\\utilities\\Initializable.sol:62"
+          },
+          {
+            "contract": "ContextUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:31"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "_owner",
+            "type": "t_address",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:20"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:74"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "_lendingPoolAddressesProvider",
+            "type": "t_contract(ILendingPoolAddressesProvider)4165",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:31"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "_eonsAaveVault",
+            "type": "t_contract(IEonsAaveVault)3419",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:32"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "assetInfo",
+            "type": "t_mapping(t_uint256,t_struct(AssetInfo)5242_storage)",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:33"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "_referralCode",
+            "type": "t_uint16",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:34"
+          }
+        ],
+        "types": {
+          "t_contract(ILendingPoolAddressesProvider)4165": {
+            "label": "contract ILendingPoolAddressesProvider"
+          },
+          "t_contract(IEonsAaveVault)3419": {
+            "label": "contract IEonsAaveVault"
+          },
+          "t_mapping(t_uint256,t_struct(AssetInfo)5242_storage)": {
+            "label": "mapping(uint256 => struct EonsAaveRouter.AssetInfo)"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_struct(AssetInfo)5242_storage": {
+            "label": "struct EonsAaveRouter.AssetInfo",
+            "members": [
+              {
+                "label": "aToken",
+                "type": "t_address"
+              },
+              {
+                "label": "reserve",
+                "type": "t_address"
+              },
+              {
+                "label": "income",
+                "type": "t_uint256"
+              }
+            ]
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_uint16": {
+            "label": "uint16"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          },
+          "t_bool": {
+            "label": "bool"
+          }
+        }
+      }
+    },
+    "b8f9906430eca2d1610041bc2638921b5e60aeb5fc35033b527a90e18641f4fe": {
+      "address": "0x7449f6a5062DEAA007AD3618473D0454D3539dBc",
+      "txHash": "0x05a2b4f2fbb78db9918f9ee1d068be882e0e4c18ab0e8f11a1b73be576ddb6c2",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Initializable",
+            "label": "initialized",
+            "type": "t_bool",
+            "src": "contracts\\utilities\\Initializable.sol:22"
+          },
+          {
+            "contract": "Initializable",
+            "label": "initializing",
+            "type": "t_bool",
+            "src": "contracts\\utilities\\Initializable.sol:27"
+          },
+          {
+            "contract": "Initializable",
+            "label": "______gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "contracts\\utilities\\Initializable.sol:62"
+          },
+          {
+            "contract": "ContextUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:31"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "_owner",
+            "type": "t_address",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:20"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:74"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "_lendingPoolAddressesProvider",
+            "type": "t_contract(ILendingPoolAddressesProvider)4165",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:31"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "_eonsAaveVault",
+            "type": "t_contract(IEonsAaveVault)3419",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:32"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "assetInfo",
+            "type": "t_mapping(t_uint256,t_struct(AssetInfo)5242_storage)",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:33"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "_referralCode",
+            "type": "t_uint16",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:34"
+          }
+        ],
+        "types": {
+          "t_contract(ILendingPoolAddressesProvider)4165": {
+            "label": "contract ILendingPoolAddressesProvider"
+          },
+          "t_contract(IEonsAaveVault)3419": {
+            "label": "contract IEonsAaveVault"
+          },
+          "t_mapping(t_uint256,t_struct(AssetInfo)5242_storage)": {
+            "label": "mapping(uint256 => struct EonsAaveRouter.AssetInfo)"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_struct(AssetInfo)5242_storage": {
+            "label": "struct EonsAaveRouter.AssetInfo",
+            "members": [
+              {
+                "label": "aToken",
+                "type": "t_address"
+              },
+              {
+                "label": "reserve",
+                "type": "t_address"
+              },
+              {
+                "label": "income",
+                "type": "t_uint256"
+              }
+            ]
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_uint16": {
+            "label": "uint16"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          },
+          "t_bool": {
+            "label": "bool"
+          }
+        }
+      }
+    },
+    "81c402fdf91d146a7f76d7dc050b3ccd5989bcfab556c982e07eecac8b74596a": {
+      "address": "0xF3091c4bCdD35A465C46079EdF219BD5Ee4F63B1",
+      "txHash": "0x0bb6cf2b54bede49f33c7c07ad00df88a3270355cdaccf1df6b7c3cab9e95f3e",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Initializable",
+            "label": "initialized",
+            "type": "t_bool",
+            "src": "contracts\\utilities\\Initializable.sol:22"
+          },
+          {
+            "contract": "Initializable",
+            "label": "initializing",
+            "type": "t_bool",
+            "src": "contracts\\utilities\\Initializable.sol:27"
+          },
+          {
+            "contract": "Initializable",
+            "label": "______gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "contracts\\utilities\\Initializable.sol:62"
+          },
+          {
+            "contract": "ContextUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:31"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "_owner",
+            "type": "t_address",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:20"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:74"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "_lendingPoolAddressesProvider",
+            "type": "t_contract(ILendingPoolAddressesProvider)4165",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:31"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "_eonsAaveVault",
+            "type": "t_contract(IEonsAaveVault)3419",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:32"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "assetInfo",
+            "type": "t_mapping(t_uint256,t_struct(AssetInfo)5242_storage)",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:33"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "_referralCode",
+            "type": "t_uint16",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:34"
+          }
+        ],
+        "types": {
+          "t_contract(ILendingPoolAddressesProvider)4165": {
+            "label": "contract ILendingPoolAddressesProvider"
+          },
+          "t_contract(IEonsAaveVault)3419": {
+            "label": "contract IEonsAaveVault"
+          },
+          "t_mapping(t_uint256,t_struct(AssetInfo)5242_storage)": {
+            "label": "mapping(uint256 => struct EonsAaveRouter.AssetInfo)"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_struct(AssetInfo)5242_storage": {
+            "label": "struct EonsAaveRouter.AssetInfo",
+            "members": [
+              {
+                "label": "aToken",
+                "type": "t_address"
+              },
+              {
+                "label": "reserve",
+                "type": "t_address"
+              },
+              {
+                "label": "income",
+                "type": "t_uint256"
+              }
+            ]
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_uint16": {
+            "label": "uint16"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          },
+          "t_bool": {
+            "label": "bool"
+          }
+        }
+      }
+    },
+    "e1e4240654d53ad1d1555e82984cfadf5e40e8119c14dca1c28e63d485fabe22": {
+      "address": "0xa1386Ddcbc47628275605F4ad99e900A81d8faEa",
+      "txHash": "0x514828f3be199bc0e357323c4b3812a4c90ca69dd05e818fc74f522a37909877",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Initializable",
+            "label": "initialized",
+            "type": "t_bool",
+            "src": "contracts\\utilities\\Initializable.sol:22"
+          },
+          {
+            "contract": "Initializable",
+            "label": "initializing",
+            "type": "t_bool",
+            "src": "contracts\\utilities\\Initializable.sol:27"
+          },
+          {
+            "contract": "Initializable",
+            "label": "______gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "contracts\\utilities\\Initializable.sol:62"
+          },
+          {
+            "contract": "ContextUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:31"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "_owner",
+            "type": "t_address",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:20"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:74"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "_lendingPoolAddressesProvider",
+            "type": "t_contract(ILendingPoolAddressesProvider)4165",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:31"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "_eonsAaveVault",
+            "type": "t_contract(IEonsAaveVault)3419",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:32"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "assetInfo",
+            "type": "t_mapping(t_uint256,t_struct(AssetInfo)5242_storage)",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:33"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "_referralCode",
+            "type": "t_uint16",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:34"
+          }
+        ],
+        "types": {
+          "t_contract(ILendingPoolAddressesProvider)4165": {
+            "label": "contract ILendingPoolAddressesProvider"
+          },
+          "t_contract(IEonsAaveVault)3419": {
+            "label": "contract IEonsAaveVault"
+          },
+          "t_mapping(t_uint256,t_struct(AssetInfo)5242_storage)": {
+            "label": "mapping(uint256 => struct EonsAaveRouter.AssetInfo)"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_struct(AssetInfo)5242_storage": {
+            "label": "struct EonsAaveRouter.AssetInfo",
+            "members": [
+              {
+                "label": "aToken",
+                "type": "t_address"
+              },
+              {
+                "label": "reserve",
+                "type": "t_address"
+              },
+              {
+                "label": "income",
+                "type": "t_uint256"
+              }
+            ]
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_uint16": {
+            "label": "uint16"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          },
+          "t_bool": {
+            "label": "bool"
+          }
+        }
+      }
+    },
+    "b429488d90f213402ba9614612274ca1a7f4cc6d59297734c4dbe32fd80cdf33": {
+      "address": "0x48A75257BD3cAcAEDC979b8088029b1d2CD37403",
+      "txHash": "0x226dfe2192f2c662ea5c3878c508b6ac3946bd27fe60e6b7164431553eec70d7",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Initializable",
+            "label": "initialized",
+            "type": "t_bool",
+            "src": "contracts\\utilities\\Initializable.sol:22"
+          },
+          {
+            "contract": "Initializable",
+            "label": "initializing",
+            "type": "t_bool",
+            "src": "contracts\\utilities\\Initializable.sol:27"
+          },
+          {
+            "contract": "Initializable",
+            "label": "______gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "contracts\\utilities\\Initializable.sol:62"
+          },
+          {
+            "contract": "ContextUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:31"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "_owner",
+            "type": "t_address",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:20"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:74"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "_lendingPoolAddressesProvider",
+            "type": "t_contract(ILendingPoolAddressesProvider)4165",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:31"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "_eonsAaveVault",
+            "type": "t_contract(IEonsAaveVault)3419",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:32"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "assetInfo",
+            "type": "t_mapping(t_uint256,t_struct(AssetInfo)5242_storage)",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:33"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "_referralCode",
+            "type": "t_uint16",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:34"
+          }
+        ],
+        "types": {
+          "t_contract(ILendingPoolAddressesProvider)4165": {
+            "label": "contract ILendingPoolAddressesProvider"
+          },
+          "t_contract(IEonsAaveVault)3419": {
+            "label": "contract IEonsAaveVault"
+          },
+          "t_mapping(t_uint256,t_struct(AssetInfo)5242_storage)": {
+            "label": "mapping(uint256 => struct EonsAaveRouter.AssetInfo)"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_struct(AssetInfo)5242_storage": {
+            "label": "struct EonsAaveRouter.AssetInfo",
+            "members": [
+              {
+                "label": "aToken",
+                "type": "t_address"
+              },
+              {
+                "label": "reserve",
+                "type": "t_address"
+              },
+              {
+                "label": "income",
+                "type": "t_uint256"
+              }
+            ]
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_uint16": {
+            "label": "uint16"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          },
+          "t_bool": {
+            "label": "bool"
+          }
+        }
+      }
+    },
+    "dc1bb7c0698f4cbb4445285f9f94fd9ccca9c35d7aaf9be60489c131cbe5cb27": {
+      "address": "0x86Ec9938BDd10B8F2B060244eD57E6eB090272f0",
+      "txHash": "0x1387cf63ed3cd01ca6c6879b5e30d09e48b8bfa830ae1747fa426b0cc732acc2",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Initializable",
+            "label": "initialized",
+            "type": "t_bool",
+            "src": "contracts\\utilities\\Initializable.sol:22"
+          },
+          {
+            "contract": "Initializable",
+            "label": "initializing",
+            "type": "t_bool",
+            "src": "contracts\\utilities\\Initializable.sol:27"
+          },
+          {
+            "contract": "Initializable",
+            "label": "______gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "contracts\\utilities\\Initializable.sol:62"
+          },
+          {
+            "contract": "ContextUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:31"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "_owner",
+            "type": "t_address",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:20"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:74"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "_lendingPoolAddressesProvider",
+            "type": "t_contract(ILendingPoolAddressesProvider)4165",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:31"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "_eonsAaveVault",
+            "type": "t_contract(IEonsAaveVault)3419",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:32"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "assetInfo",
+            "type": "t_mapping(t_uint256,t_struct(AssetInfo)5242_storage)",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:33"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "_referralCode",
+            "type": "t_uint16",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:34"
+          }
+        ],
+        "types": {
+          "t_contract(ILendingPoolAddressesProvider)4165": {
+            "label": "contract ILendingPoolAddressesProvider"
+          },
+          "t_contract(IEonsAaveVault)3419": {
+            "label": "contract IEonsAaveVault"
+          },
+          "t_mapping(t_uint256,t_struct(AssetInfo)5242_storage)": {
+            "label": "mapping(uint256 => struct EonsAaveRouter.AssetInfo)"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_struct(AssetInfo)5242_storage": {
+            "label": "struct EonsAaveRouter.AssetInfo",
+            "members": [
+              {
+                "label": "aToken",
+                "type": "t_address"
+              },
+              {
+                "label": "reserve",
+                "type": "t_address"
+              },
+              {
+                "label": "income",
+                "type": "t_uint256"
+              }
+            ]
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_uint16": {
+            "label": "uint16"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          },
+          "t_bool": {
+            "label": "bool"
+          }
+        }
+      }
+    },
+    "8ec6e55dc84af5970e72daad9a3eed84c3656f085b630561321fc675121dd88f": {
+      "address": "0x92123A32A4dB90C4c57D8E778759dC8E2b2e9840",
+      "txHash": "0x35ced9d9ccc8908bbb55ab743ddf43a1783c4a4f8c167b18db43612476ed4b05",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Initializable",
+            "label": "initialized",
+            "type": "t_bool",
+            "src": "contracts\\utilities\\Initializable.sol:22"
+          },
+          {
+            "contract": "Initializable",
+            "label": "initializing",
+            "type": "t_bool",
+            "src": "contracts\\utilities\\Initializable.sol:27"
+          },
+          {
+            "contract": "Initializable",
+            "label": "______gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "contracts\\utilities\\Initializable.sol:62"
+          },
+          {
+            "contract": "ContextUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:31"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "_owner",
+            "type": "t_address",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:20"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:74"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "_lendingPoolAddressesProvider",
+            "type": "t_contract(ILendingPoolAddressesProvider)4165",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:31"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "_eonsAaveVault",
+            "type": "t_contract(IEonsAaveVault)3419",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:32"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "assetInfo",
+            "type": "t_mapping(t_uint256,t_struct(AssetInfo)5242_storage)",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:33"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "_referralCode",
+            "type": "t_uint16",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:34"
+          }
+        ],
+        "types": {
+          "t_contract(ILendingPoolAddressesProvider)4165": {
+            "label": "contract ILendingPoolAddressesProvider"
+          },
+          "t_contract(IEonsAaveVault)3419": {
+            "label": "contract IEonsAaveVault"
+          },
+          "t_mapping(t_uint256,t_struct(AssetInfo)5242_storage)": {
+            "label": "mapping(uint256 => struct EonsAaveRouter.AssetInfo)"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_struct(AssetInfo)5242_storage": {
+            "label": "struct EonsAaveRouter.AssetInfo",
+            "members": [
+              {
+                "label": "aToken",
+                "type": "t_address"
+              },
+              {
+                "label": "reserve",
+                "type": "t_address"
+              },
+              {
+                "label": "income",
+                "type": "t_uint256"
+              }
+            ]
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_uint16": {
+            "label": "uint16"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          },
+          "t_bool": {
+            "label": "bool"
+          }
+        }
+      }
+    },
+    "969153770dd8eb5d45112a7c65f23309d44626ba10cc538267256f67f1cb4164": {
+      "address": "0x9933C62cE464a56fc97bB5e946fF40f84153AC69",
+      "txHash": "0x5d41fa1959977b0cf553d53b9aeab461ff0f88ade82faa61c7d13b26bd83d6a3",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Initializable",
+            "label": "initialized",
+            "type": "t_bool",
+            "src": "contracts\\utilities\\Initializable.sol:22"
+          },
+          {
+            "contract": "Initializable",
+            "label": "initializing",
+            "type": "t_bool",
+            "src": "contracts\\utilities\\Initializable.sol:27"
+          },
+          {
+            "contract": "Initializable",
+            "label": "______gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "contracts\\utilities\\Initializable.sol:62"
+          },
+          {
+            "contract": "ContextUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:31"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "_owner",
+            "type": "t_address",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:20"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:74"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "_lendingPoolAddressesProvider",
+            "type": "t_contract(ILendingPoolAddressesProvider)4165",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:31"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "_eonsAaveVault",
+            "type": "t_contract(IEonsAaveVault)3419",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:32"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "assetInfo",
+            "type": "t_mapping(t_uint256,t_struct(AssetInfo)5242_storage)",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:33"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "_referralCode",
+            "type": "t_uint16",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:34"
+          }
+        ],
+        "types": {
+          "t_contract(ILendingPoolAddressesProvider)4165": {
+            "label": "contract ILendingPoolAddressesProvider"
+          },
+          "t_contract(IEonsAaveVault)3419": {
+            "label": "contract IEonsAaveVault"
+          },
+          "t_mapping(t_uint256,t_struct(AssetInfo)5242_storage)": {
+            "label": "mapping(uint256 => struct EonsAaveRouter.AssetInfo)"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_struct(AssetInfo)5242_storage": {
+            "label": "struct EonsAaveRouter.AssetInfo",
+            "members": [
+              {
+                "label": "aToken",
+                "type": "t_address"
+              },
+              {
+                "label": "reserve",
+                "type": "t_address"
+              },
+              {
+                "label": "income",
+                "type": "t_uint256"
+              }
+            ]
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_uint16": {
+            "label": "uint16"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          },
+          "t_bool": {
+            "label": "bool"
+          }
+        }
+      }
+    },
+    "252e6832a191545104b51bd35d56de5039400fb99c2e9dd8f1a4a7379ee0269c": {
+      "address": "0x2AF82B57a4752C47D007a0be9ECe51136CC5d9f3",
+      "txHash": "0xed1a269d1fb8d6754b6cdc1252d9ee1227b8d7fc62ec7fdf6f06b770fed1d699",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Initializable",
+            "label": "initialized",
+            "type": "t_bool",
+            "src": "contracts\\utilities\\Initializable.sol:22"
+          },
+          {
+            "contract": "Initializable",
+            "label": "initializing",
+            "type": "t_bool",
+            "src": "contracts\\utilities\\Initializable.sol:27"
+          },
+          {
+            "contract": "Initializable",
+            "label": "______gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "contracts\\utilities\\Initializable.sol:62"
+          },
+          {
+            "contract": "ContextUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:31"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "_owner",
+            "type": "t_address",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:20"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:74"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "_lendingPoolAddressesProvider",
+            "type": "t_contract(ILendingPoolAddressesProvider)4165",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:31"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "_eonsAaveVault",
+            "type": "t_contract(IEonsAaveVault)3419",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:32"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "assetInfo",
+            "type": "t_mapping(t_uint256,t_struct(AssetInfo)5242_storage)",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:33"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "_referralCode",
+            "type": "t_uint16",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:34"
+          }
+        ],
+        "types": {
+          "t_contract(ILendingPoolAddressesProvider)4165": {
+            "label": "contract ILendingPoolAddressesProvider"
+          },
+          "t_contract(IEonsAaveVault)3419": {
+            "label": "contract IEonsAaveVault"
+          },
+          "t_mapping(t_uint256,t_struct(AssetInfo)5242_storage)": {
+            "label": "mapping(uint256 => struct EonsAaveRouter.AssetInfo)"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_struct(AssetInfo)5242_storage": {
+            "label": "struct EonsAaveRouter.AssetInfo",
+            "members": [
+              {
+                "label": "aToken",
+                "type": "t_address"
+              },
+              {
+                "label": "reserve",
+                "type": "t_address"
+              },
+              {
+                "label": "income",
+                "type": "t_uint256"
+              }
+            ]
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_uint16": {
+            "label": "uint16"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          },
+          "t_bool": {
+            "label": "bool"
+          }
+        }
+      }
+    },
+    "df313ddfb5276f497a5475780d21259e2c3985c1da4d565dcaeefbd8f5c5982f": {
+      "address": "0x845207564ebBac3B94DCcb94f8A10F78874822c6",
+      "txHash": "0xb5a64021613c79265d8925e4ffc4e6efc1cabaf6d6152d83cfbff0981bbbfa6c",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Initializable",
+            "label": "_initialized",
+            "type": "t_bool",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\Initializable.sol:25"
+          },
+          {
+            "contract": "Initializable",
+            "label": "_initializing",
+            "type": "t_bool",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\Initializable.sol:30"
+          },
+          {
+            "contract": "ContextUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:31"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "_owner",
+            "type": "t_address",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:20"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:74"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "lendingPoolAddressesProvider",
+            "type": "t_contract(ILendingPoolAddressesProvider)1770",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:30"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "assetInfo",
+            "type": "t_mapping(t_uint256,t_struct(AssetInfo)1898_storage)",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:31"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "wethGateway",
+            "type": "t_contract(IWETHGateway)1829",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:32"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "referralCode",
+            "type": "t_uint16",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:33"
+          }
+        ],
+        "types": {
+          "t_contract(ILendingPoolAddressesProvider)1770": {
+            "label": "contract ILendingPoolAddressesProvider"
+          },
+          "t_mapping(t_uint256,t_struct(AssetInfo)1898_storage)": {
+            "label": "mapping(uint256 => struct EonsAaveRouter.AssetInfo)"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_struct(AssetInfo)1898_storage": {
+            "label": "struct EonsAaveRouter.AssetInfo",
+            "members": [
+              {
+                "label": "aToken",
+                "type": "t_address"
+              },
+              {
+                "label": "reserve",
+                "type": "t_address"
+              },
+              {
+                "label": "income",
+                "type": "t_uint256"
+              }
+            ]
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_contract(IWETHGateway)1829": {
+            "label": "contract IWETHGateway"
+          },
+          "t_uint16": {
+            "label": "uint16"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          },
+          "t_bool": {
+            "label": "bool"
+          }
+        }
+      }
+    },
+    "eeff1f802be158fdb223419bd3743a9576b819be53a8877a4b0faa09230b7bc6": {
+      "address": "0xB3EfDA39817E3B11248029195b066455d4B6cb53",
+      "txHash": "0xc28aabcc1a8d486856de5449f50c10624adeb57f281e6e59937a133dbfd23a05",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Initializable",
+            "label": "initialized",
+            "type": "t_bool",
+            "src": "contracts\\utilities\\Initializable.sol:22"
+          },
+          {
+            "contract": "Initializable",
+            "label": "initializing",
+            "type": "t_bool",
+            "src": "contracts\\utilities\\Initializable.sol:27"
+          },
+          {
+            "contract": "Initializable",
+            "label": "______gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "contracts\\utilities\\Initializable.sol:62"
+          },
+          {
+            "contract": "ContextUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:31"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "_owner",
+            "type": "t_address",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:20"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:74"
+          },
+          {
+            "contract": "Controller",
+            "label": "aaveVault",
+            "type": "t_contract(IEonsAaveVault)3419",
+            "src": "contracts\\main\\Controller.sol:17"
+          },
+          {
+            "contract": "Controller",
+            "label": "aaveRouter",
+            "type": "t_contract(IEonsAaveRouter)3399",
+            "src": "contracts\\main\\Controller.sol:18"
+          },
+          {
+            "contract": "Controller",
+            "label": "uniVault",
+            "type": "t_contract(IEonsUniVault)3584",
+            "src": "contracts\\main\\Controller.sol:19"
+          },
+          {
+            "contract": "Controller",
+            "label": "uniRouter",
+            "type": "t_contract(IEonsUniRouter)3499",
+            "src": "contracts\\main\\Controller.sol:20"
+          },
+          {
+            "contract": "Controller",
+            "label": "eons",
+            "type": "t_contract(IEons)3353",
+            "src": "contracts\\main\\Controller.sol:22"
+          },
+          {
+            "contract": "Controller",
+            "label": "emissionRate",
+            "type": "t_uint256",
+            "src": "contracts\\main\\Controller.sol:23"
+          },
+          {
+            "contract": "Controller",
+            "label": "emissionDistributionRateOfPools",
+            "type": "t_uint256",
+            "src": "contracts\\main\\Controller.sol:24"
+          },
+          {
+            "contract": "Controller",
+            "label": "emissionDistributionRateOfLP",
+            "type": "t_uint256",
+            "src": "contracts\\main\\Controller.sol:25"
+          },
+          {
+            "contract": "Controller",
+            "label": "emissionDistributionRateOfTreasury",
+            "type": "t_uint256",
+            "src": "contracts\\main\\Controller.sol:26"
+          },
+          {
+            "contract": "Controller",
+            "label": "blockCreationTime",
+            "type": "t_uint256",
+            "src": "contracts\\main\\Controller.sol:27"
+          },
+          {
+            "contract": "Controller",
+            "label": "lastEmissionCalcBlockNumber",
+            "type": "t_uint256",
+            "src": "contracts\\main\\Controller.sol:28"
+          },
+          {
+            "contract": "Controller",
+            "label": "treasury",
+            "type": "t_address",
+            "src": "contracts\\main\\Controller.sol:29"
+          }
+        ],
+        "types": {
+          "t_contract(IEonsAaveVault)3419": {
+            "label": "contract IEonsAaveVault"
+          },
+          "t_contract(IEonsAaveRouter)3399": {
+            "label": "contract IEonsAaveRouter"
+          },
+          "t_contract(IEonsUniVault)3584": {
+            "label": "contract IEonsUniVault"
+          },
+          "t_contract(IEonsUniRouter)3499": {
+            "label": "contract IEonsUniRouter"
+          },
+          "t_contract(IEons)3353": {
+            "label": "contract IEons"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          },
+          "t_bool": {
+            "label": "bool"
+          }
+        }
+      }
+    },
+    "637713a3305e3aa52b961d3a764a2e88bbb4b7676e4ac47f9d70b7dd04b875ce": {
+      "address": "0x8FBABAad3228607127bbbb122E67EFa620aD0c93",
+      "txHash": "0x8ac72ae7440ebc80700a38854109794f7b03248fa68fb0c774d601cb54adc833",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Initializable",
+            "label": "_initialized",
+            "type": "t_bool",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\Initializable.sol:25"
+          },
+          {
+            "contract": "Initializable",
+            "label": "_initializing",
+            "type": "t_bool",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\Initializable.sol:30"
+          },
+          {
+            "contract": "ContextUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:31"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "_owner",
+            "type": "t_address",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:20"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:74"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "lendingPoolAddressesProvider",
+            "type": "t_contract(ILendingPoolAddressesProvider)1770",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:30"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "assetInfo",
+            "type": "t_mapping(t_uint256,t_struct(AssetInfo)1898_storage)",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:31"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "wethGateway",
+            "type": "t_contract(IWETHGateway)1829",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:32"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "referralCode",
+            "type": "t_uint16",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:33"
+          }
+        ],
+        "types": {
+          "t_contract(ILendingPoolAddressesProvider)1770": {
+            "label": "contract ILendingPoolAddressesProvider"
+          },
+          "t_mapping(t_uint256,t_struct(AssetInfo)1898_storage)": {
+            "label": "mapping(uint256 => struct EonsAaveRouter.AssetInfo)"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_struct(AssetInfo)1898_storage": {
+            "label": "struct EonsAaveRouter.AssetInfo",
+            "members": [
+              {
+                "label": "aToken",
+                "type": "t_address"
+              },
+              {
+                "label": "reserve",
+                "type": "t_address"
+              },
+              {
+                "label": "income",
+                "type": "t_uint256"
+              }
+            ]
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_contract(IWETHGateway)1829": {
+            "label": "contract IWETHGateway"
+          },
+          "t_uint16": {
+            "label": "uint16"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          },
+          "t_bool": {
+            "label": "bool"
+          }
+        }
+      }
+    },
+    "3bb6c10d20bb610b6093fa2743dea2c6c7b5fc12d12d71c50a1adfad0a5191ef": {
+      "address": "0xe9414193f8cF8D362c6a9aAAA939c818CE59E80D",
+      "txHash": "0x20ecce9241e325ecbb769be108ee41cbcd0ab9a22b11c6656aefdd7f28187e11",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Initializable",
+            "label": "_initialized",
+            "type": "t_bool",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\Initializable.sol:25"
+          },
+          {
+            "contract": "Initializable",
+            "label": "_initializing",
+            "type": "t_bool",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\Initializable.sol:30"
+          },
+          {
+            "contract": "ContextUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:31"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "_owner",
+            "type": "t_address",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:20"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:74"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "poolInfo",
+            "type": "t_array(t_struct(PoolInfo)1952_storage)dyn_storage",
+            "src": "contracts\\vaults\\EonsAaveVault.sol:35"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "userInfo",
+            "type": "t_mapping(t_address,t_mapping(t_uint256,t_struct(UserInfo)1957_storage))",
+            "src": "contracts\\vaults\\EonsAaveVault.sol:36"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "router",
+            "type": "t_contract(IEonsAaveRouter)1078",
+            "src": "contracts\\vaults\\EonsAaveVault.sol:38"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "eons",
+            "type": "t_contract(IEons)1032",
+            "src": "contracts\\vaults\\EonsAaveVault.sol:39"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "totalAllocPoint",
+            "type": "t_uint256",
+            "src": "contracts\\vaults\\EonsAaveVault.sol:40"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "poolRewardRate",
+            "type": "t_uint256",
+            "src": "contracts\\vaults\\EonsAaveVault.sol:41"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "devFeeRate",
+            "type": "t_uint256",
+            "src": "contracts\\vaults\\EonsAaveVault.sol:42"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "devAddress",
+            "type": "t_address",
+            "src": "contracts\\vaults\\EonsAaveVault.sol:43"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "userCount",
+            "type": "t_uint256",
+            "src": "contracts\\vaults\\EonsAaveVault.sol:44"
+          }
+        ],
+        "types": {
+          "t_array(t_struct(PoolInfo)1952_storage)dyn_storage": {
+            "label": "struct EonsAaveVault.PoolInfo[]"
+          },
+          "t_struct(PoolInfo)1952_storage": {
+            "label": "struct EonsAaveVault.PoolInfo",
+            "members": [
+              {
+                "label": "symbol",
+                "type": "t_string_storage"
+              },
+              {
+                "label": "eToken",
+                "type": "t_address"
+              },
+              {
+                "label": "allocPoint",
+                "type": "t_uint16"
+              },
+              {
+                "label": "accEonsPerShare",
+                "type": "t_uint256"
+              },
+              {
+                "label": "depositFee",
+                "type": "t_uint16"
+              },
+              {
+                "label": "lastBlock",
+                "type": "t_uint256"
+              },
+              {
+                "label": "totalStaked",
+                "type": "t_uint256"
+              }
+            ]
+          },
+          "t_string_storage": {
+            "label": "string"
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_uint16": {
+            "label": "uint16"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_mapping(t_address,t_mapping(t_uint256,t_struct(UserInfo)1957_storage))": {
+            "label": "mapping(address => mapping(uint256 => struct EonsAaveVault.UserInfo))"
+          },
+          "t_mapping(t_uint256,t_struct(UserInfo)1957_storage)": {
+            "label": "mapping(uint256 => struct EonsAaveVault.UserInfo)"
+          },
+          "t_struct(UserInfo)1957_storage": {
+            "label": "struct EonsAaveVault.UserInfo",
+            "members": [
+              {
+                "label": "amount",
+                "type": "t_uint256"
+              },
+              {
+                "label": "rewardDebt",
+                "type": "t_uint256"
+              }
+            ]
+          },
+          "t_contract(IEonsAaveRouter)1078": {
+            "label": "contract IEonsAaveRouter"
+          },
+          "t_contract(IEons)1032": {
+            "label": "contract IEons"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          },
+          "t_bool": {
+            "label": "bool"
+          }
+        }
+      }
+    },
+    "b774cde29b15f807b55f64bde5b614b1e1ab7cb53fba6634969268952eaef870": {
+      "address": "0x9a6874513Cd912282e2ccA2260e11b2F87940203",
+      "txHash": "0x5365231f34900aeef10cbc18a287de6bea84cc74369c51135c47c96e4878c84c",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Initializable",
+            "label": "_initialized",
+            "type": "t_bool",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\Initializable.sol:25"
+          },
+          {
+            "contract": "Initializable",
+            "label": "_initializing",
+            "type": "t_bool",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\Initializable.sol:30"
+          },
+          {
+            "contract": "ContextUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:31"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "_owner",
+            "type": "t_address",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:20"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:74"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "poolInfo",
+            "type": "t_array(t_struct(PoolInfo)1952_storage)dyn_storage",
+            "src": "contracts\\vaults\\EonsAaveVault.sol:35"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "userInfo",
+            "type": "t_mapping(t_address,t_mapping(t_uint256,t_struct(UserInfo)1957_storage))",
+            "src": "contracts\\vaults\\EonsAaveVault.sol:36"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "router",
+            "type": "t_contract(IEonsAaveRouter)1078",
+            "src": "contracts\\vaults\\EonsAaveVault.sol:38"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "eons",
+            "type": "t_contract(IEons)1032",
+            "src": "contracts\\vaults\\EonsAaveVault.sol:39"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "totalAllocPoint",
+            "type": "t_uint256",
+            "src": "contracts\\vaults\\EonsAaveVault.sol:40"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "poolRewardRate",
+            "type": "t_uint256",
+            "src": "contracts\\vaults\\EonsAaveVault.sol:41"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "devFeeRate",
+            "type": "t_uint256",
+            "src": "contracts\\vaults\\EonsAaveVault.sol:42"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "devAddress",
+            "type": "t_address",
+            "src": "contracts\\vaults\\EonsAaveVault.sol:43"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "userCount",
+            "type": "t_uint256",
+            "src": "contracts\\vaults\\EonsAaveVault.sol:44"
+          }
+        ],
+        "types": {
+          "t_array(t_struct(PoolInfo)1952_storage)dyn_storage": {
+            "label": "struct EonsAaveVault.PoolInfo[]"
+          },
+          "t_struct(PoolInfo)1952_storage": {
+            "label": "struct EonsAaveVault.PoolInfo",
+            "members": [
+              {
+                "label": "symbol",
+                "type": "t_string_storage"
+              },
+              {
+                "label": "eToken",
+                "type": "t_address"
+              },
+              {
+                "label": "allocPoint",
+                "type": "t_uint16"
+              },
+              {
+                "label": "accEonsPerShare",
+                "type": "t_uint256"
+              },
+              {
+                "label": "depositFee",
+                "type": "t_uint16"
+              },
+              {
+                "label": "lastBlock",
+                "type": "t_uint256"
+              },
+              {
+                "label": "totalStaked",
+                "type": "t_uint256"
+              }
+            ]
+          },
+          "t_string_storage": {
+            "label": "string"
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_uint16": {
+            "label": "uint16"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_mapping(t_address,t_mapping(t_uint256,t_struct(UserInfo)1957_storage))": {
+            "label": "mapping(address => mapping(uint256 => struct EonsAaveVault.UserInfo))"
+          },
+          "t_mapping(t_uint256,t_struct(UserInfo)1957_storage)": {
+            "label": "mapping(uint256 => struct EonsAaveVault.UserInfo)"
+          },
+          "t_struct(UserInfo)1957_storage": {
+            "label": "struct EonsAaveVault.UserInfo",
+            "members": [
+              {
+                "label": "amount",
+                "type": "t_uint256"
+              },
+              {
+                "label": "rewardDebt",
+                "type": "t_uint256"
+              }
+            ]
+          },
+          "t_contract(IEonsAaveRouter)1078": {
+            "label": "contract IEonsAaveRouter"
+          },
+          "t_contract(IEons)1032": {
+            "label": "contract IEons"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          },
+          "t_bool": {
+            "label": "bool"
+          }
+        }
+      }
+    },
+    "24ae90791bf389021a062c4148bb768348e2be7c20a307d903d449db5138fa4f": {
+      "address": "0x88980573679CA6a972383e85189aC20Fed65e16D",
+      "txHash": "0x26e91c1c1e998c366e9eb05e88361e75b18131fd35ca62d587f2ff1982eb72f2",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Initializable",
+            "label": "_initialized",
+            "type": "t_bool",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\Initializable.sol:25"
+          },
+          {
+            "contract": "Initializable",
+            "label": "_initializing",
+            "type": "t_bool",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\Initializable.sol:30"
+          },
+          {
+            "contract": "ContextUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:31"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "_owner",
+            "type": "t_address",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:20"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:74"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "poolInfo",
+            "type": "t_array(t_struct(PoolInfo)1952_storage)dyn_storage",
+            "src": "contracts\\vaults\\EonsAaveVault.sol:35"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "userInfo",
+            "type": "t_mapping(t_address,t_mapping(t_uint256,t_struct(UserInfo)1957_storage))",
+            "src": "contracts\\vaults\\EonsAaveVault.sol:36"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "router",
+            "type": "t_contract(IEonsAaveRouter)1078",
+            "src": "contracts\\vaults\\EonsAaveVault.sol:38"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "eons",
+            "type": "t_contract(IEons)1032",
+            "src": "contracts\\vaults\\EonsAaveVault.sol:39"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "totalAllocPoint",
+            "type": "t_uint256",
+            "src": "contracts\\vaults\\EonsAaveVault.sol:40"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "poolRewardRate",
+            "type": "t_uint256",
+            "src": "contracts\\vaults\\EonsAaveVault.sol:41"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "devFeeRate",
+            "type": "t_uint256",
+            "src": "contracts\\vaults\\EonsAaveVault.sol:42"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "devAddress",
+            "type": "t_address",
+            "src": "contracts\\vaults\\EonsAaveVault.sol:43"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "userCount",
+            "type": "t_uint256",
+            "src": "contracts\\vaults\\EonsAaveVault.sol:44"
+          }
+        ],
+        "types": {
+          "t_array(t_struct(PoolInfo)1952_storage)dyn_storage": {
+            "label": "struct EonsAaveVault.PoolInfo[]"
+          },
+          "t_struct(PoolInfo)1952_storage": {
+            "label": "struct EonsAaveVault.PoolInfo",
+            "members": [
+              {
+                "label": "symbol",
+                "type": "t_string_storage"
+              },
+              {
+                "label": "eToken",
+                "type": "t_address"
+              },
+              {
+                "label": "allocPoint",
+                "type": "t_uint16"
+              },
+              {
+                "label": "accEonsPerShare",
+                "type": "t_uint256"
+              },
+              {
+                "label": "depositFee",
+                "type": "t_uint16"
+              },
+              {
+                "label": "lastBlock",
+                "type": "t_uint256"
+              },
+              {
+                "label": "totalStaked",
+                "type": "t_uint256"
+              }
+            ]
+          },
+          "t_string_storage": {
+            "label": "string"
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_uint16": {
+            "label": "uint16"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_mapping(t_address,t_mapping(t_uint256,t_struct(UserInfo)1957_storage))": {
+            "label": "mapping(address => mapping(uint256 => struct EonsAaveVault.UserInfo))"
+          },
+          "t_mapping(t_uint256,t_struct(UserInfo)1957_storage)": {
+            "label": "mapping(uint256 => struct EonsAaveVault.UserInfo)"
+          },
+          "t_struct(UserInfo)1957_storage": {
+            "label": "struct EonsAaveVault.UserInfo",
+            "members": [
+              {
+                "label": "amount",
+                "type": "t_uint256"
+              },
+              {
+                "label": "rewardDebt",
+                "type": "t_uint256"
+              }
+            ]
+          },
+          "t_contract(IEonsAaveRouter)1078": {
+            "label": "contract IEonsAaveRouter"
+          },
+          "t_contract(IEons)1032": {
+            "label": "contract IEons"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          },
+          "t_bool": {
+            "label": "bool"
+          }
+        }
+      }
+    },
+    "0a9191cbfdd1e3e81417eb3692e15443dec899593260bee1c2476f73308470ff": {
+      "address": "0x265F4EaA36AfBd100136DbB1b9dd1b7712D34075",
+      "txHash": "0x204928cebc81618e44f7a5edd4e2e54409f01f60012c160672db50091c6aade6",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Initializable",
+            "label": "_initialized",
+            "type": "t_bool",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\Initializable.sol:25"
+          },
+          {
+            "contract": "Initializable",
+            "label": "_initializing",
+            "type": "t_bool",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\Initializable.sol:30"
+          },
+          {
+            "contract": "ContextUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:31"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "_owner",
+            "type": "t_address",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:20"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:74"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "poolInfo",
+            "type": "t_array(t_struct(PoolInfo)1952_storage)dyn_storage",
+            "src": "contracts\\vaults\\EonsAaveVault.sol:35"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "userInfo",
+            "type": "t_mapping(t_address,t_mapping(t_uint256,t_struct(UserInfo)1957_storage))",
+            "src": "contracts\\vaults\\EonsAaveVault.sol:36"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "router",
+            "type": "t_contract(IEonsAaveRouter)1078",
+            "src": "contracts\\vaults\\EonsAaveVault.sol:38"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "eons",
+            "type": "t_contract(IEons)1032",
+            "src": "contracts\\vaults\\EonsAaveVault.sol:39"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "totalAllocPoint",
+            "type": "t_uint256",
+            "src": "contracts\\vaults\\EonsAaveVault.sol:40"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "poolRewardRate",
+            "type": "t_uint256",
+            "src": "contracts\\vaults\\EonsAaveVault.sol:41"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "devFeeRate",
+            "type": "t_uint256",
+            "src": "contracts\\vaults\\EonsAaveVault.sol:42"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "devAddress",
+            "type": "t_address",
+            "src": "contracts\\vaults\\EonsAaveVault.sol:43"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "userCountInPool",
+            "type": "t_mapping(t_uint256,t_uint256)",
+            "src": "contracts\\vaults\\EonsAaveVault.sol:44"
+          }
+        ],
+        "types": {
+          "t_array(t_struct(PoolInfo)1952_storage)dyn_storage": {
+            "label": "struct EonsAaveVault.PoolInfo[]"
+          },
+          "t_struct(PoolInfo)1952_storage": {
+            "label": "struct EonsAaveVault.PoolInfo",
+            "members": [
+              {
+                "label": "symbol",
+                "type": "t_string_storage"
+              },
+              {
+                "label": "eToken",
+                "type": "t_address"
+              },
+              {
+                "label": "allocPoint",
+                "type": "t_uint16"
+              },
+              {
+                "label": "accEonsPerShare",
+                "type": "t_uint256"
+              },
+              {
+                "label": "depositFee",
+                "type": "t_uint16"
+              },
+              {
+                "label": "lastBlock",
+                "type": "t_uint256"
+              },
+              {
+                "label": "totalStaked",
+                "type": "t_uint256"
+              }
+            ]
+          },
+          "t_string_storage": {
+            "label": "string"
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_uint16": {
+            "label": "uint16"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_mapping(t_address,t_mapping(t_uint256,t_struct(UserInfo)1957_storage))": {
+            "label": "mapping(address => mapping(uint256 => struct EonsAaveVault.UserInfo))"
+          },
+          "t_mapping(t_uint256,t_struct(UserInfo)1957_storage)": {
+            "label": "mapping(uint256 => struct EonsAaveVault.UserInfo)"
+          },
+          "t_struct(UserInfo)1957_storage": {
+            "label": "struct EonsAaveVault.UserInfo",
+            "members": [
+              {
+                "label": "amount",
+                "type": "t_uint256"
+              },
+              {
+                "label": "rewardDebt",
+                "type": "t_uint256"
+              }
+            ]
+          },
+          "t_contract(IEonsAaveRouter)1078": {
+            "label": "contract IEonsAaveRouter"
+          },
+          "t_contract(IEons)1032": {
+            "label": "contract IEons"
+          },
+          "t_mapping(t_uint256,t_uint256)": {
+            "label": "mapping(uint256 => uint256)"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          },
+          "t_bool": {
+            "label": "bool"
+          }
+        }
+      }
     }
   },
   "admin": {
-    "address": "0x00ea75D83B3Cb954447BADc9F807631416933C48",
-    "txHash": "0x8092df75e4da70c442beb86db5c14e2ad801c9426835530d7d130979578679b7"
+    "address": "0x19Df34e6691Ef2221e844BB237E83D21395E6Ab2",
+    "txHash": "0xbae8d256cc055c26c00178dc2253949a2b978d02e84dcde31991b5efba367269"
   }
 }

@@ -7,95 +7,221 @@ import '@openzeppelin/contracts-upgradeable/math/SafeMathUpgradeable.sol';
 
 import '../interfaces/ILendingPool.sol';
 import '../interfaces/IEonsETH.sol';
+import '../interfaces/IEons.sol';
+import '../interfaces/IWETH.sol';
+import '../interfaces/IEonsAaveRouter.sol';
 
 contract EonsAaveVault is OwnableUpgradeable {
   using SafeMathUpgradeable for uint256;
 
   struct PoolInfo {
-    address eToken;
-    uint16 allocPoint;
-    uint accEonsPerShare;
-    uint16 depositFee;
+    string symbol;
+    address eToken;       // eToken of a pool. will mint amount of eToken when a user deposit
+    uint16 allocPoint;    // allocation point of a pool
+    uint accEonsPerShare; //accumulating emissions per share by eons
+    uint16 depositFee;    // depositfee
     uint256 lastBlock;
+    uint256 totalStaked;  // original staked amount
   }
 
   struct UserInfo {
-    uint256 amount;
-    uint256 rewardDebt;
+    uint256 amount;     // amount of which user deposited
+    uint256 rewardDebt; // reward debt. used for eons emission distribution
   }
 
-  mapping(uint => PoolInfo) private _poolInfo;  // pid => PoolInfo
-  mapping(address => mapping(uint => UserInfo)) private _userInfo;  // user address => pid => UserInfo
-  mapping(uint => address[]) private _users;  // pid => user address
+  event Deposit(address indexed user, uint256 indexed pid, uint256 amount);
+  event Withdraw(address indexed user, uint indexed pid, uint256 amount);
 
-  address public router;
-  IERC20Upgradeable public eons;
-  uint256 public emissionRate;
+  PoolInfo[] public poolInfo;  // pid => PoolInfo
+  mapping(address => mapping(uint => UserInfo)) public userInfo;  // user address => pid => UserInfo
+
+  IEonsAaveRouter public router;
+  IEons public eons;
   uint256 public totalAllocPoint;
-  uint256 public eonsReward; // 70% of emissions
-  function initialize(address _eons) public initializer {
-    eons = IERC20Upgradeable(_eons);
-    emissionRate = 35;
+  uint256 public poolRewardRate;
+  uint256 public devFeeRate;
+  address public devAddress;
+  mapping(uint256 => uint256) public userCountInPool; // pid => user holder count
+  
+  function initialize(address _eons, address _dev, address _router) public initializer {
+    eons = IEons(_eons);
     totalAllocPoint = 1000;
-    eonsReward = 700;
+    poolRewardRate = 850;
+    devFeeRate = 150;
+    devAddress = _dev;
+    router = IEonsAaveRouter(_router);
+    __Ownable_init();
   }
 
-  function setRouterAddress(address _router) external {
-    router = _router;
-  }
-
-  function add(uint pid, address eToken, uint16 allocPoint, uint16 depositFee) external onlyOwner {
-    _poolInfo[pid] = PoolInfo({eToken: eToken, allocPoint: allocPoint, depositFee: depositFee, lastBlock: block.number, accEonsPerShare: 0});
-  }
-
-  function set(uint pid, uint16 allocPoint, uint16 depositFee) external onlyOwner {
-    PoolInfo storage poolInfo = _poolInfo[pid];
-    poolInfo.allocPoint = allocPoint;
-    poolInfo.depositFee = depositFee;
-  }
-
-  // function deposit(uint amount, uint pid) external payable {
-  //   PoolInfo storage poolInfo = _poolInfo[pid];
-  //   require(poolInfo.aToken != address(0), 'AaveVaultError: pool is not existing');
-  //   UserInfo storage userInfo = _userInfo[msg.sender][pid];
-
-  //   updatePool(pid);
-  //   if (pid == 1) {   // if eth pool
-  //     require(amount == msg.value, 'AaveVaultError: insufficient funds');
-
-  //     if (userInfo.amount > 0) {
-  //       uint256 pending = user.amount.mul(pool.accEonsPerShare).div(1e12);
-  //       if (pending > 0) {
-  //         safeETokenTransfer(msg.sender, pending);
-  //       }
-  //       if (amount > 0) {
-  //         // router.depositETH()
-  //       }
-  //     }
-  //   }
-  // }
-
-  function depositFor(address recipient, uint amount, uint pid) external {
-    PoolInfo storage pool = _poolInfo[pid];
-    IEonsETH(pool.eToken).mint(recipient, amount);
-    UserInfo storage user = _userInfo[recipient][pid];
-    user.amount = amount;
+  function setRouterAddress(address _router) external onlyOwner {
+    router = IEonsAaveRouter(_router);
   }
 
   function getMultiplier(uint256 _from, uint256 _to) public view returns (uint256) {
       return _to.sub(_from);
   }
 
-  function pendingEons(uint pid, address user) external view returns (uint256) {
-    PoolInfo storage pool = _poolInfo[pid];
-    UserInfo storage user = _userInfo[user][pid];
-    uint256 accEonsPerShare = pool.accEonsPerShare;
-    uint256 totalSupply = eons.totalSupply();
-    if (block.number > pool.lastBlock) {
-      uint256 multiplier = getMultiplier(pool.lastBlock, block.number);
-      uint256 reward = multiplier.mul(emissionRate).mul(pool.allocPoint).div(totalAllocPoint);
-      accEonsPerShare = accEonsPerShare.add(reward.mul(eonsReward).div(1000));
+  function pendingEons(uint _pid, address _user) public view returns (uint256) {
+    PoolInfo storage pool = poolInfo[_pid];
+    UserInfo storage user = userInfo[_user][_pid];
+    if (user.amount > 0) {
+      uint currentEonsForUser = pool.accEonsPerShare.mul(user.amount);
+      if (currentEonsForUser > user.rewardDebt) {
+        return currentEonsForUser.sub(user.rewardDebt);
+      } else {
+        return 0;
+      }
     }
-    return user.amount.mul(accEonsPerShare).div(1e12).sub(user.rewardDebt);
+    return 0;
+  }
+
+  function stakedOf(uint _pid) public view returns (uint256) {
+    uint256 totalStakedOf = router.totalStakedOf(_pid);
+    return totalStakedOf;
+  }
+
+  function balanceOf(uint256 _pid, address _user) external view returns (uint256) {
+    UserInfo storage user = userInfo[_user][_pid];
+    return user.amount;
+  }
+
+  function totalStaked() public view returns (uint256) {
+    uint256 total = 0;
+    for (uint i = 0; i < poolInfo.length; i++) {
+      uint256 staked = router.totalStakedOf(i);
+      total = total.add(staked);
+    }
+    return total;
+  }
+
+  function pendingRewardDevFeeOf(uint _pid, address _user) public view returns (uint256) {
+    UserInfo storage user = userInfo[_user][_pid];
+    PoolInfo storage pool = poolInfo[_pid];
+    uint256 userShareOfPool = user.amount.mul(1e12).div(pool.totalStaked);
+    uint256 total = router.totalStakedOf(_pid);
+    uint256 userStaked = total.mul(userShareOfPool).div(1e12);
+    uint256 pendingReward = userStaked.sub(user.amount).mul(devFeeRate).div(1000);
+    return pendingReward;
+  }
+
+  function pendingRewardOf(uint256 _pid, address _user) public view returns (uint256) {
+    UserInfo storage user = userInfo[_user][_pid];
+    PoolInfo storage pool = poolInfo[_pid];
+    uint256 userShareOfPool = user.amount.mul(1e12).div(pool.totalStaked);
+    uint256 total = router.totalStakedOf(_pid);
+    uint256 userStaked = total.mul(userShareOfPool).div(1e12);
+    uint256 pendingReward = userStaked.sub(user.amount).mul(poolRewardRate).div(1000);
+    return pendingReward;
+  }
+
+  function add(string memory _symbol, address _eToken, uint16 _allocPoint, uint16 _depositFee) external onlyOwner {
+    poolInfo.push(PoolInfo({
+      symbol: _symbol,
+      eToken: _eToken,
+      allocPoint: _allocPoint,
+      depositFee: _depositFee,
+      lastBlock: block.number,
+      accEonsPerShare: 0,
+      totalStaked: 0
+    }));
+  }
+
+  function set(uint _pid, string memory _symbol, uint16 _allocPoint, uint16 _depositFee) external onlyOwner {
+    PoolInfo storage pool = poolInfo[_pid];
+    pool.symbol = _symbol;
+    pool.allocPoint = _allocPoint;
+    pool.depositFee = _depositFee;
+  }
+
+  function deposit(uint256 _amount, uint256 _pid) external {
+    PoolInfo storage pool = poolInfo[_pid];
+    UserInfo storage user = userInfo[msg.sender][_pid];
+    router.deposit(_amount, _pid, msg.sender);
+
+    updateEmissionDistribution();
+    uint pending = pendingEons(_pid, msg.sender);
+    if (pending > 0) {
+      eons.transfer(msg.sender, pending);
+    }
+    IEonsETH(pool.eToken).mint(msg.sender, _amount);
+    pool.totalStaked = pool.totalStaked.add(_amount);
+    if (user.amount == 0) {
+      userCountInPool[_pid] = userCountInPool[_pid].add(1);
+    }
+    user.amount = user.amount.add(_amount);
+    user.rewardDebt = user.amount.mul(pool.accEonsPerShare);
+
+    emit Deposit(msg.sender, _pid, _amount);
+  }
+
+  function depositETH() external payable {
+    PoolInfo storage pool = poolInfo[1];  // ETH pool: 1
+    UserInfo storage user = userInfo[msg.sender][1];
+
+    (, address reserve, ) = router.getAsset(1);
+    IWETH(reserve).deposit{value: msg.value}();
+    IWETH(reserve).approve(address(router), msg.value);
+    router.deposit(msg.value, 1, address(this));
+
+    updateEmissionDistribution();
+    uint pending = pendingEons(1, msg.sender);
+    if (pending > 0) {
+      eons.transfer(msg.sender, pending);
+    }
+    IEonsETH(pool.eToken).mint(msg.sender, msg.value);
+    pool.totalStaked = pool.totalStaked.add(msg.value);
+    if (user.amount == 0) {
+      userCountInPool[1] = userCountInPool[1].add(1);
+    }
+    user.amount = user.amount.add(msg.value);
+    user.rewardDebt = user.amount.mul(pool.accEonsPerShare);
+
+    emit Deposit(msg.sender, 1, msg.value);
+  }
+
+  function withdraw(uint _amount, uint256 _pid) external {
+    PoolInfo storage pool = poolInfo[_pid];
+    UserInfo storage user = userInfo[msg.sender][_pid];
+    uint256 total = router.totalStakedOf(_pid);
+    require(_amount <= total, 'Withdraw not good');
+
+    updateEmissionDistribution();
+    uint eonsPending = pendingEons(_pid, msg.sender);
+    if (eonsPending > 0) {
+      eons.transfer(msg.sender, eonsPending);
+    }
+    if (_amount > 0) {
+      uint devFeePending = pendingRewardDevFeeOf(_pid, msg.sender);
+      router.withdraw(_pid, _amount, msg.sender);
+      if (devFeePending > 0) {
+        router.withdraw(_pid, devFeePending, devAddress);
+      }
+      if (_amount > user.amount) {
+        user.amount = 0;
+        pool.totalStaked = pool.totalStaked.sub(user.amount);
+      } else {
+        user.amount = user.amount.sub(_amount);
+        pool.totalStaked = pool.totalStaked.sub(_amount);
+      }
+      uint256 eTokenBalance = IEonsETH(pool.eToken).balanceOf(msg.sender);
+      if (_amount > eTokenBalance) {
+        IEonsETH(pool.eToken).burn(msg.sender, eTokenBalance);
+      } else {
+        IEonsETH(pool.eToken).burn(msg.sender, _amount);
+      }
+    }
+    user.rewardDebt = user.amount.mul(pool.accEonsPerShare);
+    emit Withdraw(msg.sender, _pid, _amount);
+  }
+
+  function updateEmissionDistribution() public {
+    uint eonsBalance = eons.balanceOf(address(this));
+    for (uint i = 0; i < poolInfo.length; i++) {
+      PoolInfo storage pool = poolInfo[i];
+      uint256 total = router.totalStakedOf(i);
+      if (total > 0) {
+        pool.accEonsPerShare = pool.accEonsPerShare.add(eonsBalance).mul(pool.allocPoint).div(totalAllocPoint).div(total);
+      }
+    }
   }
 }

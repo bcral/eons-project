@@ -8,4 +8,5 @@ import '../utilities/MinterRole.sol';
 interface IEonsETH is IERC20 {
   function mint(address recepient, uint amount) external;
   function addMinter(address minter) external;
+  function burn(address from, uint256 amount) external;
 }

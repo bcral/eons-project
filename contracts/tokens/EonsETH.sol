@@ -18,4 +18,8 @@ contract EonsETH is ERC20Upgradeable, MinterRole, OwnableUpgradeable {
   function mint(address recepient, uint amount) external onlyMinter {
     _mint(recepient, amount);
   }
+
+  function burn(address from, uint256 amount) external onlyMinter {
+    _burn(from, amount);
+  }
 }

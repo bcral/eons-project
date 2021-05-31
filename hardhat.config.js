@@ -20,7 +20,7 @@ task('accounts', 'Prints the list of accounts', async () => {
  * @type import('hardhat/config').HardhatUserConfig
  */
 module.exports = {
-  defaultNetwork: 'binanceTestnet',
+  defaultNetwork: 'kovan',
   networks: {
     hardhat: {},
     rinkeby: {
@@ -65,10 +65,10 @@ module.exports = {
   },
   etherscan: {
     // Ethereum
-    // apiKey: process.env.ETHERSCAN_API_KEY,
+    apiKey: process.env.ETHERSCAN_API_KEY,
 
     // Binance
-    apiKey: process.env.BINANCE_ETHERSCAN_API_KEY
+    // apiKey: process.env.BINANCE_ETHERSCAN_API_KEY
   },
   paths: {
     sources: './contracts',

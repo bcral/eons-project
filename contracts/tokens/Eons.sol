@@ -18,7 +18,7 @@ contract Eons is ERC20Upgradeable, OwnableUpgradeable, MinterRole {
   address payable private _wallet;
 
   function initialize() public initializer {
-    __ERC20_init('EONS', 'ENS');
+    __ERC20_init('EONS', 'EONS');
     __Ownable_init();
     __MinterRole_init();
     _transactionFee = 5 * 10 ** 14;

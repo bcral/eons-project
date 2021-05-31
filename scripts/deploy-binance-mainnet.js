@@ -93,9 +93,9 @@ const deployEonsAaveVault = async () => {
 
 const deployEonsUniVault = async () => {
   if (eonsUniVaultProxyAddress) {
-    await upgrade('EonsUniVault', eonsUniVaultProxyAddress);
+    await upgrade('EonsUniswapVault', eonsUniVaultProxyAddress);
   } else {
-    await deploy('EonsUniVault', 'initialize', [eonsLpProxyAddress, eonsProxyAddress, devAddr, devAddr]);
+    await deploy('EonsUniswapVault', 'initialize', [eonsLpProxyAddress, eonsProxyAddress, devAddr, devAddr]);
   }
 };
 
@@ -123,14 +123,14 @@ const deployEonsUniRouter = async () => {
 };
 
 const main = async () => {
-  await deployEonsToken();
-  await deployEonsLPToken();
-  await deployEonsETHToken();
-  await deployFeeApprover();
-  await deployEonsAaveVault();
+  // await deployEonsToken();
+  // await deployEonsLPToken();
+  // await deployEonsETHToken();
+  // await deployFeeApprover();
+  // await deployEonsAaveVault();
   await deployEonsUniVault();
-  await deployEonsAaveRouter();
-  await deployEonsUniRouter();
+  // await deployEonsAaveRouter();
+  // await deployEonsUniRouter();
 };
 
 main();

@@ -14,4 +14,5 @@ interface IEonsUniVault {
   function withdrawFrom(address owner, uint256 _pid, uint256 _amount) external;
   function withdraw(uint256 _pid, uint256 _amount) external;
   function emergencyWithdraw(uint256 _pid) external;
+  function updateEmissionDistribution() external;
 }

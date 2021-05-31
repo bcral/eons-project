@@ -38,7 +38,10 @@ contract EonsUniswapRouter is OwnableUpgradeable {
 				_eonsToken
 		);
 		_eonsUniVault = IEonsUniVault(eonsUniVault);
-		refreshApproval();
+		// IUniswapV2Pair(_eonsWETHPair).approve(
+		// 		address(_eonsUniVault),
+		// 		uint256(-1)
+		// );
 	}
 
 	function refreshApproval() public {
