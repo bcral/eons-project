@@ -1,7 +1,7 @@
 require('dotenv').config();
 const hre = require('hardhat');
 
-const addressToVerify = '0x265f4eaa36afbd100136dbb1b9dd1b7712d34075';
+const addressToVerify = '0xf2a10621157f543b9bd9707c0213faa703dfb4e4';
 
 const eonsVerify = async () => {
   if (addressToVerify) {

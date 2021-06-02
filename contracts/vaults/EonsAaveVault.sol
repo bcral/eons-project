@@ -25,6 +25,7 @@ contract EonsAaveVault is OwnableUpgradeable {
   }
 
   struct UserInfo {
+    bool registered;
     uint256 amount;     // amount of which user deposited
     uint256 rewardDebt; // reward debt. used for eons emission distribution
   }
@@ -99,8 +100,8 @@ contract EonsAaveVault is OwnableUpgradeable {
     PoolInfo storage pool = poolInfo[_pid];
     uint256 userShareOfPool = user.amount.mul(1e12).div(pool.totalStaked);
     uint256 total = router.totalStakedOf(_pid);
-    uint256 userStaked = total.mul(userShareOfPool).div(1e12);
-    uint256 pendingReward = userStaked.sub(user.amount).mul(devFeeRate).div(1000);
+    uint256 userStaked = total.sub(pool.totalStaked).mul(userShareOfPool).div(1e12);
+    uint256 pendingReward = userStaked.mul(devFeeRate).div(1000);
     return pendingReward;
   }
 
@@ -109,8 +110,8 @@ contract EonsAaveVault is OwnableUpgradeable {
     PoolInfo storage pool = poolInfo[_pid];
     uint256 userShareOfPool = user.amount.mul(1e12).div(pool.totalStaked);
     uint256 total = router.totalStakedOf(_pid);
-    uint256 userStaked = total.mul(userShareOfPool).div(1e12);
-    uint256 pendingReward = userStaked.sub(user.amount).mul(poolRewardRate).div(1000);
+    uint256 userStaked = total.sub(pool.totalStaked).mul(userShareOfPool).div(1e12);
+    uint256 pendingReward = userStaked.mul(poolRewardRate).div(1000);
     return pendingReward;
   }
 
@@ -145,9 +146,10 @@ contract EonsAaveVault is OwnableUpgradeable {
     }
     IEonsETH(pool.eToken).mint(msg.sender, _amount);
     pool.totalStaked = pool.totalStaked.add(_amount);
-    if (user.amount == 0) {
+    if (!user.registered) {
       userCountInPool[_pid] = userCountInPool[_pid].add(1);
     }
+    user.registered = true;
     user.amount = user.amount.add(_amount);
     user.rewardDebt = user.amount.mul(pool.accEonsPerShare);
 
@@ -170,9 +172,10 @@ contract EonsAaveVault is OwnableUpgradeable {
     }
     IEonsETH(pool.eToken).mint(msg.sender, msg.value);
     pool.totalStaked = pool.totalStaked.add(msg.value);
-    if (user.amount == 0) {
+    if (!user.registered) {
       userCountInPool[1] = userCountInPool[1].add(1);
     }
+    user.registered = true;
     user.amount = user.amount.add(msg.value);
     user.rewardDebt = user.amount.mul(pool.accEonsPerShare);
 
@@ -198,7 +201,11 @@ contract EonsAaveVault is OwnableUpgradeable {
       }
       if (_amount > user.amount) {
         user.amount = 0;
-        pool.totalStaked = pool.totalStaked.sub(user.amount);
+        if (_amount > pool.totalStaked) {
+          pool.totalStaked = 0;
+        } else {
+          pool.totalStaked = pool.totalStaked.sub(user.amount);
+        }
       } else {
         user.amount = user.amount.sub(_amount);
         pool.totalStaked = pool.totalStaked.sub(_amount);

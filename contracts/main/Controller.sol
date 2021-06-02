@@ -10,6 +10,7 @@ import '../interfaces/IEonsUniVault.sol';
 import '../interfaces/IEonsAaveRouter.sol';
 import '../interfaces/IEonsUniRouter.sol';
 import '../interfaces/IEons.sol';
+import '../interfaces/IPriceOracle.sol';
 
 contract Controller is OwnableUpgradeable {
   using SafeMathUpgradeable for uint256;
@@ -18,8 +19,8 @@ contract Controller is OwnableUpgradeable {
   IEonsAaveRouter public aaveRouter;
   IEonsUniVault public uniVault;
   IEonsUniRouter public uniRouter;
-
   IEons public eons;
+  IPriceOracle public priceOracle;
   uint256 public emissionRate;
   uint256 public emissionDistributionRateOfPools; // 70% of emissions
   uint256 public emissionDistributionRateOfLP; // 15% of emissions
@@ -28,7 +29,7 @@ contract Controller is OwnableUpgradeable {
   uint256 public lastEmissionCalcBlockNumber;
   address public treasury;
 
-  function initialize(address _aaveVault, address _uniVault, address _aaveRouter, address _uniRouter, address _treasury, address _eons) public {
+  function initialize(address _aaveVault, address _uniVault, address _aaveRouter, address _uniRouter, address _treasury, address _eons, address _priceOracle) public {
     __Ownable_init();
     eons = IEons(_eons);
     aaveVault = IEonsAaveVault(_aaveVault);
@@ -40,12 +41,27 @@ contract Controller is OwnableUpgradeable {
     emissionDistributionRateOfLP = 150;
     emissionDistributionRateOfTreasury = 150;
     treasury = _treasury;
-    blockCreationTime = 12;
+    blockCreationTime = 13;
     lastEmissionCalcBlockNumber = block.timestamp;
+    priceOracle = IPriceOracle(_priceOracle);
+  }
+
+  function getMultiplier(uint256 _from, uint256 _to) public view returns (uint256) {
+    return _to.sub(_from);
+  }
+
+  function getPriceOf(uint _pid) public view returns (uint256) {
+    require(address(priceOracle) != address(0));
+    ( , address reserve, ) = aaveRouter.getAsset(_pid);
+    return priceOracle.getAssetPrice(reserve);
   }
 
   function setBlockCreationTime(uint256 _blockCreationTime) external onlyOwner {
     blockCreationTime = _blockCreationTime;
+  }
+
+  function setPriceOracle(address _priceOracle) external onlyOwner {
+    priceOracle = IPriceOracle(_priceOracle);
   }
 
   function updateTreasury(address _treasury) external onlyOwner {
@@ -83,9 +99,5 @@ contract Controller is OwnableUpgradeable {
       aaveVault.updateEmissionDistribution();
       uniVault.updateEmissionDistribution();
     }
-  }
-
-  function getMultiplier(uint256 _from, uint256 _to) public view returns (uint256) {
-    return _to.sub(_from);
   }
 }
