@@ -1,18 +1,16 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.7.0;
+pragma solidity ^0.8.0;
 
 import '@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol';
 import '@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol';
-import '@openzeppelin/contracts-upgradeable/math/SafeMathUpgradeable.sol';
-import '@openzeppelin/contracts-upgradeable/token/ERC20/SafeERC20Upgradeable.sol';
-import '@openzeppelin/contracts-upgradeable/utils/EnumerableSetUpgradeable.sol';
+import '@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol';
+import '@openzeppelin/contracts-upgradeable/utils/structs/EnumerableSetUpgradeable.sol';
 import 'hardhat/console.sol';
 
 import '../interfaces/IEonsLP.sol';
 // EONS Vault distributes fees equally amongst staked pools
 // Have fun reading it. Hopefully it's bug-free. God bless.
 contract EonsUniswapVault is OwnableUpgradeable {
-	using SafeMathUpgradeable for uint256;
 	using SafeERC20Upgradeable for IERC20Upgradeable;
 
 	// Info of each user.
@@ -68,7 +66,7 @@ contract EonsUniswapVault is OwnableUpgradeable {
 		// save gas
 		if (_amount > 0) {
 			_eonsLp.mint(address(msg.sender), _amount);
-			user.amount = user.amount.add(_amount);
+			user.amount = user.amount+_amount;
 		}
 		// if (_amount > 0) _eonsNftPool.doEonsStaking(msg.sender, _amount, block.timestamp);
 		emit Deposit(msg.sender, _pid, _amount, block.timestamp);
@@ -79,7 +77,7 @@ contract EonsUniswapVault is OwnableUpgradeable {
 		UserInfo storage user = userInfo[_pid][_depositFor];
 
 		if (_amount > 0) {
-			user.amount = user.amount.add(_amount);
+			user.amount = user.amount+_amount;
 			_eonsLp.mint(_depositFor, _amount);
 		}
 
@@ -119,7 +117,7 @@ contract EonsUniswapVault is OwnableUpgradeable {
 		UserInfo storage user = userInfo[pid][distributer];
 		if (amount > 0) {
 			_eonsLp.mint(distributer, amount);
-			user.amount = user.amount.add(amount);
+			user.amount = user.amount+amount;
 		}
 	}
 
@@ -132,7 +130,7 @@ contract EonsUniswapVault is OwnableUpgradeable {
 		if (amount > 0) {
 			
 			_eonsLp.burnFrom(msg.sender, amount);
-			user.amount = user.amount.sub(amount);
+			user.amount = user.amount-amount;
 		}
 
 		emit Withdraw(to, pid, amount);

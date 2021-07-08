@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.7.0;
+pragma solidity ^0.8.0;
 
-import '@openzeppelin/contracts-upgradeable/math/SafeMathUpgradeable.sol';
 import '@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol';
 import '@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol';
 
@@ -13,7 +12,6 @@ import '../interfaces/IEons.sol';
 import '../interfaces/IPriceOracle.sol';
 
 contract Controller is OwnableUpgradeable {
-  using SafeMathUpgradeable for uint256;
 
   IEonsAaveVault public aaveVault;
   IEonsAaveRouter public aaveRouter;
@@ -47,7 +45,7 @@ contract Controller is OwnableUpgradeable {
   }
 
   function getMultiplier(uint256 _from, uint256 _to) public view returns (uint256) {
-    return _to.sub(_from);
+    return _to-_from;
   }
 
   function getPriceOf(uint _pid) public view returns (uint256) {
@@ -77,7 +75,7 @@ contract Controller is OwnableUpgradeable {
   }
 
   function setEmissionDistributionRate(uint256 _poolDistributionRate, uint256 _lpDistributionRate, uint256 _treasuryDistributionRate) external onlyOwner {
-    require(_poolDistributionRate.add(_lpDistributionRate).add(_treasuryDistributionRate) == 1000, 'Error: invalid distribution rates');
+    require(_poolDistributionRate+_lpDistributionRate+_treasuryDistributionRate == 1000, 'Error: invalid distribution rates');
     
     emissionDistributionRateOfPools = _poolDistributionRate;
     emissionDistributionRateOfLP = _lpDistributionRate;
@@ -88,10 +86,10 @@ contract Controller is OwnableUpgradeable {
     if (lastEmissionCalcBlockNumber < block.number) {
       uint256 multiplier = getMultiplier(lastEmissionCalcBlockNumber, block.number);
       uint256 totalEonsSupply = eons.totalSupply();
-      uint256 emissions = totalEonsSupply.mul(emissionRate).div(1000).div(365).div(86400).mul(blockCreationTime).mul(multiplier);
-      uint256 emissionsForPool = emissions.mul(emissionDistributionRateOfPools).div(1000);
-      uint256 emissionForLP = emissions.mul(emissionDistributionRateOfLP).div(1000);
-      uint256 emissionsForTreasury = emissions.mul(emissionDistributionRateOfTreasury).div(1000);
+      uint256 emissions = ((((totalEonsSupply*emissionRate)/1000)/365)/86400)*(blockCreationTime)*(multiplier);
+      uint256 emissionsForPool = emissions*emissionDistributionRateOfPools/1000;
+      uint256 emissionForLP = emissions*emissionDistributionRateOfLP/1000;
+      uint256 emissionsForTreasury = emissions*emissionDistributionRateOfTreasury/1000;
       eons.mint(address(aaveVault), emissionsForPool);
       eons.mint(address(uniVault), emissionForLP);
       eons.mint(treasury, emissionsForTreasury);

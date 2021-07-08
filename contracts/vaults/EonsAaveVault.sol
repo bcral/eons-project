@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.7.0;
+pragma solidity ^0.8.0;
 
 import '@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol';
 import '@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol';
-import '@openzeppelin/contracts-upgradeable/math/SafeMathUpgradeable.sol';
+
 
 import '../interfaces/ILendingPool.sol';
 import '../interfaces/IEonsETH.sol';
@@ -12,7 +12,6 @@ import '../interfaces/IWETH.sol';
 import '../interfaces/IEonsAaveRouter.sol';
 
 contract EonsAaveVault is OwnableUpgradeable {
-  using SafeMathUpgradeable for uint256;
 
   struct PoolInfo {
     string symbol;
@@ -59,16 +58,16 @@ contract EonsAaveVault is OwnableUpgradeable {
   }
 
   function getMultiplier(uint256 _from, uint256 _to) public view returns (uint256) {
-      return _to.sub(_from);
+      return _to-_from;
   }
 
   function pendingEons(uint _pid, address _user) public view returns (uint256) {
     PoolInfo storage pool = poolInfo[_pid];
     UserInfo storage user = userInfo[_user][_pid];
     if (user.amount > 0) {
-      uint currentEonsForUser = pool.accEonsPerShare.mul(user.amount);
+      uint currentEonsForUser = pool.accEonsPerShare*user.amount;
       if (currentEonsForUser > user.rewardDebt) {
-        return currentEonsForUser.sub(user.rewardDebt);
+        return currentEonsForUser-user.rewardDebt;
       } else {
         return 0;
       }
@@ -90,7 +89,7 @@ contract EonsAaveVault is OwnableUpgradeable {
     uint256 total = 0;
     for (uint i = 0; i < poolInfo.length; i++) {
       uint256 staked = router.totalStakedOf(i);
-      total = total.add(staked);
+      total = total+staked;
     }
     return total;
   }
@@ -98,20 +97,20 @@ contract EonsAaveVault is OwnableUpgradeable {
   function pendingRewardDevFeeOf(uint _pid, address _user) public view returns (uint256) {
     UserInfo storage user = userInfo[_user][_pid];
     PoolInfo storage pool = poolInfo[_pid];
-    uint256 userShareOfPool = user.amount.mul(1e12).div(pool.totalStaked);
+    uint256 userShareOfPool = user.amount*1e12/pool.totalStaked;
     uint256 total = router.totalStakedOf(_pid);
-    uint256 userStaked = total.sub(pool.totalStaked).mul(userShareOfPool).div(1e12);
-    uint256 pendingReward = userStaked.mul(devFeeRate).div(1000);
+    uint256 userStaked = (total-pool.totalStaked)*userShareOfPool/1e12;
+    uint256 pendingReward = userStaked*devFeeRate/1000;
     return pendingReward;
   }
 
   function pendingRewardOf(uint256 _pid, address _user) public view returns (uint256) {
     UserInfo storage user = userInfo[_user][_pid];
     PoolInfo storage pool = poolInfo[_pid];
-    uint256 userShareOfPool = user.amount.mul(1e12).div(pool.totalStaked);
+    uint256 userShareOfPool = user.amount*1e12/pool.totalStaked;
     uint256 total = router.totalStakedOf(_pid);
-    uint256 userStaked = total.sub(pool.totalStaked).mul(userShareOfPool).div(1e12);
-    uint256 pendingReward = userStaked.mul(poolRewardRate).div(1000);
+    uint256 userStaked = (total-pool.totalStaked)*userShareOfPool/1e12;
+    uint256 pendingReward = userStaked*poolRewardRate/1000;
     return pendingReward;
   }
 
@@ -145,13 +144,13 @@ contract EonsAaveVault is OwnableUpgradeable {
       eons.transfer(msg.sender, pending);
     }
     IEonsETH(pool.eToken).mint(msg.sender, _amount);
-    pool.totalStaked = pool.totalStaked.add(_amount);
+    pool.totalStaked = pool.totalStaked+_amount;
     if (!user.registered) {
-      userCountInPool[_pid] = userCountInPool[_pid].add(1);
+      userCountInPool[_pid] = userCountInPool[_pid]+1;
     }
     user.registered = true;
-    user.amount = user.amount.add(_amount);
-    user.rewardDebt = user.amount.mul(pool.accEonsPerShare);
+    user.amount = user.amount+_amount;
+    user.rewardDebt = user.amount*pool.accEonsPerShare;
 
     emit Deposit(msg.sender, _pid, _amount);
   }
@@ -171,13 +170,13 @@ contract EonsAaveVault is OwnableUpgradeable {
       eons.transfer(msg.sender, pending);
     }
     IEonsETH(pool.eToken).mint(msg.sender, msg.value);
-    pool.totalStaked = pool.totalStaked.add(msg.value);
+    pool.totalStaked = pool.totalStaked+msg.value;
     if (!user.registered) {
-      userCountInPool[1] = userCountInPool[1].add(1);
+      userCountInPool[1] = userCountInPool[1]+1;
     }
     user.registered = true;
-    user.amount = user.amount.add(msg.value);
-    user.rewardDebt = user.amount.mul(pool.accEonsPerShare);
+    user.amount = user.amount+msg.value;
+    user.rewardDebt = user.amount*pool.accEonsPerShare;
 
     emit Deposit(msg.sender, 1, msg.value);
   }
@@ -204,11 +203,11 @@ contract EonsAaveVault is OwnableUpgradeable {
         if (_amount > pool.totalStaked) {
           pool.totalStaked = 0;
         } else {
-          pool.totalStaked = pool.totalStaked.sub(user.amount);
+          pool.totalStaked = pool.totalStaked-user.amount;
         }
       } else {
-        user.amount = user.amount.sub(_amount);
-        pool.totalStaked = pool.totalStaked.sub(_amount);
+        user.amount = user.amount-_amount;
+        pool.totalStaked = pool.totalStaked-_amount;
       }
       uint256 eTokenBalance = IEonsETH(pool.eToken).balanceOf(msg.sender);
       if (_amount > eTokenBalance) {
@@ -217,7 +216,7 @@ contract EonsAaveVault is OwnableUpgradeable {
         IEonsETH(pool.eToken).burn(msg.sender, _amount);
       }
     }
-    user.rewardDebt = user.amount.mul(pool.accEonsPerShare);
+    user.rewardDebt = user.amount*pool.accEonsPerShare;
     emit Withdraw(msg.sender, _pid, _amount);
   }
 
@@ -227,7 +226,7 @@ contract EonsAaveVault is OwnableUpgradeable {
       PoolInfo storage pool = poolInfo[i];
       uint256 total = router.totalStakedOf(i);
       if (total > 0) {
-        pool.accEonsPerShare = pool.accEonsPerShare.add(eonsBalance).mul(pool.allocPoint).div(totalAllocPoint).div(total);
+        pool.accEonsPerShare = (pool.accEonsPerShare+eonsBalance)*pool.allocPoint/totalAllocPoint/total;
       }
     }
   }
