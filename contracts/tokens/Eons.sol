@@ -10,12 +10,12 @@ import '../utilities/MinterRole.sol';
 
 contract Eons is ERC20Upgradeable, OwnableUpgradeable, MinterRole {
 
-  string private _name;
+//  string private _name;
   mapping (address => uint) _approvedMinter;
   uint private _transactionFee;
   address payable private _wallet;
 
-  function initialize() public initializer {
+  function initialize() external initializer {
     __ERC20_init('EONS', 'EONS');
     __Ownable_init();
     __MinterRole_init();
@@ -40,7 +40,7 @@ contract Eons is ERC20Upgradeable, OwnableUpgradeable, MinterRole {
   }
 
   /// @dev Mint EONS. Only minter can mint
-  function mint(address recepient, uint amount) public onlyMinter {
+  function mint(address recepient, uint amount) external onlyMinter {
     _mint(recepient, amount);
   }
 

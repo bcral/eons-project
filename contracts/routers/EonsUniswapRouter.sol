@@ -26,7 +26,7 @@ contract EonsUniswapRouter is OwnableUpgradeable {
 
 	event FeeApproverChanged(address indexed newAddress, address indexed oldAddress);
 
-	function initialize(address eonsToken, address WETH, address uniV2Factory, address feeApprover, address eonsUniVault) public initializer {
+	function initialize(address eonsToken, address WETH, address uniV2Factory, address feeApprover, address eonsUniVault) external initializer {
 		_eonsToken = eonsToken;
 		_WETH = IWETH(WETH);
 		_uniV2Factory = uniV2Factory;
@@ -42,7 +42,7 @@ contract EonsUniswapRouter is OwnableUpgradeable {
 		// );
 	}
 
-	function refreshApproval() public {
+	function refreshApproval() external {
 		IUniswapV2Pair(_eonsWETHPair).approve(
 				address(_eonsUniVault),
 				type(uint256).max
@@ -55,16 +55,16 @@ contract EonsUniswapRouter is OwnableUpgradeable {
 		}
 	}
 
-	function getLpAmount() public onlyOwner returns(uint amount) {
+	function getLpAmount() external onlyOwner returns(uint amount) {
 		_uniLpIncome = IUniswapV2Pair(_eonsWETHPair).balanceOf(address(this));
 		return _uniLpIncome;
 	}
 
-	function getTotalSupplyOfUniLp() public view returns(uint amount) {
+	function getTotalSupplyOfUniLp() external view returns(uint amount) {
 		return IUniswapV2Pair(_eonsWETHPair).totalSupply();
 	}
 
-	function addLiquidity(address payable to, uint256 eonsAmount) public payable {
+	function addLiquidity(address payable to, uint256 eonsAmount) external payable {
 		(uint256 reserveWeth, uint256 reserveEons) = getPairReserves();
 		uint256 outEons = UniswapV2Library.getAmountOut(
 			msg.value,
@@ -148,7 +148,7 @@ contract EonsUniswapRouter is OwnableUpgradeable {
         uint amountTokenMin,
         uint amountETHMin,
         address to
-    ) public virtual returns (uint amountToken, uint amountETH) {
+    ) external virtual returns (uint amountToken, uint amountETH) {
         (amountToken, amountETH) = removeLiquidity(
             token,
             address(_WETH),
@@ -216,7 +216,7 @@ contract EonsUniswapRouter is OwnableUpgradeable {
 	}
 
 	function getLPTokenPerEthUnit(uint256 ethAmt)
-		public
+		external
 		view
 		returns (uint256 liquidity)
 	{

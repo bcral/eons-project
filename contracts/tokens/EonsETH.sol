@@ -8,7 +8,7 @@ import '../utilities/MinterRole.sol';
 
 contract EonsETH is ERC20Upgradeable, MinterRole, OwnableUpgradeable {
 
-  function initialize() public initializer {
+  function initialize() external initializer {
     __ERC20_init('Eons ETH', 'eETH');
     __MinterRole_init();
     __Ownable_init();

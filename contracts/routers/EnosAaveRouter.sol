@@ -30,7 +30,7 @@ contract EonsAaveRouter is OwnableUpgradeable {
   IWETHGateway wethGateway;
   uint16 public referralCode;
 
-  function initialize(address _lendingPoolProvider, address _wethGateway) public initializer {
+  function initialize(address _lendingPoolProvider, address _wethGateway) external initializer {
     lendingPoolAddressesProvider = ILendingPoolAddressesProvider(_lendingPoolProvider);
     referralCode = 0;
     wethGateway = IWETHGateway(_wethGateway);
@@ -55,11 +55,11 @@ contract EonsAaveRouter is OwnableUpgradeable {
     return totalDepositValue;
   }
 
-  function addAaveToken(address _reserve, address _aToken, uint _pid) public onlyOwner {
+  function addAaveToken(address _reserve, address _aToken, uint _pid) external onlyOwner {
     assetInfo[_pid] = AssetInfo({reserve: _reserve, aToken: _aToken, income: 0});
   }
 
-  function updateAaveToken(uint256 _pid, address _reserve, address _aToken) public onlyOwner {
+  function updateAaveToken(uint256 _pid, address _reserve, address _aToken) external onlyOwner {
     AssetInfo storage asset = assetInfo[_pid];
     asset.reserve = _reserve;
     asset.aToken = _aToken;

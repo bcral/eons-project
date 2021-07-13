@@ -43,7 +43,7 @@ contract EonsAaveVault is OwnableUpgradeable {
   address public devAddress;
   mapping(uint256 => uint256) public userCountInPool; // pid => user holder count
   
-  function initialize(address _eons, address _dev, address _router) public initializer {
+  function initialize(address _eons, address _dev, address _router) external initializer {
     eons = IEons(_eons);
     totalAllocPoint = 1000;
     poolRewardRate = 850;
@@ -57,7 +57,7 @@ contract EonsAaveVault is OwnableUpgradeable {
     router = IEonsAaveRouter(_router);
   }
 
-  function getMultiplier(uint256 _from, uint256 _to) public view returns (uint256) {
+  function getMultiplier(uint256 _from, uint256 _to) external view returns (uint256) {
       return _to-_from;
   }
 
@@ -75,7 +75,7 @@ contract EonsAaveVault is OwnableUpgradeable {
     return 0;
   }
 
-  function stakedOf(uint _pid) public view returns (uint256) {
+  function stakedOf(uint _pid) external view returns (uint256) {
     uint256 totalStakedOf = router.totalStakedOf(_pid);
     return totalStakedOf;
   }
@@ -85,7 +85,7 @@ contract EonsAaveVault is OwnableUpgradeable {
     return user.amount;
   }
 
-  function totalStaked() public view returns (uint256) {
+  function totalStaked() external view returns (uint256) {
     uint256 total = 0;
     for (uint i = 0; i < poolInfo.length; i++) {
       uint256 staked = router.totalStakedOf(i);
@@ -104,7 +104,7 @@ contract EonsAaveVault is OwnableUpgradeable {
     return pendingReward;
   }
 
-  function pendingRewardOf(uint256 _pid, address _user) public view returns (uint256) {
+  function pendingRewardOf(uint256 _pid, address _user) external view returns (uint256) {
     UserInfo storage user = userInfo[_user][_pid];
     PoolInfo storage pool = poolInfo[_pid];
     uint256 userShareOfPool = user.amount*1e12/pool.totalStaked;
