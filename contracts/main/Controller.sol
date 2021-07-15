@@ -40,7 +40,7 @@ contract Controller is OwnableUpgradeable {
     emissionDistributionRateOfTreasury = 150;
     treasury = _treasury;
     blockCreationTime = 13;
-    lastEmissionCalcBlockNumber = block.timestamp;
+    lastEmissionCalcBlockNumber = block.number;
     priceOracle = IPriceOracle(_priceOracle);
   }
 
