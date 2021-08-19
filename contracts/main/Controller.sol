@@ -27,7 +27,7 @@ contract Controller is OwnableUpgradeable {
   uint256 public lastEmissionCalcBlockNumber;
   address public treasury;
 
-  function initialize(address _aaveVault, address _uniVault, address _aaveRouter, address _uniRouter, address _treasury, address _eons, address _priceOracle) public {
+  function initialize(address _aaveVault, address _uniVault, address _aaveRouter, address _uniRouter, address _treasury, address _eons, address _priceOracle) external {
     __Ownable_init();
     eons = IEons(_eons);
     aaveVault = IEonsAaveVault(_aaveVault);
@@ -40,7 +40,7 @@ contract Controller is OwnableUpgradeable {
     emissionDistributionRateOfTreasury = 150;
     treasury = _treasury;
     blockCreationTime = 13;
-    lastEmissionCalcBlockNumber = block.timestamp;
+    lastEmissionCalcBlockNumber = block.number;
     priceOracle = IPriceOracle(_priceOracle);
   }
 
@@ -48,7 +48,7 @@ contract Controller is OwnableUpgradeable {
     return _to-_from;
   }
 
-  function getPriceOf(uint _pid) public view returns (uint256) {
+  function getPriceOf(uint _pid) external view returns (uint256) {
     require(address(priceOracle) != address(0));
     ( , address reserve, ) = aaveRouter.getAsset(_pid);
     return priceOracle.getAssetPrice(reserve);
@@ -86,7 +86,7 @@ contract Controller is OwnableUpgradeable {
     if (lastEmissionCalcBlockNumber < block.number) {
       uint256 multiplier = getMultiplier(lastEmissionCalcBlockNumber, block.number);
       uint256 totalEonsSupply = eons.totalSupply();
-      uint256 emissions = ((((totalEonsSupply*emissionRate)/1000)/365)/86400)*(blockCreationTime)*(multiplier);
+      uint256 emissions = (((totalEonsSupply*emissionRate)*(blockCreationTime)*(multiplier)/1000)/365)/86400;
       uint256 emissionsForPool = emissions*emissionDistributionRateOfPools/1000;
       uint256 emissionForLP = emissions*emissionDistributionRateOfLP/1000;
       uint256 emissionsForTreasury = emissions*emissionDistributionRateOfTreasury/1000;

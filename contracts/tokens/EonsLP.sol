@@ -10,16 +10,16 @@ import '../utilities/MinterRole.sol';
 
 contract EonsLP is ERC20Upgradeable, OwnableUpgradeable, MinterRole {
 
-    string private _name;
+//    string private _name;
 
-    function initialize() public initializer {
+    function initialize() external initializer {
         __ERC20_init('EONS LP', 'ELP');
         __MinterRole_init();
         __Ownable_init();
     }
 
     /// @dev Mint ELP. Only minter can mint
-    function mint(address recepient, uint amount) public onlyMinter {
+    function mint(address recepient, uint amount) external onlyMinter {
         _mint(recepient, amount);
     }
 
