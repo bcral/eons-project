@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.7.0;
+pragma solidity ^0.8.0;
 
-import '@openzeppelin/contracts-upgradeable/GSN/ContextUpgradeable.sol';
+import '@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol';
 import 'hardhat/console.sol';
 
 import './Roles.sol';

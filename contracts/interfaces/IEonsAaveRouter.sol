@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.7.0;
+pragma solidity ^0.8.0;
 
 interface IEonsAaveRouter {
   function getAsset(uint256 _pid) external view returns (address aToken, address reserve, uint256 income);

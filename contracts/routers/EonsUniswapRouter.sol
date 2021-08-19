@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.7.0;
+pragma solidity ^0.8.0;
 
 import '@uniswap/v2-core/contracts/interfaces/IUniswapV2Factory.sol';
 import '@uniswap/v2-core/contracts/interfaces/IUniswapV2Pair.sol';
@@ -7,7 +7,6 @@ import '@uniswap/v2-periphery/contracts/interfaces/IWETH.sol';
 import '@uniswap/lib/contracts/libraries/TransferHelper.sol';
 import '@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol';
 import '@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol';
-import '@openzeppelin/contracts-upgradeable/math/SafeMathUpgradeable.sol';
 
 import '../interfaces/IFeeApprover.sol';
 import '../interfaces/IEonsUniVault.sol';
@@ -15,7 +14,6 @@ import '../libraries/Math.sol';
 import '../libraries/UniswapV2Library.sol';
 
 contract EonsUniswapRouter is OwnableUpgradeable {
-	using SafeMathUpgradeable for uint256;
 	mapping(address => uint256) public hardEons;
 
 	address public _eonsToken;
@@ -28,7 +26,7 @@ contract EonsUniswapRouter is OwnableUpgradeable {
 
 	event FeeApproverChanged(address indexed newAddress, address indexed oldAddress);
 
-	function initialize(address eonsToken, address WETH, address uniV2Factory, address feeApprover, address eonsUniVault) public initializer {
+	function initialize(address eonsToken, address WETH, address uniV2Factory, address feeApprover, address eonsUniVault) external initializer {
 		_eonsToken = eonsToken;
 		_WETH = IWETH(WETH);
 		_uniV2Factory = uniV2Factory;
@@ -44,29 +42,29 @@ contract EonsUniswapRouter is OwnableUpgradeable {
 		// );
 	}
 
-	function refreshApproval() public {
+	function refreshApproval() external {
 		IUniswapV2Pair(_eonsWETHPair).approve(
 				address(_eonsUniVault),
-				uint256(-1)
+				type(uint256).max
 		);
 	}
 
 	fallback() external payable {
 		if (msg.sender != address(_WETH)) {
-			addLiquidityETHOnly(msg.sender);
+			addLiquidityETHOnly(payable(msg.sender));
 		}
 	}
 
-	function getLpAmount() public onlyOwner returns(uint amount) {
+	function getLpAmount() external onlyOwner returns(uint amount) {
 		_uniLpIncome = IUniswapV2Pair(_eonsWETHPair).balanceOf(address(this));
 		return _uniLpIncome;
 	}
 
-	function getTotalSupplyOfUniLp() public view returns(uint amount) {
+	function getTotalSupplyOfUniLp() external view returns(uint amount) {
 		return IUniswapV2Pair(_eonsWETHPair).totalSupply();
 	}
 
-	function addLiquidity(address payable to, uint256 eonsAmount) public payable {
+	function addLiquidity(address payable to, uint256 eonsAmount) external payable {
 		(uint256 reserveWeth, uint256 reserveEons) = getPairReserves();
 		uint256 outEons = UniswapV2Library.getAmountOut(
 			msg.value,
@@ -99,9 +97,9 @@ contract EonsUniswapRouter is OwnableUpgradeable {
 		payable
 	{
 			// Store deposited eth in hardEons
-		hardEons[msg.sender] = hardEons[msg.sender].add(msg.value);
+		hardEons[msg.sender] = hardEons[msg.sender] + msg.value;
 
-		uint256 buyAmount = msg.value.div(2);
+		uint256 buyAmount = msg.value/2;
 		require(buyAmount > 0, 'Insufficient ETH amount');
 
 		_WETH.deposit{value: msg.value}();
@@ -150,7 +148,7 @@ contract EonsUniswapRouter is OwnableUpgradeable {
         uint amountTokenMin,
         uint amountETHMin,
         address to
-    ) public virtual returns (uint amountToken, uint amountETH) {
+    ) external virtual returns (uint amountToken, uint amountETH) {
         (amountToken, amountETH) = removeLiquidity(
             token,
             address(_WETH),
@@ -200,11 +198,11 @@ contract EonsUniswapRouter is OwnableUpgradeable {
 		if (eonsAmount > optimalEonsAmount)
 			IERC20(_eonsToken).transfer(
 				to,
-				eonsAmount.sub(optimalEonsAmount)
+				eonsAmount-optimalEonsAmount
 			);
 
 		if (wethAmount > optimalWETHAmount) {
-			uint256 withdrawAmount = wethAmount.sub(optimalWETHAmount);
+			uint256 withdrawAmount = wethAmount-optimalWETHAmount;
 			_WETH.withdraw(withdrawAmount);
 			to.transfer(withdrawAmount);
 		}
@@ -218,13 +216,13 @@ contract EonsUniswapRouter is OwnableUpgradeable {
 	}
 
 	function getLPTokenPerEthUnit(uint256 ethAmt)
-		public
+		external
 		view
 		returns (uint256 liquidity)
 	{
 		(uint256 reserveWeth, uint256 reserveEons) = getPairReserves();
 		uint256 outEons = UniswapV2Library.getAmountOut(
-			ethAmt.div(2),
+			ethAmt/2,
 			reserveWeth,
 			reserveEons
 		);
@@ -235,15 +233,15 @@ contract EonsUniswapRouter is OwnableUpgradeable {
 			_eonsToken
 		);
 		(uint256 amount0, uint256 amount1) = token0 == _eonsToken
-			? (outEons, ethAmt.div(2))
-			: (ethAmt.div(2), outEons);
+			? (outEons, ethAmt/2)
+			: (ethAmt/2, outEons);
 		(uint256 _reserve0, uint256 _reserve1) = token0 == _eonsToken
 			? (reserveEons, reserveWeth)
 			: (reserveWeth, reserveEons);
 				
 		liquidity = Math.min(
-			amount0.mul(_totalSupply) / _reserve0,
-			amount1.mul(_totalSupply) / _reserve1
+			amount0*_totalSupply / _reserve0,
+			amount1*_totalSupply / _reserve1
 		);
 	}
 
