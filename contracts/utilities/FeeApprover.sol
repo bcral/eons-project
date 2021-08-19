@@ -1,14 +1,12 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.7.0;
+pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/math/SafeMath.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol"; // for WETH
 import "@uniswap/v2-core/contracts/interfaces/IUniswapV2Factory.sol";
 import "hardhat/console.sol";
 
 contract FeeApprover is Ownable {
-	using SafeMath for uint256;
 
 	// In this contract, e do calculate fee and the real amount to be sent to the recepient
 
@@ -76,10 +74,8 @@ contract FeeApprover is Ownable {
 			transferToFeeDistributorAmount = 0;
 			transferToAmount = amount;
 		} else {
-			transferToFeeDistributorAmount = amount.mul(feePercentX100).div(
-				1000
-			);
-			transferToAmount = amount.sub(transferToFeeDistributorAmount);
+			transferToFeeDistributorAmount = amount*feePercentX100/1000;
+			transferToAmount = amount-transferToFeeDistributorAmount;
 		}
 
 		lastTotalSupplyOfLPTokens = _LPSupplyOfPairTotal;
