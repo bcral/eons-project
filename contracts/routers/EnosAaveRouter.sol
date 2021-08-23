@@ -1,10 +1,9 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.7.0;
+pragma solidity ^0.8.0;
 pragma experimental ABIEncoderV2;
 
 import '@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol';
-import '@openzeppelin/contracts-upgradeable/token/ERC20/SafeERC20Upgradeable.sol';
-import '@openzeppelin/contracts-upgradeable/math/SafeMathUpgradeable.sol';
+import '@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol';
 import '@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol';
 import '@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol';
 import 'hardhat/console.sol';
@@ -15,10 +14,10 @@ import '../interfaces/ILendingPoolAddressesProvider.sol';
 import '../interfaces/IAToken.sol';
 import '../interfaces/IWETHGateway.sol';
 import '../libraries/DataTypes.sol';
+import '../interfaces/IEonsAaveVault.sol';
 
 contract EonsAaveRouter is OwnableUpgradeable {
   using AddressUpgradeable for address;
-  using SafeMathUpgradeable for uint;
   using SafeERC20Upgradeable for IERC20Upgradeable;
 
   struct AssetInfo {
@@ -33,12 +32,14 @@ contract EonsAaveRouter is OwnableUpgradeable {
   mapping(uint => AssetInfo) public assetInfo; // pid => aToken reserve address
   IWETHGateway wethGateway;
   uint16 public referralCode;
+  IEonsAaveVault public aaveVault;
 
-  function initialize(address _lendingPoolProvider, address _wethGateway) public initializer {
+  function initialize(address _lendingPoolProvider, address _wethGateway, address _aaveVault) external initializer {
     lendingPoolAddressesProvider = ILendingPoolAddressesProvider(_lendingPoolProvider);
     referralCode = 0;
     wethGateway = IWETHGateway(_wethGateway);
     __Ownable_init();
+    aaveVault = IEonsAaveVault(_aaveVault);
   }
 
   function getAsset(uint256 _pid) external view returns (address aToken, address reserve, uint256 income) {
@@ -74,7 +75,7 @@ contract EonsAaveRouter is OwnableUpgradeable {
     assetInfo[_pid] = AssetInfo({reserve: _reserve, aToken: _aToken, income: 0});
   }
 
-  function updateAaveToken(uint256 _pid, address _reserve, address _aToken) public onlyOwner {
+  function updateAaveToken(uint256 _pid, address _reserve, address _aToken) external onlyOwner {
     AssetInfo storage asset = assetInfo[_pid];
     asset.reserve = _reserve;
     asset.aToken = _aToken;
@@ -90,8 +91,13 @@ contract EonsAaveRouter is OwnableUpgradeable {
 
     lendingPool.deposit(asset.reserve, _amount, address(this), referralCode);
   }
+  
+  modifier onlyEonsAaveVault {
+    require(msg.sender == aaveVault, "Only EonsAaveVault is authorized");
+    _;
+  }
 
-  function withdraw(uint _pid, uint _amount, address _recipient) external {
+  function withdraw(uint _pid, uint _amount, address _recipient) external onlyEonsAaveVault{
     AssetInfo memory asset = assetInfo[_pid];
     ILendingPool lendingPool = ILendingPool(lendingPoolAddressesProvider.getLendingPool());
     try IAToken(asset.aToken).approve(address(wethGateway), _amount) returns (bool) {

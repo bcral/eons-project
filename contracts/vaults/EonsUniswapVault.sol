@@ -1,18 +1,16 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.7.0;
+pragma solidity ^0.8.0;
 
 import '@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol';
 import '@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol';
-import '@openzeppelin/contracts-upgradeable/math/SafeMathUpgradeable.sol';
-import '@openzeppelin/contracts-upgradeable/token/ERC20/SafeERC20Upgradeable.sol';
-import '@openzeppelin/contracts-upgradeable/utils/EnumerableSetUpgradeable.sol';
+import '@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol';
+import '@openzeppelin/contracts-upgradeable/utils/structs/EnumerableSetUpgradeable.sol';
 import 'hardhat/console.sol';
 
 import '../interfaces/IEonsLP.sol';
 // EONS Vault distributes fees equally amongst staked pools
 // Have fun reading it. Hopefully it's bug-free. God bless.
 contract EonsUniswapVault is OwnableUpgradeable {
-	using SafeMathUpgradeable for uint256;
 	using SafeERC20Upgradeable for IERC20Upgradeable;
 
 	// Info of each user.
@@ -39,7 +37,7 @@ contract EonsUniswapVault is OwnableUpgradeable {
 	event EmergencyWithdraw(address indexed user, uint256 indexed pid, uint256 amount);
 	event Approval(address indexed owner, address indexed spender, uint256 _pid, uint256 value);
 
-	function initialize(address eonsLp, address eons, address devaddr, address superAdmin) public initializer {
+	function initialize(address eonsLp, address eons, address devaddr, address superAdmin) external initializer {
 		DEV_FEE = 1500;
 		_eons = IERC20Upgradeable(eons);
 		_eonsLp = IEonsLP(eonsLp);
@@ -55,31 +53,31 @@ contract EonsUniswapVault is OwnableUpgradeable {
 	// defaults at 7.24%
 	// Note contract owner is meant to be a governance contract allowing EONS governance consensus
 
-	function setDevFee(uint16 _DEV_FEE) public onlyOwner {
+	function setDevFee(uint16 _DEV_FEE) external onlyOwner {
 		require(_DEV_FEE <= 1000, 'Dev fee clamped at 10%');
 		DEV_FEE = _DEV_FEE;
 	}
 
 	// Deposit  tokens to EONSVault for EONS allocation.
-	function deposit(uint256 _pid, uint256 _amount) public {
+	function deposit(uint256 _pid, uint256 _amount) external {
 		UserInfo storage user = userInfo[_pid][msg.sender];
 
 		//Transfer in the amounts from user
 		// save gas
 		if (_amount > 0) {
 			_eonsLp.mint(address(msg.sender), _amount);
-			user.amount = user.amount.add(_amount);
+			user.amount = user.amount+_amount;
 		}
 		// if (_amount > 0) _eonsNftPool.doEonsStaking(msg.sender, _amount, block.timestamp);
 		emit Deposit(msg.sender, _pid, _amount, block.timestamp);
 	}
 
-	function depositFor(address _depositFor, uint256 _pid, uint256 _amount) public {
+	function depositFor(address _depositFor, uint256 _pid, uint256 _amount) external {
 		// requires no allowances
 		UserInfo storage user = userInfo[_pid][_depositFor];
 
 		if (_amount > 0) {
-			user.amount = user.amount.add(_amount);
+			user.amount = user.amount+_amount;
 			_eonsLp.mint(_depositFor, _amount);
 		}
 
@@ -88,7 +86,7 @@ contract EonsUniswapVault is OwnableUpgradeable {
 
 	// Test coverage
 	// [x] Does allowance update correctly?
-	function setAllowanceForPoolToken(address spender, uint256 _pid, uint256 value) public {
+	function setAllowanceForPoolToken(address spender, uint256 _pid, uint256 value) external {
 		// PoolInfo storage pool = _poolInfo[_pid];
 		// pool.allowance[msg.sender][spender] = value;
 		emit Approval(msg.sender, spender, _pid, value);
@@ -98,17 +96,17 @@ contract EonsUniswapVault is OwnableUpgradeable {
 	// [x] Does allowance decrease?
 	// [x] Do oyu need allowance
 	// [x] Withdraws to correct address
-	function withdrawFrom(address owner, uint256 _pid, uint256 _amount, bool ethOnly) public {
+	function withdrawFrom(address owner, uint256 _pid, uint256 _amount, bool ethOnly) external {
 		// PoolInfo storage pool = _poolInfo[_pid];
 		_withdraw(_pid, _amount, owner, msg.sender, ethOnly);
 	}
 
 	// Withdraw  tokens from EONSVault.
-	function withdraw(uint256 _pid, uint256 _amount, bool ethOnly) public {
+	function withdraw(uint256 _pid, uint256 _amount, bool ethOnly) external {
 		_withdraw(_pid, _amount, msg.sender, msg.sender, ethOnly);
 	}
 
-	function isContract(address addr) public view returns (bool) {
+	function isContract(address addr) external view returns (bool) {
 			uint256 size;
 			assembly {
 				size := extcodesize(addr)
@@ -119,7 +117,7 @@ contract EonsUniswapVault is OwnableUpgradeable {
 		UserInfo storage user = userInfo[pid][distributer];
 		if (amount > 0) {
 			_eonsLp.mint(distributer, amount);
-			user.amount = user.amount.add(amount);
+			user.amount = user.amount+amount;
 		}
 	}
 
@@ -132,12 +130,12 @@ contract EonsUniswapVault is OwnableUpgradeable {
 		if (amount > 0) {
 			
 			_eonsLp.burnFrom(msg.sender, amount);
-			user.amount = user.amount.sub(amount);
+			user.amount = user.amount-amount;
 		}
 
 		emit Withdraw(to, pid, amount);
 	}
-
+/*
 	function safeEonsTransfer(address _to, uint256 _amount) internal {
 		if (_amount == 0) return;
 
@@ -148,12 +146,12 @@ contract EonsUniswapVault is OwnableUpgradeable {
 			_eons.transfer(_to, _amount);
 		}
 	}
-
-	function setDevFeeReciever(address devaddr) public onlyOwner {
+*/
+	function setDevFeeReciever(address devaddr) external onlyOwner {
 		_devaddr = devaddr;
 	}
 
-	function superAdmin() public view returns (address) {
+	function superAdmin() external view returns (address) {
 		return _superAdmin;
 	}
 
@@ -162,12 +160,12 @@ contract EonsUniswapVault is OwnableUpgradeable {
 		_;
 	}
 
-	function burnSuperAdmin() public virtual onlySuperAdmin {
+	function burnSuperAdmin() external virtual onlySuperAdmin {
 		emit SuperAdminTransfered(_superAdmin, address(0));
 		_superAdmin = address(0);
 	}
 
-	function newSuperAdmin(address newOwner) public virtual onlySuperAdmin {
+	function newSuperAdmin(address newOwner) external virtual onlySuperAdmin {
 		require(newOwner != address(0), 'Ownable: new owner is the zero address');
 		emit SuperAdminTransfered(_superAdmin, newOwner);
 		_superAdmin = newOwner;

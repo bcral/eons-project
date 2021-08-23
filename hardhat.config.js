@@ -56,7 +56,7 @@ module.exports = {
       saveDeployments: true
     }
   },
-  solidity: '0.7.3',
+  solidity: '0.8.5',
   settings: {
     optimizer: {
       enabled: true,

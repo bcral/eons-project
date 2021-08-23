@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.7.0;
+pragma solidity ^0.8.0;
 
 interface IEonsUniRouter {
   function deposit(uint _amount, uint _pid, address _user) external;
