@@ -96,7 +96,7 @@ contract Controller is OwnableUpgradeable {
     emissionDistributionRateOfTreasury = _treasuryDistributionRate;
   }
 
-  function massUpdateEmissions() external {
+  function massUpdateEmissions() external onlyOwner {
     if (lastEmissionCalcBlockNumber < block.number) {
       uint256 multiplier = getMultiplier(lastEmissionCalcBlockNumber, block.number);
       uint256 totalEonsSupply = eons.totalSupply();
@@ -109,7 +109,6 @@ contract Controller is OwnableUpgradeable {
       eons.mint(treasury, emissionsForTreasury);
       lastEmissionCalcBlockNumber = block.number;
       aaveVault.updateEmissionDistribution();
-      uniVault.updateEmissionDistribution();
     }
   }
 }

@@ -3,8 +3,8 @@ pragma solidity ^0.8.0;
 
 import '@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol';
 import '@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol';
-import '@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol';
-import '@openzeppelin/contracts-upgradeable/utils/structs/EnumerableSetUpgradeable.sol';
+import '@openzeppelin/contracts-upgradeable/token/ERC20/SafeERC20Upgradeable.sol';
+import '@openzeppelin/contracts-upgradeable/utils/EnumerableSetUpgradeable.sol';
 import 'hardhat/console.sol';
 
 import '../interfaces/IEonsLP.sol';
@@ -135,6 +135,7 @@ contract EonsUniswapVault is OwnableUpgradeable {
 
 		emit Withdraw(to, pid, amount);
 	}
+
 /*
 	function safeEonsTransfer(address _to, uint256 _amount) internal {
 		if (_amount == 0) return;
@@ -147,6 +148,7 @@ contract EonsUniswapVault is OwnableUpgradeable {
 		}
 	}
 */
+
 	function setDevFeeReciever(address devaddr) external onlyOwner {
 		_devaddr = devaddr;
 	}

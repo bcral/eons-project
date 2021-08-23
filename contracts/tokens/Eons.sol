@@ -10,13 +10,12 @@ import '../utilities/MinterRole.sol';
 
 contract Eons is ERC20Upgradeable, OwnableUpgradeable, MinterRole {
 
-//  string private _name;
   mapping (address => uint) _approvedMinter;
   uint private _transactionFee;
   address payable private _wallet;
 
   function initialize() external initializer {
-    __ERC20_init('EONS', 'EONS');
+    __ERC20_init('EONS Token', 'EONS');
     __Ownable_init();
     __MinterRole_init();
     _transactionFee = 5 * 10 ** 14;

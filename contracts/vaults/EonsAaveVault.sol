@@ -104,13 +104,13 @@ contract EonsAaveVault is OwnableUpgradeable {
     return pendingReward;
   }
 
-  function pendingRewardOf(uint256 _pid, address _user) external view returns (uint256) {
+  function pendingRewardOf(uint256 _pid, address _user) public view returns (uint256) {
     UserInfo storage user = userInfo[_user][_pid];
     PoolInfo storage pool = poolInfo[_pid];
-    uint256 userShareOfPool = user.amount*1e12/pool.totalStaked;
+    uint256 userShareOfPool = user.amount * 1e12 / pool.totalStaked;
     uint256 total = router.totalStakedOf(_pid);
-    uint256 userStaked = (total-pool.totalStaked)*userShareOfPool/1e12;
-    uint256 pendingReward = userStaked*poolRewardRate/1000;
+    uint256 userStaked = (total - pool.totalStaked) * userShareOfPool / 1e12;
+    uint256 pendingReward = userStaked * poolRewardRate / 1000;
     return pendingReward;
   }
 
@@ -186,6 +186,9 @@ contract EonsAaveVault is OwnableUpgradeable {
     UserInfo storage user = userInfo[msg.sender][_pid];
     uint256 total = router.totalStakedOf(_pid);
     require(_amount <= total, 'Withdraw not good');
+
+    uint256 pending = pendingRewardOf(_pid, msg.sender);
+    require(_amount <= user.amount + pending, 'Exceed withdraw amount');
 
     updateEmissionDistribution();
     uint eonsPending = pendingEons(_pid, msg.sender);

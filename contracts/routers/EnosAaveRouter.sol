@@ -3,7 +3,7 @@ pragma solidity ^0.8.0;
 pragma experimental ABIEncoderV2;
 
 import '@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol';
-import '@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol';
+import '@openzeppelin/contracts-upgradeable/token/ERC20/SafeERC20Upgradeable.sol';
 import '@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol';
 import '@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol';
 import 'hardhat/console.sol';
@@ -33,6 +33,11 @@ contract EonsAaveRouter is OwnableUpgradeable {
   IWETHGateway wethGateway;
   uint16 public referralCode;
   IEonsAaveVault public aaveVault;
+
+  modifier onlyEonsAaveVault {
+    require(msg.sender == aaveVault, "Only EonsAaveVault is authorized");
+    _;
+  }
 
   function initialize(address _lendingPoolProvider, address _wethGateway, address _aaveVault) external initializer {
     lendingPoolAddressesProvider = ILendingPoolAddressesProvider(_lendingPoolProvider);
@@ -71,7 +76,7 @@ contract EonsAaveRouter is OwnableUpgradeable {
     wethGateway = IWETHGateway(_wethGateway);
   }
 
-  function addAaveToken(address _reserve, address _aToken, uint _pid) public onlyOwner {
+  function addAaveToken(address _reserve, address _aToken, uint _pid) external onlyOwner {
     assetInfo[_pid] = AssetInfo({reserve: _reserve, aToken: _aToken, income: 0});
   }
 
@@ -92,12 +97,7 @@ contract EonsAaveRouter is OwnableUpgradeable {
     lendingPool.deposit(asset.reserve, _amount, address(this), referralCode);
   }
   
-  modifier onlyEonsAaveVault {
-    require(msg.sender == aaveVault, "Only EonsAaveVault is authorized");
-    _;
-  }
-
-  function withdraw(uint _pid, uint _amount, address _recipient) external onlyEonsAaveVault{
+  function withdraw(uint _pid, uint _amount, address _recipient) external onlyEonsAaveVault {
     AssetInfo memory asset = assetInfo[_pid];
     ILendingPool lendingPool = ILendingPool(lendingPoolAddressesProvider.getLendingPool());
     try IAToken(asset.aToken).approve(address(wethGateway), _amount) returns (bool) {
