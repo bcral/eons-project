@@ -200,12 +200,12 @@ contract EonsAaveVault is OwnableUpgradeable {
         router.withdraw(_pid, devFeePending, devAddress);
       }
       if (_amount > user.amount) {
-        user.amount = 0;
         if (_amount > pool.totalStaked) {
           pool.totalStaked = 0;
         } else {
           pool.totalStaked = pool.totalStaked.sub(user.amount);
         }
+        user.amount = 0;
       } else {
         user.amount = user.amount.sub(_amount);
         pool.totalStaked = pool.totalStaked.sub(_amount);

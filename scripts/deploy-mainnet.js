@@ -26,16 +26,16 @@ const aavePriceOracleAddress = '0xb8be51e6563bb312cbb2aa26e352516c25c26ac1';
 const devAddr = '0xD01A3bA68E7acdD8A5EBaB68d6d6CfA313fec272';
 const treasury = '0xD01A3bA68E7acdD8A5EBaB68d6d6CfA313fec272';
 
-let eonsAddress = '0x18159d5e8Dd14557EDF952807591D51f9f9df1d9';
-let eonsLpAddress = '0x86428D8E96271AFFbc2BB431E8a65Dbcb5AF6D63';
-let eonsETHAddress = '0x0109CD87b55B1387189649cb5314801e353E95Fd';
-let eonsAaveVaultProxyAddress = '0xA7CCa7175E0461B9EA7449336b9e582B829885BA';
-let eonsUniVaultProxyAddress = '0x9693794a3713e316d707b51241892b02ABc465e1';
-let eonsAaveRouterProxyAddress = '0xdcD5bf1cd9cC98a36B59FfB879662E3c7fE1fA47';
-let eonsUniRouterProxyAddress = '0xbE91AEED023b4dcF98fB308bB0C5acD258781474';
-let feeApproverAddress = '0x95C9D6cb238570d49464cf442bF489A9271b8c33';
-let controllerProxyAddress = '0xDEf67e662218E5AA6A08C5c0f45aD7971e9077E5';
-let wethGatewayAddress = '0x5c57Af46461b6c425fb43A354FeEF6d5680169d1';
+let eonsAddress = '0xEf538B1604B0CcC265a99B295F2FeD4AD9dCddCf';
+let eonsLpAddress = '';
+let eonsETHAddress = '';
+let feeApproverAddress = '';
+let wethGatewayAddress = '';
+let eonsUniVaultProxyAddress = '';
+let eonsUniRouterProxyAddress = '';
+let eonsAaveRouterProxyAddress = '';
+let eonsAaveVaultProxyAddress = '';
+let controllerProxyAddress = '';
 
 const eonsETHArtifact = './artifacts/contracts/tokens/EonsETH.sol/EonsETH.json';
 const eonsArtifact = './artifacts/contracts/tokens/Eons.sol/Eons.json';
@@ -84,7 +84,7 @@ if (process.env.NETWORK === 'kovan') {
   provider = new hre.ether.providers.JsonRpcProvider('https://bsc-dataseed.binance.org/');
 }
 
-const wallet = Wallet.fromMnemonic(process.env.MNEMONIC);
+const wallet = new Wallet(process.env.PRIVATE_KEY);
 
 const deploy = async (tokenName, initializerName, args = []) => {
   try {
@@ -193,9 +193,8 @@ const deployEonsAaveRouter = async () => {
 
 const deployFeeApprover = async () => {
   const FeeApprover = await hre.ethers.getContractFactory('FeeApprover');
-  feeApprover = await FeeApprover.deploy();
+  feeApprover = await FeeApprover.deploy(eonsAddress, wethAddress, uniswapV2FactoryAddress);
   await feeApprover.deployed();
-  await feeApprover.initialize(eonsAddress, wethAddress, uniswapV2FactoryAddress);
   console.log('feeApprover deployed to:', feeApprover.address);
 };
 
@@ -226,16 +225,16 @@ const deployController = async () => {
 };
 
 const main = async () => {
-  // await deployEonsToken();
+  await deployEonsToken();
   // await deployEonsLPToken();
   // await deployEonsETHToken();
   // await deployFeeApprover();
-  // await deployEonsUniVault();
   // await deployWETHGateway();
+  // await deployEonsUniVault();
   // await deployEonsUniRouter();
   // await deployEonsAaveRouter();
   // await deployEonsAaveVault();
-  await deployController();
+  // await deployController();
 };
 
 main();

@@ -7,4 +7,5 @@ interface IEonsAaveRouter {
   function deposit(uint _amount, uint _pid, address _user) external;
   function withdraw(uint _pid, uint _amount, address _recipient) external;
   function totalStakedOf(uint _pid) external view returns (uint256);
+  function liquidityRateOf(uint256 _pid) external view returns (uint256);
 }

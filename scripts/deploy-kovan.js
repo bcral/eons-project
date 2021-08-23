@@ -26,16 +26,17 @@ const aavePriceOracleAddress = '0xb8be51e6563bb312cbb2aa26e352516c25c26ac1';
 const devAddr = '0xD01A3bA68E7acdD8A5EBaB68d6d6CfA313fec272';
 const treasury = '0xD01A3bA68E7acdD8A5EBaB68d6d6CfA313fec272';
 
-let eonsAddress = '0x92019247d2F7D45EB675947195f4b30319d14318';
-let eonsLpAddress = '';
-let eonsETHAddress = '';
-let feeApproverAddress = '';
-let wethGatewayAddress = '';
-let eonsUniVaultProxyAddress = '';
-let eonsUniRouterProxyAddress = '';
+let eonsAddress = '0x544ff9722dFD5D5ed04D78a8764f057ad3303D90';
+let eonsLpAddress = '0x4d4C78B6F604F2F763Bc15ABb1e31743b23AE7f6';
+let eonsETHAddress = '0x446a33dD26d4c1ce84e533db5Ee277BBf700340A';
+let feeApproverAddress = '0xEc065c6092ec8d1af0eCeFFb021e138ab9bfC907';
+let wethGatewayAddress = '0xbC013Dd52575a41E64e8226Eb4C0829BdcCf1EA2';
+let eonsUniVaultProxyAddress = '0x7746a236AA9b49a6058764faa1E1f6408624dd2B';
+let eonsUniRouterProxyAddress = '0x2Bc85a402Ca9C95ee8556B71DcA5F4D50Fc85Ec6';
+// let eonsAaveRouterProxyAddress = '0x31441a0067ad37ac136C8a9207b151090Ea1125B';
 let eonsAaveRouterProxyAddress = '';
-let eonsAaveVaultProxyAddress = '';
-let controllerProxyAddress = '';
+let eonsAaveVaultProxyAddress = '0x308F1fF0E6818d10b0a343bEF1C35b89F4891c0E';
+let controllerProxyAddress = '0xE88583E9FE40ad9836812fef22AD3e52A55AA38A';
 
 const eonsETHArtifact = './artifacts/contracts/tokens/EonsETH.sol/EonsETH.json';
 const eonsArtifact = './artifacts/contracts/tokens/Eons.sol/Eons.json';
@@ -133,6 +134,8 @@ const upgrade = async (tokenName, proxyAddress) => {
 }
 
 const deployEonsToken = async () => {
+  const [deployer] = await hre.ethers.getSigners();
+  console.log('aj : ***** Account balance: ', (await deployer.getBalance()).toString());
   const Eons = await hre.ethers.getContractFactory('Eons');
   eons = await Eons.deploy();
   await eons.deployed();
@@ -225,14 +228,14 @@ const deployController = async () => {
 };
 
 const main = async () => {
-  await deployEonsToken();
+  // await deployEonsToken();
   // await deployEonsLPToken();
   // await deployEonsETHToken();
   // await deployFeeApprover();
   // await deployWETHGateway();
   // await deployEonsUniVault();
   // await deployEonsUniRouter();
-  // await deployEonsAaveRouter();
+  await deployEonsAaveRouter();
   // await deployEonsAaveVault();
   // await deployController();
 };

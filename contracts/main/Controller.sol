@@ -15,6 +15,11 @@ import '../interfaces/IPriceOracle.sol';
 contract Controller is OwnableUpgradeable {
   using SafeMathUpgradeable for uint256;
 
+  struct PoolInterestRate {
+    uint256 pid;
+    uint256 rate;
+    bool increased;
+  }
   IEonsAaveVault public aaveVault;
   IEonsAaveRouter public aaveRouter;
   IEonsUniVault public uniVault;
@@ -54,6 +59,15 @@ contract Controller is OwnableUpgradeable {
     require(address(priceOracle) != address(0));
     ( , address reserve, ) = aaveRouter.getAsset(_pid);
     return priceOracle.getAssetPrice(reserve);
+  }
+
+  function getAaveLiquidityRate(uint256 _pid) public view returns (uint256) {
+    uint256 liquidityRate = aaveRouter.liquidityRateOf(_pid);
+    return liquidityRate;
+  }
+
+  function getUniReserves() public view returns (uint256 reserve0, uint256 reserve1) {
+    (reserve1, reserve0) = uniRouter.getPairReserves();
   }
 
   function setBlockCreationTime(uint256 _blockCreationTime) external onlyOwner {

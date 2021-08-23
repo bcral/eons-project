@@ -66,6 +66,9 @@ contract WETHGateway is Ownable {
       amountToWithdraw = userBalance;
     }
     aWETH.transferFrom(msg.sender, address(this), amountToWithdraw);
+    uint256 balance = aWETH.balanceOf(address(this));
+    require(amountToWithdraw <= balance, 'WETHGateway error: insuffient balance');
+
     ILendingPool(lendingPool).withdraw(address(WETH), amountToWithdraw, address(this));
     WETH.withdraw(amountToWithdraw);
     _safeTransferETH(to, amountToWithdraw);

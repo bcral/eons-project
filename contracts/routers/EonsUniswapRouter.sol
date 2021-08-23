@@ -66,6 +66,22 @@ contract EonsUniswapRouter is OwnableUpgradeable {
 		return IUniswapV2Pair(_eonsWETHPair).totalSupply();
 	}
 
+	function getPairReserves()
+		public
+		view
+		returns (uint256 wethReserves, uint256 eonsReserves)
+	{
+		(address token0, ) = UniswapV2Library.sortTokens(
+			address(_WETH),
+			_eonsToken
+		);
+		(uint256 reserve0, uint256 reserve1, ) = IUniswapV2Pair(_eonsWETHPair)
+			.getReserves();
+		(wethReserves, eonsReserves) = token0 == _eonsToken
+			? (reserve1, reserve0)
+			: (reserve0, reserve1);
+	}
+
 	function addLiquidity(address payable to, uint256 eonsAmount) public payable {
 		(uint256 reserveWeth, uint256 reserveEons) = getPairReserves();
 		uint256 outEons = UniswapV2Library.getAmountOut(
@@ -247,19 +263,7 @@ contract EonsUniswapRouter is OwnableUpgradeable {
 		);
 	}
 
-	function getPairReserves()
-		internal
-		view
-		returns (uint256 wethReserves, uint256 eonsReserves)
-	{
-		(address token0, ) = UniswapV2Library.sortTokens(
-			address(_WETH),
-			_eonsToken
-		);
-		(uint256 reserve0, uint256 reserve1, ) = IUniswapV2Pair(_eonsWETHPair)
-			.getReserves();
-		(wethReserves, eonsReserves) = token0 == _eonsToken
-			? (reserve1, reserve0)
-			: (reserve0, reserve1);
+	function updatePair() public {
+		_eonsWETHPair = IUniswapV2Factory(_uniV2Factory).getPair(address(_WETH), _eonsToken);
 	}
 }

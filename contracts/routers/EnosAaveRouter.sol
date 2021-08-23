@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.7.0;
+pragma experimental ABIEncoderV2;
 
 import '@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol';
 import '@openzeppelin/contracts-upgradeable/token/ERC20/SafeERC20Upgradeable.sol';
@@ -13,6 +14,7 @@ import '../interfaces/ILendingPool.sol';
 import '../interfaces/ILendingPoolAddressesProvider.sol';
 import '../interfaces/IAToken.sol';
 import '../interfaces/IWETHGateway.sol';
+import '../libraries/DataTypes.sol';
 
 contract EonsAaveRouter is OwnableUpgradeable {
   using AddressUpgradeable for address;
@@ -55,6 +57,17 @@ contract EonsAaveRouter is OwnableUpgradeable {
     AssetInfo storage asset = assetInfo[_pid];
     uint totalDepositValue = IAToken(asset.aToken).balanceOf(address(this));
     return totalDepositValue;
+  }
+
+  function liquidityRateOf(uint256 _pid) external view returns (uint256) {
+    AssetInfo storage asset = assetInfo[_pid];
+    ILendingPool lendingPool = ILendingPool(lendingPoolAddressesProvider.getLendingPool());
+    DataTypes.ReserveData memory data = lendingPool.getReserveData(asset.reserve);
+    return data.currentLiquidityRate;
+  }
+
+  function setWETHGateway(address _wethGateway) external {
+    wethGateway = IWETHGateway(_wethGateway);
   }
 
   function addAaveToken(address _reserve, address _aToken, uint _pid) public onlyOwner {

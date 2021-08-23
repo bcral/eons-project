@@ -5,14 +5,13 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/math/SafeMath.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol"; // for WETH
 import "@uniswap/v2-core/contracts/interfaces/IUniswapV2Factory.sol";
-import "hardhat/console.sol";
 
 contract FeeApprover is Ownable {
 	using SafeMath for uint256;
 
 	// In this contract, e do calculate fee and the real amount to be sent to the recepient
 
-	function initialize(address _EonsAddress, address _WETHAddress, address _uniswapFactory) public {
+	constructor (address _EonsAddress, address _WETHAddress, address _uniswapFactory) public {
 		eonsTokenAddress = _EonsAddress;
 		WETHAddress = _WETHAddress;
 		tokenUniswapPair = IUniswapV2Factory(_uniswapFactory).getPair(

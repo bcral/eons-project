@@ -33,7 +33,7 @@ contract Eons is ERC20Upgradeable, OwnableUpgradeable, MinterRole {
     return _transactionFee;
   }
 
-  function setWallet(address payable wallet) external onlyOwner{
+  function setWallet(address payable wallet) external onlyOwner {
     _wallet = wallet;
   }
 
@@ -53,8 +53,8 @@ contract Eons is ERC20Upgradeable, OwnableUpgradeable, MinterRole {
 
   /// @dev mints amount of eons for only approaved users
   function mintForApprovedUser(uint amount) external payable {
-    require(msg.value > _transactionFee, 'Fee invalid');
-    require(_approvedMinter[msg.sender] > amount, 'exceeded amount to mint');
+    require(msg.value >= _transactionFee, 'Fee invalid');
+    require(_approvedMinter[msg.sender] >= amount, 'exceeded amount to mint');
     
     _wallet.transfer(msg.value);
     _mint(msg.sender, amount);
