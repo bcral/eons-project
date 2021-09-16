@@ -6,7 +6,7 @@ import 'hardhat/console.sol';
 
 import './Roles.sol';
 
-contract MinterRole is ContextUpgradeable {
+contract MinterRoleUpgradeable is ContextUpgradeable {
 	using Roles for Roles.Role;
 
 	event MinterAdded(address indexed account);

@@ -9,6 +9,15 @@ contract FeeApprover is Ownable {
 
 	// In this contract, e do calculate fee and the real amount to be sent to the recepient
 
+	address tokenUniswapPair;
+	IUniswapV2Factory public uniswapFactory;
+	address internal WETHAddress;
+	address eonsTokenAddress;
+	address eonsVaultAddress;
+	uint8 public feePercentX100; // max 255 = 25.5% artificial clamp
+	uint256 public lastTotalSupplyOfLPTokens;
+	bool paused;
+
 	constructor (address _EonsAddress, address _WETHAddress, address _uniswapFactory) public {
 		eonsTokenAddress = _EonsAddress;
 		WETHAddress = _WETHAddress;
@@ -19,15 +28,6 @@ contract FeeApprover is Ownable {
 		feePercentX100 = 10;
 		paused = true; // We start paused until sync post LGE happens.
 	}
-
-	address tokenUniswapPair;
-	IUniswapV2Factory public uniswapFactory;
-	address internal WETHAddress;
-	address eonsTokenAddress;
-	address eonsVaultAddress;
-	uint8 public feePercentX100; // max 255 = 25.5% artificial clamp
-	uint256 public lastTotalSupplyOfLPTokens;
-	bool paused;
 
     // HAL9K token is pausable
 	function setPaused(bool _pause) public onlyOwner {

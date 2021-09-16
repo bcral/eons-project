@@ -3,7 +3,7 @@ pragma solidity ^0.8.0;
 pragma experimental ABIEncoderV2;
 
 import '@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol';
-import '@openzeppelin/contracts-upgradeable/token/ERC20/SafeERC20Upgradeable.sol';
+import '@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol';
 import '@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol';
 import '@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol';
 import 'hardhat/console.sol';
@@ -35,16 +35,19 @@ contract EonsAaveRouter is OwnableUpgradeable {
   IEonsAaveVault public aaveVault;
 
   modifier onlyEonsAaveVault {
-    require(msg.sender == aaveVault, "Only EonsAaveVault is authorized");
+    require(msg.sender == address(aaveVault), "Only EonsAaveVault is authorized");
     _;
   }
 
-  function initialize(address _lendingPoolProvider, address _wethGateway, address _aaveVault) external initializer {
+  function initialize(address _lendingPoolProvider, address _wethGateway) external initializer {
     lendingPoolAddressesProvider = ILendingPoolAddressesProvider(_lendingPoolProvider);
     referralCode = 0;
     wethGateway = IWETHGateway(_wethGateway);
     __Ownable_init();
-    aaveVault = IEonsAaveVault(_aaveVault);
+  }
+
+  function setVault(address _vault) external onlyOwner {
+    aaveVault = IEonsAaveVault(_vault);
   }
 
   function getAsset(uint256 _pid) external view returns (address aToken, address reserve, uint256 income) {
@@ -86,7 +89,7 @@ contract EonsAaveRouter is OwnableUpgradeable {
     asset.aToken = _aToken;
   }
 
-  function deposit(uint _amount, uint _pid, address _user) external {
+  function deposit(uint _amount, uint _pid, address _user) external onlyEonsAaveVault {
     AssetInfo memory asset = assetInfo[_pid];
     require(asset.reserve != address(0), 'reserve address of this pool not be given yet');
 
@@ -96,7 +99,7 @@ contract EonsAaveRouter is OwnableUpgradeable {
 
     lendingPool.deposit(asset.reserve, _amount, address(this), referralCode);
   }
-  
+
   function withdraw(uint _pid, uint _amount, address _recipient) external onlyEonsAaveVault {
     AssetInfo memory asset = assetInfo[_pid];
     ILendingPool lendingPool = ILendingPool(lendingPoolAddressesProvider.getLendingPool());

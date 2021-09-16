@@ -1,20 +1,14 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import '@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol';
-import '@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol';
-import '@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol';
+import '@openzeppelin/contracts/token/ERC20/ERC20.sol';
+import '@openzeppelin/contracts/utils/Address.sol';
+import '@openzeppelin/contracts/access/Ownable.sol';
 import "hardhat/console.sol";
 
 import '../utilities/MinterRole.sol';
 
-contract EonsLP is ERC20Upgradeable, OwnableUpgradeable, MinterRole {
-
-    function initialize() external initializer {
-        __ERC20_init('EONS LP', 'ELP');
-        __MinterRole_init();
-        __Ownable_init();
-    }
+contract EonsLP is ERC20('EONS LP', 'ELP'), Ownable, MinterRole {
 
     /// @dev Mint ELP. Only minter can mint
     function mint(address recepient, uint amount) external onlyMinter {
@@ -27,12 +21,12 @@ contract EonsLP is ERC20Upgradeable, OwnableUpgradeable, MinterRole {
     }
 
     /// @dev Burn ALP from given account. Caller must have proper allowance.
-    function burnFrom(address account, uint256 _amount) external {
+    function burnFrom(address _account, uint256 _amount) external {
         uint256 decreasedAllowance =
-            allowance(account, _msgSender())-_amount;
+            allowance(_account, _msgSender())-_amount;
 
-        _approve(account, _msgSender(), decreasedAllowance);
-        _burn(account, _amount);
+        _approve(_account, _msgSender(), decreasedAllowance);
+        _burn(_account, _amount);
     }
 
     /**

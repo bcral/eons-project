@@ -1,23 +1,20 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import '@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol';
-import '@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol';
-import '@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol';
+import '@openzeppelin/contracts/token/ERC20/ERC20.sol';
+import '@openzeppelin/contracts/utils/Address.sol';
+import '@openzeppelin/contracts/access/Ownable.sol';
 import 'hardhat/console.sol';
 
 import '../utilities/MinterRole.sol';
 
-contract Eons is ERC20Upgradeable, OwnableUpgradeable, MinterRole {
+contract Eons is ERC20, Ownable, MinterRole {
 
   mapping (address => uint) _approvedMinter;
   uint private _transactionFee;
   address payable private _wallet;
 
-  function initialize() external initializer {
-    __ERC20_init('EONS Token', 'EONS');
-    __Ownable_init();
-    __MinterRole_init();
+  constructor() public ERC20('EONS Token', 'EONS') {
     _transactionFee = 5 * 10 ** 14;
     _wallet = payable(msg.sender);
   }

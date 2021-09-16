@@ -209,7 +209,7 @@ contract EonsAaveVault is OwnableUpgradeable {
         }
         user.amount = 0;
       } else {
-        user.amount = user.amount-_amount;
+        user.amount = user.amount - _amount;
         pool.totalStaked = pool.totalStaked-_amount;
       }
       uint256 eTokenBalance = IEonsETH(pool.eToken).balanceOf(msg.sender);

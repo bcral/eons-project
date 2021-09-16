@@ -20,7 +20,7 @@ task('accounts', 'Prints the list of accounts', async () => {
  * @type import('hardhat/config').HardhatUserConfig
  */
 module.exports = {
-  defaultNetwork: 'mainnet',
+  defaultNetwork: 'maticMainnet',
   networks: {
     hardhat: {},
     rinkeby: {
@@ -51,6 +51,13 @@ module.exports = {
     binanceMainnet: {
       url: "https://bsc-dataseed.binance.org/",
       chainId: 56,
+      accounts: [process.env.PRIVATE_KEY],
+      live: true,
+      saveDeployments: true
+    },
+    maticMainnet: {
+      url: "https://rpc-mainnet.maticvigil.com",
+      chainId: 137,
       accounts: [process.env.PRIVATE_KEY],
       live: true,
       saveDeployments: true

@@ -1,0 +1,497 @@
+{
+  "manifestVersion": "3.1",
+  "impls": {
+    "be1e06e843f2e2b1ff4941c7a1c74922cdb14b164b94aac7eb05b35d3167c538": {
+      "address": "0x848fA2351E98D6501bD61B11Db0eA19c8c4328dC",
+      "txHash": "0x7b34d0bd116d9b9e21981ad54c5722fe3ef2aac227df3d5900c94057b414c887",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Initializable",
+            "label": "initialized",
+            "type": "t_bool",
+            "src": "contracts\\utilities\\Initializable.sol:22"
+          },
+          {
+            "contract": "Initializable",
+            "label": "initializing",
+            "type": "t_bool",
+            "src": "contracts\\utilities\\Initializable.sol:27"
+          },
+          {
+            "contract": "Initializable",
+            "label": "______gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "contracts\\utilities\\Initializable.sol:62"
+          },
+          {
+            "contract": "ContextUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:30"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "_owner",
+            "type": "t_address",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:21"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:77"
+          },
+          {
+            "contract": "EonsUniswapVault",
+            "label": "_eonsLp",
+            "type": "t_contract(IEonsLP)2925",
+            "src": "contracts\\vaults\\EonsUniswapVault.sol:24"
+          },
+          {
+            "contract": "EonsUniswapVault",
+            "label": "_eons",
+            "type": "t_contract(IERC20Upgradeable)821",
+            "src": "contracts\\vaults\\EonsUniswapVault.sol:25"
+          },
+          {
+            "contract": "EonsUniswapVault",
+            "label": "_devaddr",
+            "type": "t_address",
+            "src": "contracts\\vaults\\EonsUniswapVault.sol:28"
+          },
+          {
+            "contract": "EonsUniswapVault",
+            "label": "userInfo",
+            "type": "t_mapping(t_uint256,t_mapping(t_address,t_struct(UserInfo)9723_storage))",
+            "src": "contracts\\vaults\\EonsUniswapVault.sol:30"
+          },
+          {
+            "contract": "EonsUniswapVault",
+            "label": "DEV_FEE",
+            "type": "t_uint16",
+            "src": "contracts\\vaults\\EonsUniswapVault.sol:31"
+          },
+          {
+            "contract": "EonsUniswapVault",
+            "label": "_superAdmin",
+            "type": "t_address",
+            "src": "contracts\\vaults\\EonsUniswapVault.sol:32"
+          }
+        ],
+        "types": {
+          "t_contract(IEonsLP)2925": {
+            "label": "contract IEonsLP"
+          },
+          "t_contract(IERC20Upgradeable)821": {
+            "label": "contract IERC20Upgradeable"
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_mapping(t_uint256,t_mapping(t_address,t_struct(UserInfo)9723_storage))": {
+            "label": "mapping(uint256 => mapping(address => struct EonsUniswapVault.UserInfo))"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_mapping(t_address,t_struct(UserInfo)9723_storage)": {
+            "label": "mapping(address => struct EonsUniswapVault.UserInfo)"
+          },
+          "t_struct(UserInfo)9723_storage": {
+            "label": "struct EonsUniswapVault.UserInfo",
+            "members": [
+              {
+                "label": "addr",
+                "type": "t_address"
+              },
+              {
+                "label": "amount",
+                "type": "t_uint256"
+              },
+              {
+                "label": "rewardDebt",
+                "type": "t_uint256"
+              }
+            ]
+          },
+          "t_uint16": {
+            "label": "uint16"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          },
+          "t_bool": {
+            "label": "bool"
+          }
+        }
+      }
+    },
+    "c58619f1a7dc320cb61b21ed5e9673f2421887549d2a32f083ab177f287cfd2c": {
+      "address": "0xc92A901f348951cB0b13010C3134E25708f015db",
+      "txHash": "0x5c67871eb5deafc68a2788050c8a0440c3c68c5bac09c2b0f425315fc69f03ad",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Initializable",
+            "label": "initialized",
+            "type": "t_bool",
+            "src": "contracts\\utilities\\Initializable.sol:22"
+          },
+          {
+            "contract": "Initializable",
+            "label": "initializing",
+            "type": "t_bool",
+            "src": "contracts\\utilities\\Initializable.sol:27"
+          },
+          {
+            "contract": "Initializable",
+            "label": "______gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "contracts\\utilities\\Initializable.sol:62"
+          },
+          {
+            "contract": "ContextUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:30"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "_owner",
+            "type": "t_address",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:21"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:77"
+          },
+          {
+            "contract": "EonsUniswapRouter",
+            "label": "hardEons",
+            "type": "t_mapping(t_address,t_uint256)",
+            "src": "contracts\\routers\\EonsUniswapRouter.sol:17"
+          },
+          {
+            "contract": "EonsUniswapRouter",
+            "label": "_eonsToken",
+            "type": "t_address",
+            "src": "contracts\\routers\\EonsUniswapRouter.sol:19"
+          },
+          {
+            "contract": "EonsUniswapRouter",
+            "label": "_eonsWETHPair",
+            "type": "t_address",
+            "src": "contracts\\routers\\EonsUniswapRouter.sol:20"
+          },
+          {
+            "contract": "EonsUniswapRouter",
+            "label": "_feeApprover",
+            "type": "t_contract(IFeeApprover)3094",
+            "src": "contracts\\routers\\EonsUniswapRouter.sol:21"
+          },
+          {
+            "contract": "EonsUniswapRouter",
+            "label": "_eonsUniVault",
+            "type": "t_contract(IEonsUniVault)3039",
+            "src": "contracts\\routers\\EonsUniswapRouter.sol:22"
+          },
+          {
+            "contract": "EonsUniswapRouter",
+            "label": "_WETH",
+            "type": "t_contract(IWETH)2647",
+            "src": "contracts\\routers\\EonsUniswapRouter.sol:23"
+          },
+          {
+            "contract": "EonsUniswapRouter",
+            "label": "_uniV2Factory",
+            "type": "t_address",
+            "src": "contracts\\routers\\EonsUniswapRouter.sol:24"
+          },
+          {
+            "contract": "EonsUniswapRouter",
+            "label": "_uniLpIncome",
+            "type": "t_uint256",
+            "src": "contracts\\routers\\EonsUniswapRouter.sol:25"
+          }
+        ],
+        "types": {
+          "t_mapping(t_address,t_uint256)": {
+            "label": "mapping(address => uint256)"
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_contract(IFeeApprover)3094": {
+            "label": "contract IFeeApprover"
+          },
+          "t_contract(IEonsUniVault)3039": {
+            "label": "contract IEonsUniVault"
+          },
+          "t_contract(IWETH)2647": {
+            "label": "contract IWETH"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          },
+          "t_bool": {
+            "label": "bool"
+          }
+        }
+      }
+    },
+    "1b4776e01aed7eb77df1fdb2e6039708f06c90fe93960252eaf7e791b03ad137": {
+      "address": "0x2dfD15a0Daad6fCEfFe4ba6C1C49d4a8063e548a",
+      "txHash": "0x374249c969e52bdce8718e2f9b8771ee98d9467c7497d3c5ad47e43e6538a9b4",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Initializable",
+            "label": "_initialized",
+            "type": "t_bool",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:21"
+          },
+          {
+            "contract": "Initializable",
+            "label": "_initializing",
+            "type": "t_bool",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:26"
+          },
+          {
+            "contract": "ContextUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:30"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "_owner",
+            "type": "t_address",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:21"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:77"
+          },
+          {
+            "contract": "EonsUniswapRouter",
+            "label": "hardEons",
+            "type": "t_mapping(t_address,t_uint256)",
+            "src": "contracts\\routers\\EonsUniswapRouter.sol:17"
+          },
+          {
+            "contract": "EonsUniswapRouter",
+            "label": "_eonsToken",
+            "type": "t_address",
+            "src": "contracts\\routers\\EonsUniswapRouter.sol:19"
+          },
+          {
+            "contract": "EonsUniswapRouter",
+            "label": "_eonsWETHPair",
+            "type": "t_address",
+            "src": "contracts\\routers\\EonsUniswapRouter.sol:20"
+          },
+          {
+            "contract": "EonsUniswapRouter",
+            "label": "_feeApprover",
+            "type": "t_contract(IFeeApprover)996",
+            "src": "contracts\\routers\\EonsUniswapRouter.sol:21"
+          },
+          {
+            "contract": "EonsUniswapRouter",
+            "label": "_eonsUniVault",
+            "type": "t_contract(IEonsUniVault)941",
+            "src": "contracts\\routers\\EonsUniswapRouter.sol:22"
+          },
+          {
+            "contract": "EonsUniswapRouter",
+            "label": "_WETH",
+            "type": "t_contract(IWETH)855",
+            "src": "contracts\\routers\\EonsUniswapRouter.sol:23"
+          },
+          {
+            "contract": "EonsUniswapRouter",
+            "label": "_uniV2Factory",
+            "type": "t_address",
+            "src": "contracts\\routers\\EonsUniswapRouter.sol:24"
+          },
+          {
+            "contract": "EonsUniswapRouter",
+            "label": "_uniLpIncome",
+            "type": "t_uint256",
+            "src": "contracts\\routers\\EonsUniswapRouter.sol:25"
+          }
+        ],
+        "types": {
+          "t_mapping(t_address,t_uint256)": {
+            "label": "mapping(address => uint256)"
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_contract(IFeeApprover)996": {
+            "label": "contract IFeeApprover"
+          },
+          "t_contract(IEonsUniVault)941": {
+            "label": "contract IEonsUniVault"
+          },
+          "t_contract(IWETH)855": {
+            "label": "contract IWETH"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          },
+          "t_bool": {
+            "label": "bool"
+          }
+        }
+      }
+    },
+    "152bc50313ac41df3cb3249756dfb3747d268d9cdecf09a61d426a736b4f66f9": {
+      "address": "0x89681767365BcA8A4fDF511c3C8D6C06E2bF2cef",
+      "txHash": "0x4a673c6261a84eded230a591462154c968331196f07e9bf9b1b6655cd05df5ac",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Initializable",
+            "label": "initialized",
+            "type": "t_bool",
+            "src": "contracts\\utilities\\Initializable.sol:22"
+          },
+          {
+            "contract": "Initializable",
+            "label": "initializing",
+            "type": "t_bool",
+            "src": "contracts\\utilities\\Initializable.sol:27"
+          },
+          {
+            "contract": "Initializable",
+            "label": "______gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "contracts\\utilities\\Initializable.sol:62"
+          },
+          {
+            "contract": "ContextUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:30"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "_owner",
+            "type": "t_address",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:21"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:77"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "lendingPoolAddressesProvider",
+            "type": "t_contract(ILendingPoolAddressesProvider)3624",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:31"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "assetInfo",
+            "type": "t_mapping(t_uint256,t_struct(AssetInfo)5811_storage)",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:32"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "wethGateway",
+            "type": "t_contract(IWETHGateway)3714",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:33"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "referralCode",
+            "type": "t_uint16",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:34"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "aaveVault",
+            "type": "t_contract(IEonsAaveVault)2866",
+            "src": "contracts\\routers\\EnosAaveRouter.sol:35"
+          }
+        ],
+        "types": {
+          "t_contract(ILendingPoolAddressesProvider)3624": {
+            "label": "contract ILendingPoolAddressesProvider"
+          },
+          "t_mapping(t_uint256,t_struct(AssetInfo)5811_storage)": {
+            "label": "mapping(uint256 => struct EonsAaveRouter.AssetInfo)"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_struct(AssetInfo)5811_storage": {
+            "label": "struct EonsAaveRouter.AssetInfo",
+            "members": [
+              {
+                "label": "aToken",
+                "type": "t_address"
+              },
+              {
+                "label": "reserve",
+                "type": "t_address"
+              },
+              {
+                "label": "income",
+                "type": "t_uint256"
+              }
+            ]
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_contract(IWETHGateway)3714": {
+            "label": "contract IWETHGateway"
+          },
+          "t_uint16": {
+            "label": "uint16"
+          },
+          "t_contract(IEonsAaveVault)2866": {
+            "label": "contract IEonsAaveVault"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          },
+          "t_bool": {
+            "label": "bool"
+          }
+        }
+      }
+    }
+  },
+  "admin": {
+    "address": "0xA8c6cfF73c9026d15F2c9e4900767830bcD86246",
+    "txHash": "0x70722b4373308bbb40204b43e308e6e3f7b1e20b19dcb18bcdd7e86415bfdac6"
+  }
+}
