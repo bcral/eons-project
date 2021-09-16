@@ -8,13 +8,13 @@ import '@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol';
 import '@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol';
 import 'hardhat/console.sol';
 
-import '../interfaces/IWETH.sol';
-import '../interfaces/ILendingPool.sol';
-import '../interfaces/ILendingPoolAddressesProvider.sol';
-import '../interfaces/IAToken.sol';
-import '../interfaces/IWETHGateway.sol';
-import '../libraries/DataTypes.sol';
-import '../interfaces/IEonsAaveVault.sol';
+import '../../peripheries/interfaces/IWETH.sol';
+import '../../peripheries/interfaces/ILendingPool.sol';
+import '../../peripheries/interfaces/ILendingPoolAddressesProvider.sol';
+import '../../peripheries/interfaces/IAToken.sol';
+import '../../peripheries/interfaces/IWETHGateway.sol';
+import '../../peripheries/libraries/DataTypes.sol';
+import '../../peripheries/interfaces/IEonsAaveVault.sol';
 
 contract EonsAaveRouter is OwnableUpgradeable {
   using AddressUpgradeable for address;

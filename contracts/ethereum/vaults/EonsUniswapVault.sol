@@ -7,7 +7,7 @@ import '@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeab
 import '@openzeppelin/contracts-upgradeable/utils/structs/EnumerableSetUpgradeable.sol';
 import 'hardhat/console.sol';
 
-import '../interfaces/IEonsLP.sol';
+import '../../peripheries/interfaces/IEonsLP.sol';
 // EONS Vault distributes fees equally amongst staked pools
 // Have fun reading it. Hopefully it's bug-free. God bless.
 contract EonsUniswapVault is OwnableUpgradeable {

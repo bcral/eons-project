@@ -5,11 +5,11 @@ import '@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol';
 import '@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol';
 
 
-import '../interfaces/ILendingPool.sol';
-import '../interfaces/IEonsETH.sol';
-import '../interfaces/IEons.sol';
-import '../interfaces/IWETH.sol';
-import '../interfaces/IEonsAaveRouter.sol';
+import '../../peripheries/interfaces/ILendingPool.sol';
+import '../../peripheries/interfaces/IEonsETH.sol';
+import '../../peripheries/interfaces/IEons.sol';
+import '../../peripheries/interfaces/IWETH.sol';
+import '../../peripheries/interfaces/IEonsAaveRouter.sol';
 
 contract EonsAaveVault is OwnableUpgradeable {
 

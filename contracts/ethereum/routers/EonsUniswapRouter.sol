@@ -8,10 +8,10 @@ import '@uniswap/lib/contracts/libraries/TransferHelper.sol';
 import '@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol';
 import '@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol';
 
-import '../interfaces/IFeeApprover.sol';
-import '../interfaces/IEonsUniVault.sol';
-import '../libraries/Math.sol';
-import '../libraries/UniswapV2Library.sol';
+import '../../peripheries/interfaces/IFeeApprover.sol';
+import '../../peripheries/interfaces/IEonsUniVault.sol';
+import '../../peripheries/libraries/Math.sol';
+import '../../peripheries/libraries/UniswapV2Library.sol';
 
 contract EonsUniswapRouter is OwnableUpgradeable {
 	mapping(address => uint256) public hardEons;
