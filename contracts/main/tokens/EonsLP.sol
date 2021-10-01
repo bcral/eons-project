@@ -6,12 +6,10 @@ import '@openzeppelin/contracts/utils/Address.sol';
 import '@openzeppelin/contracts/access/Ownable.sol';
 import "hardhat/console.sol";
 
-import '../../peripheries/utilities/MinterRole.sol';
+contract EonsLP is ERC20('EONS LP', 'ELP'), Ownable {
 
-contract EonsLP is ERC20('EONS LP', 'ELP'), Ownable, MinterRole {
-
-    /// @dev Mint ELP. Only minter can mint
-    function mint(address recepient, uint amount) external onlyMinter {
+    /// @dev Mint ELP. Only owner can mint EonsAaveVault
+    function mint(address recepient, uint amount) external onlyOwner {
         _mint(recepient, amount);
     }
 
@@ -21,7 +19,7 @@ contract EonsLP is ERC20('EONS LP', 'ELP'), Ownable, MinterRole {
     }
 
     /// @dev Burn ALP from given account. Caller must have proper allowance.
-    function burnFrom(address _account, uint256 _amount) external {
+    function burnFrom(address _account, uint256 _amount) external onlyOwner {
         uint256 decreasedAllowance =
             allowance(_account, _msgSender())-_amount;
 
