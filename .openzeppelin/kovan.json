@@ -1,104 +1,184 @@
 {
-  "manifestVersion": "3.1",
+  "manifestVersion": "3.2",
+  "admin": {
+    "address": "0xdB968280af9B52932Db29928AEB02b80056f3698",
+    "txHash": "0xce2d6f14cb8ac41bbfd14b6dfa39f862f0a3d966b87f4def4cb4e28ee323d177",
+    "deployTransaction": {
+      "hash": "0xce2d6f14cb8ac41bbfd14b6dfa39f862f0a3d966b87f4def4cb4e28ee323d177",
+      "type": 2,
+      "accessList": [],
+      "blockHash": null,
+      "blockNumber": null,
+      "transactionIndex": null,
+      "confirmations": 0,
+      "from": "0x4Bf18d1fD330C5c32eAaB1C673593255EBA546af",
+      "gasPrice": {
+        "type": "BigNumber",
+        "hex": "0x3b9aca02"
+      },
+      "maxPriorityFeePerGas": {
+        "type": "BigNumber",
+        "hex": "0x3b9ac9f8"
+      },
+      "maxFeePerGas": {
+        "type": "BigNumber",
+        "hex": "0x3b9aca02"
+      },
+      "gasLimit": {
+        "type": "BigNumber",
+        "hex": "0x0762b4"
+      },
+      "to": null,
+      "value": {
+        "type": "BigNumber",
+        "hex": "0x00"
+      },
+      "nonce": 17,
+      "data": "0x608060405234801561001057600080fd5b50600080546001600160a01b031916339081178255604051909182917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0908290a350610759806100616000396000f3fe60806040526004361061007b5760003560e01c80639623609d1161004e5780639623609d1461011157806399a88ec414610124578063f2fde38b14610144578063f3b7dead146101645761007b565b8063204e1c7a14610080578063715018a6146100bc5780637eff275e146100d35780638da5cb5b146100f3575b600080fd5b34801561008c57600080fd5b506100a061009b366004610515565b610184565b6040516001600160a01b03909116815260200160405180910390f35b3480156100c857600080fd5b506100d1610215565b005b3480156100df57600080fd5b506100d16100ee366004610554565b610292565b3480156100ff57600080fd5b506000546001600160a01b03166100a0565b6100d161011f36600461058c565b61031c565b34801561013057600080fd5b506100d161013f366004610554565b6103ad565b34801561015057600080fd5b506100d161015f366004610515565b610405565b34801561017057600080fd5b506100a061017f366004610515565b6104ef565b6000806000836001600160a01b03166040516101aa90635c60da1b60e01b815260040190565b600060405180830381855afa9150503d80600081146101e5576040519150601f19603f3d011682016040523d82523d6000602084013e6101ea565b606091505b5091509150816101f957600080fd5b8080602001905181019061020d9190610538565b949350505050565b6000546001600160a01b031633146102485760405162461bcd60e51b815260040161023f906106c0565b60405180910390fd5b600080546040516001600160a01b03909116907f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0908390a3600080546001600160a01b0319169055565b6000546001600160a01b031633146102bc5760405162461bcd60e51b815260040161023f906106c0565b6040516308f2839760e41b81526001600160a01b038281166004830152831690638f283970906024015b600060405180830381600087803b15801561030057600080fd5b505af1158015610314573d6000803e3d6000fd5b505050505050565b6000546001600160a01b031633146103465760405162461bcd60e51b815260040161023f906106c0565b60405163278f794360e11b81526001600160a01b03841690634f1ef286903490610376908690869060040161065d565b6000604051808303818588803b15801561038f57600080fd5b505af11580156103a3573d6000803e3d6000fd5b5050505050505050565b6000546001600160a01b031633146103d75760405162461bcd60e51b815260040161023f906106c0565b604051631b2ce7f360e11b81526001600160a01b038281166004830152831690633659cfe6906024016102e6565b6000546001600160a01b0316331461042f5760405162461bcd60e51b815260040161023f906106c0565b6001600160a01b0381166104945760405162461bcd60e51b815260206004820152602660248201527f4f776e61626c653a206e6577206f776e657220697320746865207a65726f206160448201526564647265737360d01b606482015260840161023f565b600080546040516001600160a01b03808516939216917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e091a3600080546001600160a01b0319166001600160a01b0392909216919091179055565b6000806000836001600160a01b03166040516101aa906303e1469160e61b815260040190565b600060208284031215610526578081fd5b81356105318161070b565b9392505050565b600060208284031215610549578081fd5b81516105318161070b565b60008060408385031215610566578081fd5b82356105718161070b565b915060208301356105818161070b565b809150509250929050565b6000806000606084860312156105a0578081fd5b83356105ab8161070b565b925060208401356105bb8161070b565b9150604084013567ffffffffffffffff808211156105d7578283fd5b818601915086601f8301126105ea578283fd5b8135818111156105fc576105fc6106f5565b604051601f8201601f19908116603f01168101908382118183101715610624576106246106f5565b8160405282815289602084870101111561063c578586fd5b82602086016020830137856020848301015280955050505050509250925092565b600060018060a01b038416825260206040818401528351806040850152825b818110156106985785810183015185820160600152820161067c565b818111156106a95783606083870101525b50601f01601f191692909201606001949350505050565b6020808252818101527f4f776e61626c653a2063616c6c6572206973206e6f7420746865206f776e6572604082015260600190565b634e487b7160e01b600052604160045260246000fd5b6001600160a01b038116811461072057600080fd5b5056fea2646970667358221220d849f96f3086b9f82cdcf665adb8c697ace05638da1c7c16ab2d26293717af6764736f6c63430008020033",
+      "r": "0x08bac91a747652fba88d7eff2b8c5fbdfd4b643e74c1a1997643f594ebaa1e17",
+      "s": "0x1776cfa9f51ab23be2903cc171e969b5d7ee21193435dffe2aeba39b88ee42c5",
+      "v": 1,
+      "creates": "0xdB968280af9B52932Db29928AEB02b80056f3698",
+      "raw": "0x02f908132a11843b9ac9f8843b9aca02830762b48080b907ba608060405234801561001057600080fd5b50600080546001600160a01b031916339081178255604051909182917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0908290a350610759806100616000396000f3fe60806040526004361061007b5760003560e01c80639623609d1161004e5780639623609d1461011157806399a88ec414610124578063f2fde38b14610144578063f3b7dead146101645761007b565b8063204e1c7a14610080578063715018a6146100bc5780637eff275e146100d35780638da5cb5b146100f3575b600080fd5b34801561008c57600080fd5b506100a061009b366004610515565b610184565b6040516001600160a01b03909116815260200160405180910390f35b3480156100c857600080fd5b506100d1610215565b005b3480156100df57600080fd5b506100d16100ee366004610554565b610292565b3480156100ff57600080fd5b506000546001600160a01b03166100a0565b6100d161011f36600461058c565b61031c565b34801561013057600080fd5b506100d161013f366004610554565b6103ad565b34801561015057600080fd5b506100d161015f366004610515565b610405565b34801561017057600080fd5b506100a061017f366004610515565b6104ef565b6000806000836001600160a01b03166040516101aa90635c60da1b60e01b815260040190565b600060405180830381855afa9150503d80600081146101e5576040519150601f19603f3d011682016040523d82523d6000602084013e6101ea565b606091505b5091509150816101f957600080fd5b8080602001905181019061020d9190610538565b949350505050565b6000546001600160a01b031633146102485760405162461bcd60e51b815260040161023f906106c0565b60405180910390fd5b600080546040516001600160a01b03909116907f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0908390a3600080546001600160a01b0319169055565b6000546001600160a01b031633146102bc5760405162461bcd60e51b815260040161023f906106c0565b6040516308f2839760e41b81526001600160a01b038281166004830152831690638f283970906024015b600060405180830381600087803b15801561030057600080fd5b505af1158015610314573d6000803e3d6000fd5b505050505050565b6000546001600160a01b031633146103465760405162461bcd60e51b815260040161023f906106c0565b60405163278f794360e11b81526001600160a01b03841690634f1ef286903490610376908690869060040161065d565b6000604051808303818588803b15801561038f57600080fd5b505af11580156103a3573d6000803e3d6000fd5b5050505050505050565b6000546001600160a01b031633146103d75760405162461bcd60e51b815260040161023f906106c0565b604051631b2ce7f360e11b81526001600160a01b038281166004830152831690633659cfe6906024016102e6565b6000546001600160a01b0316331461042f5760405162461bcd60e51b815260040161023f906106c0565b6001600160a01b0381166104945760405162461bcd60e51b815260206004820152602660248201527f4f776e61626c653a206e6577206f776e657220697320746865207a65726f206160448201526564647265737360d01b606482015260840161023f565b600080546040516001600160a01b03808516939216917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e091a3600080546001600160a01b0319166001600160a01b0392909216919091179055565b6000806000836001600160a01b03166040516101aa906303e1469160e61b815260040190565b600060208284031215610526578081fd5b81356105318161070b565b9392505050565b600060208284031215610549578081fd5b81516105318161070b565b60008060408385031215610566578081fd5b82356105718161070b565b915060208301356105818161070b565b809150509250929050565b6000806000606084860312156105a0578081fd5b83356105ab8161070b565b925060208401356105bb8161070b565b9150604084013567ffffffffffffffff808211156105d7578283fd5b818601915086601f8301126105ea578283fd5b8135818111156105fc576105fc6106f5565b604051601f8201601f19908116603f01168101908382118183101715610624576106246106f5565b8160405282815289602084870101111561063c578586fd5b82602086016020830137856020848301015280955050505050509250925092565b600060018060a01b038416825260206040818401528351806040850152825b818110156106985785810183015185820160600152820161067c565b818111156106a95783606083870101525b50601f01601f191692909201606001949350505050565b6020808252818101527f4f776e61626c653a2063616c6c6572206973206e6f7420746865206f776e6572604082015260600190565b634e487b7160e01b600052604160045260246000fd5b6001600160a01b038116811461072057600080fd5b5056fea2646970667358221220d849f96f3086b9f82cdcf665adb8c697ace05638da1c7c16ab2d26293717af6764736f6c63430008020033c001a008bac91a747652fba88d7eff2b8c5fbdfd4b643e74c1a1997643f594ebaa1e17a01776cfa9f51ab23be2903cc171e969b5d7ee21193435dffe2aeba39b88ee42c5",
+      "chainId": 42
+    }
+  },
+  "proxies": [
+    {
+      "address": "0x848fA2351E98D6501bD61B11Db0eA19c8c4328dC",
+      "txHash": "0x2e9278126bbdcce5036377922603bdb9a304deeb3e81dac5e0798d6a51f021b2",
+      "kind": "transparent"
+    },
+    {
+      "address": "0xfd8d593492A709f8C357f5464C65ff420aE50bf5",
+      "txHash": "0xad7726c0e0a0a5d9a5dc07472cd59c734e0d70cfa1aeede18526bd6d56afb68e",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x2dfD15a0Daad6fCEfFe4ba6C1C49d4a8063e548a",
+      "txHash": "0x521bdf2adc43b4718ea26292b9a9f861b73ddfc1f2139cd5d9dd578ac8d400e2",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x89681767365BcA8A4fDF511c3C8D6C06E2bF2cef",
+      "txHash": "0x76d25ae433d9d668fc2ef98437be24d83647f3c2836565c91e4802e3245f1a51",
+      "kind": "transparent"
+    },
+    {
+      "address": "0xff0DF166fA78603354C3c9c0cbC30EC16A7FEd24",
+      "txHash": "0xc2cac02cf236b9391a5be39cbf6f774c7bf6d15047d74977a355cfd58abb354e",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x22F1efCE833652651922E81804E9942aac7B217C",
+      "txHash": "0x7192c7c2e893bd384a28917ae7359e1bcdd98fad9cfd3f6d41e5ea90b8e48fcf",
+      "kind": "transparent"
+    },
+    {
+      "address": "0xdfb157F343A01497D9cc8B14Da29B0B80b1aDD27",
+      "txHash": "0x5df112eb11816a7d18a6673d16759a1c40a27d0a925b6b9ca3d3eecc2935f168",
+      "kind": "transparent"
+    }
+  ],
   "impls": {
-    "3444eaccff424c12a0f1a323b974b38415b973ad184338f604671f03815ceb7e": {
-      "address": "0x9DACA80481d99B61f9fcbFeFE712142DF9004D28",
-      "txHash": "0xfb017bf988a386b7bc6f947c13da5219ac3aec5558c16b515f8e5f27a970af41",
+    "be1e06e843f2e2b1ff4941c7a1c74922cdb14b164b94aac7eb05b35d3167c538": {
+      "address": "0xF8AE6281D3aC79a279c5CF27DD2900755c711b6F",
+      "txHash": "0xb546a1eca3d7a2e84a24b441650414911de36eb8f21f3769420802cff20a9ba0",
       "layout": {
         "storage": [
           {
             "contract": "Initializable",
             "label": "initialized",
             "type": "t_bool",
-            "src": "contracts\\utilities\\Initializable.sol:22"
+            "src": "contracts\\peripheries\\utilities\\Initializable.sol:22"
           },
           {
             "contract": "Initializable",
             "label": "initializing",
             "type": "t_bool",
-            "src": "contracts\\utilities\\Initializable.sol:27"
+            "src": "contracts\\peripheries\\utilities\\Initializable.sol:27"
           },
           {
             "contract": "Initializable",
             "label": "______gap",
             "type": "t_array(t_uint256)50_storage",
-            "src": "contracts\\utilities\\Initializable.sol:62"
+            "src": "contracts\\peripheries\\utilities\\Initializable.sol:62"
           },
           {
             "contract": "ContextUpgradeable",
             "label": "__gap",
             "type": "t_array(t_uint256)50_storage",
-            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:31"
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:30"
           },
           {
             "contract": "OwnableUpgradeable",
             "label": "_owner",
             "type": "t_address",
-            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:20"
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:21"
           },
           {
             "contract": "OwnableUpgradeable",
             "label": "__gap",
             "type": "t_array(t_uint256)49_storage",
-            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:74"
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:77"
           },
           {
             "contract": "EonsUniswapVault",
             "label": "_eonsLp",
-            "type": "t_contract(IEonsLP)3485",
-            "src": "contracts\\vaults\\EonsUniswapVault.sol:26"
+            "type": "t_contract(IEonsLP)8258",
+            "src": "contracts\\main\\vaults\\EonsUniswapVault.sol:24"
           },
           {
             "contract": "EonsUniswapVault",
             "label": "_eons",
-            "type": "t_contract(IERC20Upgradeable)1162",
-            "src": "contracts\\vaults\\EonsUniswapVault.sol:27"
+            "type": "t_contract(IERC20Upgradeable)248",
+            "src": "contracts\\main\\vaults\\EonsUniswapVault.sol:25"
           },
           {
             "contract": "EonsUniswapVault",
             "label": "_devaddr",
             "type": "t_address",
-            "src": "contracts\\vaults\\EonsUniswapVault.sol:30"
+            "src": "contracts\\main\\vaults\\EonsUniswapVault.sol:28"
           },
           {
             "contract": "EonsUniswapVault",
             "label": "userInfo",
-            "type": "t_mapping(t_uint256,t_mapping(t_address,t_struct(UserInfo)10192_storage))",
-            "src": "contracts\\vaults\\EonsUniswapVault.sol:32"
+            "type": "t_mapping(t_uint256,t_mapping(t_address,t_struct(UserInfo)7488_storage))",
+            "src": "contracts\\main\\vaults\\EonsUniswapVault.sol:30"
           },
           {
             "contract": "EonsUniswapVault",
             "label": "DEV_FEE",
             "type": "t_uint16",
-            "src": "contracts\\vaults\\EonsUniswapVault.sol:33"
+            "src": "contracts\\main\\vaults\\EonsUniswapVault.sol:31"
           },
           {
             "contract": "EonsUniswapVault",
             "label": "_superAdmin",
             "type": "t_address",
-            "src": "contracts\\vaults\\EonsUniswapVault.sol:34"
+            "src": "contracts\\main\\vaults\\EonsUniswapVault.sol:32"
           }
         ],
         "types": {
-          "t_contract(IEonsLP)3485": {
+          "t_contract(IEonsLP)8258": {
             "label": "contract IEonsLP"
           },
-          "t_contract(IERC20Upgradeable)1162": {
+          "t_contract(IERC20Upgradeable)248": {
             "label": "contract IERC20Upgradeable"
           },
           "t_address": {
             "label": "address"
           },
-          "t_mapping(t_uint256,t_mapping(t_address,t_struct(UserInfo)10192_storage))": {
+          "t_mapping(t_uint256,t_mapping(t_address,t_struct(UserInfo)7488_storage))": {
             "label": "mapping(uint256 => mapping(address => struct EonsUniswapVault.UserInfo))"
           },
           "t_uint256": {
             "label": "uint256"
           },
-          "t_mapping(t_address,t_struct(UserInfo)10192_storage)": {
+          "t_mapping(t_address,t_struct(UserInfo)7488_storage)": {
             "label": "mapping(address => struct EonsUniswapVault.UserInfo)"
           },
-          "t_struct(UserInfo)10192_storage": {
+          "t_struct(UserInfo)7488_storage": {
             "label": "struct EonsUniswapVault.UserInfo",
             "members": [
               {
@@ -130,94 +210,94 @@
         }
       }
     },
-    "c86f059cf1f92d22b076e218834d3e30ea66d16b0b834074abebe33d519921c0": {
-      "address": "0xeAEF170b719b8b6614eBbF65f94939ccCb9B583d",
-      "txHash": "0xb186f5d405c905dbb05c2f004f88f0fc3727246576daee57c9cb021ab2c2d180",
+    "c58619f1a7dc320cb61b21ed5e9673f2421887549d2a32f083ab177f287cfd2c": {
+      "address": "0xA8c6cfF73c9026d15F2c9e4900767830bcD86246",
+      "txHash": "0xe0aaafea9aba6461b984bc3255e51f39ad774066dc7378987b63ec67a7fd3ca2",
       "layout": {
         "storage": [
           {
             "contract": "Initializable",
             "label": "initialized",
             "type": "t_bool",
-            "src": "contracts\\utilities\\Initializable.sol:22"
+            "src": "contracts\\peripheries\\utilities\\Initializable.sol:22"
           },
           {
             "contract": "Initializable",
             "label": "initializing",
             "type": "t_bool",
-            "src": "contracts\\utilities\\Initializable.sol:27"
+            "src": "contracts\\peripheries\\utilities\\Initializable.sol:27"
           },
           {
             "contract": "Initializable",
             "label": "______gap",
             "type": "t_array(t_uint256)50_storage",
-            "src": "contracts\\utilities\\Initializable.sol:62"
+            "src": "contracts\\peripheries\\utilities\\Initializable.sol:62"
           },
           {
             "contract": "ContextUpgradeable",
             "label": "__gap",
             "type": "t_array(t_uint256)50_storage",
-            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:31"
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:30"
           },
           {
             "contract": "OwnableUpgradeable",
             "label": "_owner",
             "type": "t_address",
-            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:20"
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:21"
           },
           {
             "contract": "OwnableUpgradeable",
             "label": "__gap",
             "type": "t_array(t_uint256)49_storage",
-            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:74"
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:77"
           },
           {
             "contract": "EonsUniswapRouter",
             "label": "hardEons",
             "type": "t_mapping(t_address,t_uint256)",
-            "src": "contracts\\routers\\EonsUniswapRouter.sol:19"
+            "src": "contracts\\main\\routers\\EonsUniswapRouter.sol:17"
           },
           {
             "contract": "EonsUniswapRouter",
             "label": "_eonsToken",
             "type": "t_address",
-            "src": "contracts\\routers\\EonsUniswapRouter.sol:21"
+            "src": "contracts\\main\\routers\\EonsUniswapRouter.sol:19"
           },
           {
             "contract": "EonsUniswapRouter",
             "label": "_eonsWETHPair",
             "type": "t_address",
-            "src": "contracts\\routers\\EonsUniswapRouter.sol:22"
+            "src": "contracts\\main\\routers\\EonsUniswapRouter.sol:20"
           },
           {
             "contract": "EonsUniswapRouter",
             "label": "_feeApprover",
-            "type": "t_contract(IFeeApprover)3653",
-            "src": "contracts\\routers\\EonsUniswapRouter.sol:23"
+            "type": "t_contract(IFeeApprover)8427",
+            "src": "contracts\\main\\routers\\EonsUniswapRouter.sol:21"
           },
           {
             "contract": "EonsUniswapRouter",
             "label": "_eonsUniVault",
-            "type": "t_contract(IEonsUniVault)3598",
-            "src": "contracts\\routers\\EonsUniswapRouter.sol:24"
+            "type": "t_contract(IEonsUniVault)8372",
+            "src": "contracts\\main\\routers\\EonsUniswapRouter.sol:22"
           },
           {
             "contract": "EonsUniswapRouter",
             "label": "_WETH",
-            "type": "t_contract(IWETH)3207",
-            "src": "contracts\\routers\\EonsUniswapRouter.sol:25"
+            "type": "t_contract(IWETH)2917",
+            "src": "contracts\\main\\routers\\EonsUniswapRouter.sol:23"
           },
           {
             "contract": "EonsUniswapRouter",
             "label": "_uniV2Factory",
             "type": "t_address",
-            "src": "contracts\\routers\\EonsUniswapRouter.sol:26"
+            "src": "contracts\\main\\routers\\EonsUniswapRouter.sol:24"
           },
           {
             "contract": "EonsUniswapRouter",
             "label": "_uniLpIncome",
             "type": "t_uint256",
-            "src": "contracts\\routers\\EonsUniswapRouter.sol:27"
+            "src": "contracts\\main\\routers\\EonsUniswapRouter.sol:25"
           }
         ],
         "types": {
@@ -230,13 +310,13 @@
           "t_uint256": {
             "label": "uint256"
           },
-          "t_contract(IFeeApprover)3653": {
+          "t_contract(IFeeApprover)8427": {
             "label": "contract IFeeApprover"
           },
-          "t_contract(IEonsUniVault)3598": {
+          "t_contract(IEonsUniVault)8372": {
             "label": "contract IEonsUniVault"
           },
-          "t_contract(IWETH)3207": {
+          "t_contract(IWETH)2917": {
             "label": "contract IWETH"
           },
           "t_array(t_uint256)49_storage": {
@@ -251,83 +331,89 @@
         }
       }
     },
-    "4aaeda34d54a5e08cccba785bc18e6198f04e46b98da7c506e083216d4f5079a": {
-      "address": "0x09D8F57BD4fA9BCe7348ea09b09a83c9eFAAc391",
-      "txHash": "0x9967630c41345457494913eb98bcf230e9397abf899ef05701b71cdf67ecf8c6",
+    "00449f13acaba8d3401d907f48f1e0bd3153e3663a3dfd44d58b14d3c01d7c00": {
+      "address": "0xc92A901f348951cB0b13010C3134E25708f015db",
+      "txHash": "0x21895d702dce339d68c067d7c8c8599b1412cb60cd96cbf567939b151e25e07c",
       "layout": {
         "storage": [
           {
             "contract": "Initializable",
             "label": "initialized",
             "type": "t_bool",
-            "src": "contracts\\utilities\\Initializable.sol:22"
+            "src": "contracts\\peripheries\\utilities\\Initializable.sol:22"
           },
           {
             "contract": "Initializable",
             "label": "initializing",
             "type": "t_bool",
-            "src": "contracts\\utilities\\Initializable.sol:27"
+            "src": "contracts\\peripheries\\utilities\\Initializable.sol:27"
           },
           {
             "contract": "Initializable",
             "label": "______gap",
             "type": "t_array(t_uint256)50_storage",
-            "src": "contracts\\utilities\\Initializable.sol:62"
+            "src": "contracts\\peripheries\\utilities\\Initializable.sol:62"
           },
           {
             "contract": "ContextUpgradeable",
             "label": "__gap",
             "type": "t_array(t_uint256)50_storage",
-            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:31"
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:30"
           },
           {
             "contract": "OwnableUpgradeable",
             "label": "_owner",
             "type": "t_address",
-            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:20"
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:21"
           },
           {
             "contract": "OwnableUpgradeable",
             "label": "__gap",
             "type": "t_array(t_uint256)49_storage",
-            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:74"
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:77"
           },
           {
             "contract": "EonsAaveRouter",
             "label": "lendingPoolAddressesProvider",
-            "type": "t_contract(ILendingPoolAddressesProvider)4179",
-            "src": "contracts\\routers\\EnosAaveRouter.sol:32"
+            "type": "t_contract(ILendingPoolAddressesProvider)8957",
+            "src": "contracts\\main\\routers\\EonsAaveRouter.sol:31"
           },
           {
             "contract": "EonsAaveRouter",
             "label": "assetInfo",
-            "type": "t_mapping(t_uint256,t_struct(AssetInfo)6359_storage)",
-            "src": "contracts\\routers\\EnosAaveRouter.sol:33"
+            "type": "t_mapping(t_uint256,t_struct(AssetInfo)3375_storage)",
+            "src": "contracts\\main\\routers\\EonsAaveRouter.sol:32"
           },
           {
             "contract": "EonsAaveRouter",
             "label": "wethGateway",
-            "type": "t_contract(IWETHGateway)4269",
-            "src": "contracts\\routers\\EnosAaveRouter.sol:34"
+            "type": "t_contract(IWETHGateway)9047",
+            "src": "contracts\\main\\routers\\EonsAaveRouter.sol:33"
           },
           {
             "contract": "EonsAaveRouter",
             "label": "referralCode",
             "type": "t_uint16",
-            "src": "contracts\\routers\\EnosAaveRouter.sol:35"
+            "src": "contracts\\main\\routers\\EonsAaveRouter.sol:34"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "aaveVault",
+            "type": "t_contract(IEonsAaveVault)8199",
+            "src": "contracts\\main\\routers\\EonsAaveRouter.sol:35"
           }
         ],
         "types": {
-          "t_contract(ILendingPoolAddressesProvider)4179": {
+          "t_contract(ILendingPoolAddressesProvider)8957": {
             "label": "contract ILendingPoolAddressesProvider"
           },
-          "t_mapping(t_uint256,t_struct(AssetInfo)6359_storage)": {
+          "t_mapping(t_uint256,t_struct(AssetInfo)3375_storage)": {
             "label": "mapping(uint256 => struct EonsAaveRouter.AssetInfo)"
           },
           "t_uint256": {
             "label": "uint256"
           },
-          "t_struct(AssetInfo)6359_storage": {
+          "t_struct(AssetInfo)3375_storage": {
             "label": "struct EonsAaveRouter.AssetInfo",
             "members": [
               {
@@ -347,11 +433,14 @@
           "t_address": {
             "label": "address"
           },
-          "t_contract(IWETHGateway)4269": {
+          "t_contract(IWETHGateway)9047": {
             "label": "contract IWETHGateway"
           },
           "t_uint16": {
             "label": "uint16"
+          },
+          "t_contract(IEonsAaveVault)8199": {
+            "label": "contract IEonsAaveVault"
           },
           "t_array(t_uint256)49_storage": {
             "label": "uint256[49]"
@@ -365,107 +454,107 @@
         }
       }
     },
-    "8188c7e8c56d3744d7c47d51b775fa82baa2ba234277ad38e8fe02e5abd7cfee": {
-      "address": "0x0b329C0e737ecfbDcfD66c474182fF9017e451c1",
-      "txHash": "0x02aadc57b05037d5313c37d296695fd4f54e6c578bc840a6e676af62cae92edd",
+    "03da39f684d5adb480b1fca6b835c63fad9414f6a46f9e924bea135573a4fd26": {
+      "address": "0x34bB3921cd8c2BfE2Be04A1aDD7eE5313443867e",
+      "txHash": "0x199e92ee26c91efe9238ea92189df4540790d3236fadfb697261571381f2d110",
       "layout": {
         "storage": [
           {
             "contract": "Initializable",
             "label": "initialized",
             "type": "t_bool",
-            "src": "contracts\\utilities\\Initializable.sol:22"
+            "src": "contracts\\peripheries\\utilities\\Initializable.sol:22"
           },
           {
             "contract": "Initializable",
             "label": "initializing",
             "type": "t_bool",
-            "src": "contracts\\utilities\\Initializable.sol:27"
+            "src": "contracts\\peripheries\\utilities\\Initializable.sol:27"
           },
           {
             "contract": "Initializable",
             "label": "______gap",
             "type": "t_array(t_uint256)50_storage",
-            "src": "contracts\\utilities\\Initializable.sol:62"
+            "src": "contracts\\peripheries\\utilities\\Initializable.sol:62"
           },
           {
             "contract": "ContextUpgradeable",
             "label": "__gap",
             "type": "t_array(t_uint256)50_storage",
-            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:31"
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:30"
           },
           {
             "contract": "OwnableUpgradeable",
             "label": "_owner",
             "type": "t_address",
-            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:20"
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:21"
           },
           {
             "contract": "OwnableUpgradeable",
             "label": "__gap",
             "type": "t_array(t_uint256)49_storage",
-            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:74"
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:77"
           },
           {
             "contract": "EonsAaveVault",
             "label": "poolInfo",
-            "type": "t_array(t_struct(PoolInfo)9153_storage)dyn_storage",
-            "src": "contracts\\vaults\\EonsAaveVault.sol:36"
+            "type": "t_array(t_struct(PoolInfo)5925_storage)dyn_storage",
+            "src": "contracts\\main\\vaults\\EonsAaveVault.sol:35"
           },
           {
             "contract": "EonsAaveVault",
             "label": "userInfo",
-            "type": "t_mapping(t_address,t_mapping(t_uint256,t_struct(UserInfo)9160_storage))",
-            "src": "contracts\\vaults\\EonsAaveVault.sol:37"
+            "type": "t_mapping(t_address,t_mapping(t_uint256,t_struct(UserInfo)5932_storage))",
+            "src": "contracts\\main\\vaults\\EonsAaveVault.sol:36"
           },
           {
             "contract": "EonsAaveVault",
             "label": "router",
-            "type": "t_contract(IEonsAaveRouter)3406",
-            "src": "contracts\\vaults\\EonsAaveVault.sol:39"
+            "type": "t_contract(IEonsAaveRouter)8179",
+            "src": "contracts\\main\\vaults\\EonsAaveVault.sol:38"
           },
           {
             "contract": "EonsAaveVault",
             "label": "eons",
-            "type": "t_contract(IEons)3353",
-            "src": "contracts\\vaults\\EonsAaveVault.sol:40"
+            "type": "t_contract(IEons)8126",
+            "src": "contracts\\main\\vaults\\EonsAaveVault.sol:39"
           },
           {
             "contract": "EonsAaveVault",
             "label": "totalAllocPoint",
             "type": "t_uint256",
-            "src": "contracts\\vaults\\EonsAaveVault.sol:41"
+            "src": "contracts\\main\\vaults\\EonsAaveVault.sol:40"
           },
           {
             "contract": "EonsAaveVault",
             "label": "poolRewardRate",
             "type": "t_uint256",
-            "src": "contracts\\vaults\\EonsAaveVault.sol:42"
+            "src": "contracts\\main\\vaults\\EonsAaveVault.sol:41"
           },
           {
             "contract": "EonsAaveVault",
             "label": "devFeeRate",
             "type": "t_uint256",
-            "src": "contracts\\vaults\\EonsAaveVault.sol:43"
+            "src": "contracts\\main\\vaults\\EonsAaveVault.sol:42"
           },
           {
             "contract": "EonsAaveVault",
             "label": "devAddress",
             "type": "t_address",
-            "src": "contracts\\vaults\\EonsAaveVault.sol:44"
+            "src": "contracts\\main\\vaults\\EonsAaveVault.sol:43"
           },
           {
             "contract": "EonsAaveVault",
             "label": "userCountInPool",
             "type": "t_mapping(t_uint256,t_uint256)",
-            "src": "contracts\\vaults\\EonsAaveVault.sol:45"
+            "src": "contracts\\main\\vaults\\EonsAaveVault.sol:44"
           }
         ],
         "types": {
-          "t_array(t_struct(PoolInfo)9153_storage)dyn_storage": {
+          "t_array(t_struct(PoolInfo)5925_storage)dyn_storage": {
             "label": "struct EonsAaveVault.PoolInfo[]"
           },
-          "t_struct(PoolInfo)9153_storage": {
+          "t_struct(PoolInfo)5925_storage": {
             "label": "struct EonsAaveVault.PoolInfo",
             "members": [
               {
@@ -510,13 +599,13 @@
           "t_uint256": {
             "label": "uint256"
           },
-          "t_mapping(t_address,t_mapping(t_uint256,t_struct(UserInfo)9160_storage))": {
+          "t_mapping(t_address,t_mapping(t_uint256,t_struct(UserInfo)5932_storage))": {
             "label": "mapping(address => mapping(uint256 => struct EonsAaveVault.UserInfo))"
           },
-          "t_mapping(t_uint256,t_struct(UserInfo)9160_storage)": {
+          "t_mapping(t_uint256,t_struct(UserInfo)5932_storage)": {
             "label": "mapping(uint256 => struct EonsAaveVault.UserInfo)"
           },
-          "t_struct(UserInfo)9160_storage": {
+          "t_struct(UserInfo)5932_storage": {
             "label": "struct EonsAaveVault.UserInfo",
             "members": [
               {
@@ -536,10 +625,10 @@
           "t_bool": {
             "label": "bool"
           },
-          "t_contract(IEonsAaveRouter)3406": {
+          "t_contract(IEonsAaveRouter)8179": {
             "label": "contract IEonsAaveRouter"
           },
-          "t_contract(IEons)3353": {
+          "t_contract(IEons)8126": {
             "label": "contract IEons"
           },
           "t_mapping(t_uint256,t_uint256)": {
@@ -554,143 +643,143 @@
         }
       }
     },
-    "e00846d79fda3df2ed3a086d6e4d94a6af169900567f53f02f0aeb1746be5b8a": {
-      "address": "0x4aF8f489809e7e62cB484a25246Ca6A659Adce71",
-      "txHash": "0x45bb0bfb1d529a7773019bcf12177d61bd4dde8fe7b9c1fce6862595a051b754",
+    "6b79cc52d6d4e9f1ddffff781e10f41808f44b0724be0b5ee1a879765923e9a9": {
+      "address": "0xb5B9adB01EE5f337Cc4b1b268892848587f01468",
+      "txHash": "0x11c0fac6e39b3180f7f6d4c724b4f1c4b69ab0d3f5c1bedc7b088d97fa3d4123",
       "layout": {
         "storage": [
           {
             "contract": "Initializable",
             "label": "initialized",
             "type": "t_bool",
-            "src": "contracts\\utilities\\Initializable.sol:22"
+            "src": "contracts\\peripheries\\utilities\\Initializable.sol:22"
           },
           {
             "contract": "Initializable",
             "label": "initializing",
             "type": "t_bool",
-            "src": "contracts\\utilities\\Initializable.sol:27"
+            "src": "contracts\\peripheries\\utilities\\Initializable.sol:27"
           },
           {
             "contract": "Initializable",
             "label": "______gap",
             "type": "t_array(t_uint256)50_storage",
-            "src": "contracts\\utilities\\Initializable.sol:62"
+            "src": "contracts\\peripheries\\utilities\\Initializable.sol:62"
           },
           {
             "contract": "ContextUpgradeable",
             "label": "__gap",
             "type": "t_array(t_uint256)50_storage",
-            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:31"
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:30"
           },
           {
             "contract": "OwnableUpgradeable",
             "label": "_owner",
             "type": "t_address",
-            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:20"
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:21"
           },
           {
             "contract": "OwnableUpgradeable",
             "label": "__gap",
             "type": "t_array(t_uint256)49_storage",
-            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:74"
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:77"
           },
           {
             "contract": "Controller",
             "label": "aaveVault",
-            "type": "t_contract(IEonsAaveVault)3426",
-            "src": "contracts\\main\\Controller.sol:23"
+            "type": "t_contract(IEonsAaveVault)8199",
+            "src": "contracts\\main\\Controller.sol:22"
           },
           {
             "contract": "Controller",
             "label": "aaveRouter",
-            "type": "t_contract(IEonsAaveRouter)3406",
-            "src": "contracts\\main\\Controller.sol:24"
+            "type": "t_contract(IEonsAaveRouter)8179",
+            "src": "contracts\\main\\Controller.sol:23"
           },
           {
             "contract": "Controller",
             "label": "uniVault",
-            "type": "t_contract(IEonsUniVault)3598",
-            "src": "contracts\\main\\Controller.sol:25"
+            "type": "t_contract(IEonsUniVault)8372",
+            "src": "contracts\\main\\Controller.sol:24"
           },
           {
             "contract": "Controller",
             "label": "uniRouter",
-            "type": "t_contract(IEonsUniRouter)3513",
-            "src": "contracts\\main\\Controller.sol:26"
+            "type": "t_contract(IEonsUniRouter)8286",
+            "src": "contracts\\main\\Controller.sol:25"
           },
           {
             "contract": "Controller",
             "label": "eons",
-            "type": "t_contract(IEons)3353",
-            "src": "contracts\\main\\Controller.sol:27"
+            "type": "t_contract(IEons)8126",
+            "src": "contracts\\main\\Controller.sol:26"
           },
           {
             "contract": "Controller",
             "label": "priceOracle",
-            "type": "t_contract(IPriceOracle)4210",
-            "src": "contracts\\main\\Controller.sol:28"
+            "type": "t_contract(IPriceOracle)8988",
+            "src": "contracts\\main\\Controller.sol:27"
           },
           {
             "contract": "Controller",
             "label": "emissionRate",
             "type": "t_uint256",
-            "src": "contracts\\main\\Controller.sol:29"
+            "src": "contracts\\main\\Controller.sol:28"
           },
           {
             "contract": "Controller",
             "label": "emissionDistributionRateOfPools",
             "type": "t_uint256",
-            "src": "contracts\\main\\Controller.sol:30"
+            "src": "contracts\\main\\Controller.sol:29"
           },
           {
             "contract": "Controller",
             "label": "emissionDistributionRateOfLP",
             "type": "t_uint256",
-            "src": "contracts\\main\\Controller.sol:31"
+            "src": "contracts\\main\\Controller.sol:30"
           },
           {
             "contract": "Controller",
             "label": "emissionDistributionRateOfTreasury",
             "type": "t_uint256",
-            "src": "contracts\\main\\Controller.sol:32"
+            "src": "contracts\\main\\Controller.sol:31"
           },
           {
             "contract": "Controller",
             "label": "blockCreationTime",
             "type": "t_uint256",
-            "src": "contracts\\main\\Controller.sol:33"
+            "src": "contracts\\main\\Controller.sol:32"
           },
           {
             "contract": "Controller",
             "label": "lastEmissionCalcBlockNumber",
             "type": "t_uint256",
-            "src": "contracts\\main\\Controller.sol:34"
+            "src": "contracts\\main\\Controller.sol:33"
           },
           {
             "contract": "Controller",
             "label": "treasury",
             "type": "t_address",
-            "src": "contracts\\main\\Controller.sol:35"
+            "src": "contracts\\main\\Controller.sol:34"
           }
         ],
         "types": {
-          "t_contract(IEonsAaveVault)3426": {
+          "t_contract(IEonsAaveVault)8199": {
             "label": "contract IEonsAaveVault"
           },
-          "t_contract(IEonsAaveRouter)3406": {
+          "t_contract(IEonsAaveRouter)8179": {
             "label": "contract IEonsAaveRouter"
           },
-          "t_contract(IEonsUniVault)3598": {
+          "t_contract(IEonsUniVault)8372": {
             "label": "contract IEonsUniVault"
           },
-          "t_contract(IEonsUniRouter)3513": {
+          "t_contract(IEonsUniRouter)8286": {
             "label": "contract IEonsUniRouter"
           },
-          "t_contract(IEons)3353": {
+          "t_contract(IEons)8126": {
             "label": "contract IEons"
           },
-          "t_contract(IPriceOracle)4210": {
+          "t_contract(IPriceOracle)8988": {
             "label": "contract IPriceOracle"
           },
           "t_uint256": {
@@ -710,239 +799,6 @@
           }
         }
       }
-    },
-    "685c7de3089f20c628d161698c136aa4ee3129fd9fa0a4a528c559eee905abbb": {
-      "address": "0xA412283dB1c0D6062887746a818444154B3020a5",
-      "txHash": "0xae6c67cc98378aafa67abe1e57c441845daf2c748e4efd1b3768f95d93b0a349",
-      "layout": {
-        "storage": [
-          {
-            "contract": "Initializable",
-            "label": "_initialized",
-            "type": "t_bool",
-            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\Initializable.sol:25"
-          },
-          {
-            "contract": "Initializable",
-            "label": "_initializing",
-            "type": "t_bool",
-            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\Initializable.sol:30"
-          },
-          {
-            "contract": "ContextUpgradeable",
-            "label": "__gap",
-            "type": "t_array(t_uint256)50_storage",
-            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:31"
-          },
-          {
-            "contract": "OwnableUpgradeable",
-            "label": "_owner",
-            "type": "t_address",
-            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:20"
-          },
-          {
-            "contract": "OwnableUpgradeable",
-            "label": "__gap",
-            "type": "t_array(t_uint256)49_storage",
-            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:74"
-          },
-          {
-            "contract": "EonsUniswapRouter",
-            "label": "hardEons",
-            "type": "t_mapping(t_address,t_uint256)",
-            "src": "contracts\\routers\\EonsUniswapRouter.sol:19"
-          },
-          {
-            "contract": "EonsUniswapRouter",
-            "label": "_eonsToken",
-            "type": "t_address",
-            "src": "contracts\\routers\\EonsUniswapRouter.sol:21"
-          },
-          {
-            "contract": "EonsUniswapRouter",
-            "label": "_eonsWETHPair",
-            "type": "t_address",
-            "src": "contracts\\routers\\EonsUniswapRouter.sol:22"
-          },
-          {
-            "contract": "EonsUniswapRouter",
-            "label": "_feeApprover",
-            "type": "t_contract(IFeeApprover)1976",
-            "src": "contracts\\routers\\EonsUniswapRouter.sol:23"
-          },
-          {
-            "contract": "EonsUniswapRouter",
-            "label": "_eonsUniVault",
-            "type": "t_contract(IEonsUniVault)1921",
-            "src": "contracts\\routers\\EonsUniswapRouter.sol:24"
-          },
-          {
-            "contract": "EonsUniswapRouter",
-            "label": "_WETH",
-            "type": "t_contract(IWETH)1836",
-            "src": "contracts\\routers\\EonsUniswapRouter.sol:25"
-          },
-          {
-            "contract": "EonsUniswapRouter",
-            "label": "_uniV2Factory",
-            "type": "t_address",
-            "src": "contracts\\routers\\EonsUniswapRouter.sol:26"
-          },
-          {
-            "contract": "EonsUniswapRouter",
-            "label": "_uniLpIncome",
-            "type": "t_uint256",
-            "src": "contracts\\routers\\EonsUniswapRouter.sol:27"
-          }
-        ],
-        "types": {
-          "t_mapping(t_address,t_uint256)": {
-            "label": "mapping(address => uint256)"
-          },
-          "t_address": {
-            "label": "address"
-          },
-          "t_uint256": {
-            "label": "uint256"
-          },
-          "t_contract(IFeeApprover)1976": {
-            "label": "contract IFeeApprover"
-          },
-          "t_contract(IEonsUniVault)1921": {
-            "label": "contract IEonsUniVault"
-          },
-          "t_contract(IWETH)1836": {
-            "label": "contract IWETH"
-          },
-          "t_array(t_uint256)49_storage": {
-            "label": "uint256[49]"
-          },
-          "t_array(t_uint256)50_storage": {
-            "label": "uint256[50]"
-          },
-          "t_bool": {
-            "label": "bool"
-          }
-        }
-      }
-    },
-    "e4b2b53a5d1141477d647650ce982b3883f20244676bc5e1e0746502d3306113": {
-      "address": "0xDb0f94c2D5aFf0B6afB2aDF3693DCC0Ce40f24dA",
-      "txHash": "0x09a611cc36c79f822dfa9ba2b78d657a23289de8ac6220592db7765142439a20",
-      "layout": {
-        "storage": [
-          {
-            "contract": "Initializable",
-            "label": "initialized",
-            "type": "t_bool",
-            "src": "contracts\\utilities\\Initializable.sol:22"
-          },
-          {
-            "contract": "Initializable",
-            "label": "initializing",
-            "type": "t_bool",
-            "src": "contracts\\utilities\\Initializable.sol:27"
-          },
-          {
-            "contract": "Initializable",
-            "label": "______gap",
-            "type": "t_array(t_uint256)50_storage",
-            "src": "contracts\\utilities\\Initializable.sol:62"
-          },
-          {
-            "contract": "ContextUpgradeable",
-            "label": "__gap",
-            "type": "t_array(t_uint256)50_storage",
-            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:31"
-          },
-          {
-            "contract": "OwnableUpgradeable",
-            "label": "_owner",
-            "type": "t_address",
-            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:20"
-          },
-          {
-            "contract": "OwnableUpgradeable",
-            "label": "__gap",
-            "type": "t_array(t_uint256)49_storage",
-            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:74"
-          },
-          {
-            "contract": "EonsAaveRouter",
-            "label": "lendingPoolAddressesProvider",
-            "type": "t_contract(ILendingPoolAddressesProvider)4179",
-            "src": "contracts\\routers\\EnosAaveRouter.sol:32"
-          },
-          {
-            "contract": "EonsAaveRouter",
-            "label": "assetInfo",
-            "type": "t_mapping(t_uint256,t_struct(AssetInfo)6359_storage)",
-            "src": "contracts\\routers\\EnosAaveRouter.sol:33"
-          },
-          {
-            "contract": "EonsAaveRouter",
-            "label": "wethGateway",
-            "type": "t_contract(IWETHGateway)4269",
-            "src": "contracts\\routers\\EnosAaveRouter.sol:34"
-          },
-          {
-            "contract": "EonsAaveRouter",
-            "label": "referralCode",
-            "type": "t_uint16",
-            "src": "contracts\\routers\\EnosAaveRouter.sol:35"
-          }
-        ],
-        "types": {
-          "t_contract(ILendingPoolAddressesProvider)4179": {
-            "label": "contract ILendingPoolAddressesProvider"
-          },
-          "t_mapping(t_uint256,t_struct(AssetInfo)6359_storage)": {
-            "label": "mapping(uint256 => struct EonsAaveRouter.AssetInfo)"
-          },
-          "t_uint256": {
-            "label": "uint256"
-          },
-          "t_struct(AssetInfo)6359_storage": {
-            "label": "struct EonsAaveRouter.AssetInfo",
-            "members": [
-              {
-                "label": "aToken",
-                "type": "t_address"
-              },
-              {
-                "label": "reserve",
-                "type": "t_address"
-              },
-              {
-                "label": "income",
-                "type": "t_uint256"
-              }
-            ]
-          },
-          "t_address": {
-            "label": "address"
-          },
-          "t_contract(IWETHGateway)4269": {
-            "label": "contract IWETHGateway"
-          },
-          "t_uint16": {
-            "label": "uint16"
-          },
-          "t_array(t_uint256)49_storage": {
-            "label": "uint256[49]"
-          },
-          "t_array(t_uint256)50_storage": {
-            "label": "uint256[50]"
-          },
-          "t_bool": {
-            "label": "bool"
-          }
-        }
-      }
     }
-  },
-  "admin": {
-    "address": "0x4773F188748532712BbBD6489f7f014785Fa4918",
-    "txHash": "0x6c87daa91245246f7a8c74d4817ff3ab12f427b9fb59b34d5e9a4a2ecf1f467e"
   }
 }

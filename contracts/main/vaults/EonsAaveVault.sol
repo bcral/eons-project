@@ -57,7 +57,7 @@ contract EonsAaveVault is OwnableUpgradeable {
     router = IEonsAaveRouter(_router);
   }
 
-  function getMultiplier(uint256 _from, uint256 _to) external view returns (uint256) {
+  function getMultiplier(uint256 _from, uint256 _to) external pure returns (uint256) {
       return _to-_from;
   }
 
@@ -107,11 +107,14 @@ contract EonsAaveVault is OwnableUpgradeable {
   function pendingRewardOf(uint256 _pid, address _user) public view returns (uint256) {
     UserInfo storage user = userInfo[_user][_pid];
     PoolInfo storage pool = poolInfo[_pid];
-    uint256 userShareOfPool = user.amount * 1e12 / pool.totalStaked;
-    uint256 total = router.totalStakedOf(_pid);
-    uint256 userStaked = (total - pool.totalStaked) * userShareOfPool / 1e12;
-    uint256 pendingReward = userStaked * poolRewardRate / 1000;
-    return pendingReward;
+    if (pool.totalStaked > 0) {
+      uint256 userShareOfPool = user.amount * 1e12 / pool.totalStaked;
+      uint256 total = router.totalStakedOf(_pid);
+      uint256 userStaked = (total - pool.totalStaked) * userShareOfPool / 1e12;
+      uint256 pendingReward = userStaked * poolRewardRate / 1000;
+      return pendingReward;
+    }
+    return 0;
   }
 
   function add(string memory _symbol, address _eToken, uint16 _allocPoint, uint16 _depositFee) external onlyOwner {

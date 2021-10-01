@@ -10,7 +10,7 @@ import 'hardhat/console.sol';
 import '../../peripheries/interfaces/IEonsLP.sol';
 // EONS Vault distributes fees equally amongst staked pools
 // Have fun reading it. Hopefully it's bug-free. God bless.
-contract EonsQuickswapVault is OwnableUpgradeable {
+contract EonsQuickSwapVault is OwnableUpgradeable {
 	using SafeERC20Upgradeable for IERC20Upgradeable;
 
 	// Info of each user.

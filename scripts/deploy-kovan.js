@@ -9,15 +9,7 @@ const { Wallet } = require('ethers');
 // When running the script with `hardhat run <script>` you'll find the Hardhat
 // Runtime Environment's members available in the global scope.
 
-let wethAddress = '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2';
-
-if (process.env.NETWORK == 'mainnet') {
-  wethAddress = '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2';
-} else if (process.env.NETWORK == 'kovan') {
-  wethAddress = '0xd0a1e359811322d97991e03f863a0c30c2cf029c';
-} else if (process.env.NETWORK == 'rinkeby') {
-  wethAddress = '0xc778417E063141139Fce010982780140Aa0cD5Ab';
-}
+let wethAddress = '0xd0a1e359811322d97991e03f863a0c30c2cf029c';
 
 const aaveLendingPoolProviderAddress = '0x88757f2f99175387ab4c6a4b3067c77a695b0349';  // should be updated with getting latest lending pool address from lending pool provider contract
 const uniswapV2FactoryAddress = '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f';
@@ -26,20 +18,20 @@ const aavePriceOracleAddress = '0xb8be51e6563bb312cbb2aa26e352516c25c26ac1';
 const devAddr = '0xD01A3bA68E7acdD8A5EBaB68d6d6CfA313fec272';
 const treasury = '0xD01A3bA68E7acdD8A5EBaB68d6d6CfA313fec272';
 
-let eonsAddress = '0x544ff9722dFD5D5ed04D78a8764f057ad3303D90';
-let eonsLpAddress = '0x4d4C78B6F604F2F763Bc15ABb1e31743b23AE7f6';
-let eonsETHAddress = '0x446a33dD26d4c1ce84e533db5Ee277BBf700340A';
-let feeApproverAddress = '0xEc065c6092ec8d1af0eCeFFb021e138ab9bfC907';
-let wethGatewayAddress = '0xbC013Dd52575a41E64e8226Eb4C0829BdcCf1EA2';
-let eonsUniVaultProxyAddress = '0x7746a236AA9b49a6058764faa1E1f6408624dd2B';
-let eonsUniRouterProxyAddress = '0x2Bc85a402Ca9C95ee8556B71DcA5F4D50Fc85Ec6';
-// let eonsAaveRouterProxyAddress = '0x31441a0067ad37ac136C8a9207b151090Ea1125B';
-let eonsAaveRouterProxyAddress = '';
-let eonsAaveVaultProxyAddress = '0x308F1fF0E6818d10b0a343bEF1C35b89F4891c0E';
-let controllerProxyAddress = '0xE88583E9FE40ad9836812fef22AD3e52A55AA38A';
+let eonsAddress = '0x63f04014E7baF85ad8DcFa66863401334025Cf5b';
+let eonsLpAddress = '0xa5C58e73F437039297d94a23dA28E4cB9b19eeeD';
+let eEONSAddress = '0xca1014d7Caa632dF73f2BBEFc6b88f05D11E440e';
+let feeApproverAddress = '0x16220134B896F8fE9f5047b0e945b6660646DB9E';
+let wethGatewayAddress = '0xf3d629C1b949F76Fd7ce20A86cFA83Ba932Eb182';
+let eonsUniVaultProxyAddress = '0x848fA2351E98D6501bD61B11Db0eA19c8c4328dC';
+let eonsUniRouterProxyAddress = '0xfd8d593492A709f8C357f5464C65ff420aE50bf5';
+let eonsAaveRouterProxyAddress = '0x89681767365BcA8A4fDF511c3C8D6C06E2bF2cef';
+let eonsAaveVaultProxyAddress = '0x22F1efCE833652651922E81804E9942aac7B217C';
+let controllerProxyAddress = '0xdfb157F343A01497D9cc8B14Da29B0B80b1aDD27';
 
-const eonsETHArtifact = './artifacts/contracts/tokens/EonsETH.sol/EonsETH.json';
-const eonsArtifact = './artifacts/contracts/tokens/Eons.sol/Eons.json';
+const eonsETHArtifact = './artifacts/contracts/main/tokens/EEONS.sol/EEONS.json';
+const eonsArtifact = './artifacts/contracts/main/tokens/Eons.sol/Eons.json';
+const eonsAaveRouterArtifact = './artifacts/contracts/main/routers/EonsAaveRouter.sol/EonsAaveRouter.json';
 
 const unpackArtifact = (artifactPath) => {
   let contractData = JSON.parse(fs.readFileSync(artifactPath));
@@ -95,14 +87,17 @@ const deploy = async (tokenName, initializerName, args = []) => {
     console.log(`[deploy] deployed ${tokenName} proxy to => `, smartContract.address);
     if (tokenName === 'EonsAaveVault') {
       console.log('adding pools to EonsAaveVault...');
-      await smartContract.add('eBTC', eonsETHAddress, 0, 0);
-      await smartContract.add('eETH', eonsETHAddress, 1000, 0);
+      await smartContract.add('eBTC', eEONSAddress, 0, 0);
+      await smartContract.add('eETH', eEONSAddress, 1000, 0);
       console.log('added pools to EonsAaveVault');
       const { abi, bytecode } = unpackArtifact(eonsETHArtifact);
-      const eonsETHContract = new hre.ethers.Contract(eonsETHAddress, abi, wallet.connect(provider));
+      const eonsETHContract = new hre.ethers.Contract(eEONSAddress, abi, wallet.connect(provider));
       console.log('adding EonsAaveVault as a minter to eonsETH...');
       eonsETHContract.addMinter(smartContract.address);
       console.log('added EonsAaveVault as a minter to eonsETH.');
+      const { abi: aaveRouterAbi } = unpackArtifact(eonsAaveRouterArtifact)
+      const aaveRouter = new hre.ethers.Contract(eonsAaveRouterProxyAddress, aaveRouterAbi, wallet.connect(provider));
+      await aaveRouter.setVault(smartContract.address);
     }
     if (tokenName === 'EonsAaveRouter') {
       console.log('adding assets to EonsAaveRouter...');
@@ -139,7 +134,6 @@ const deployEonsToken = async () => {
   const Eons = await hre.ethers.getContractFactory('Eons');
   eons = await Eons.deploy();
   await eons.deployed();
-  await eons.initialize();
   console.log('eons deployed to:', eons.address);
 };
 
@@ -147,16 +141,14 @@ const deployEonsLPToken = async () => {
   const EonsLP = await hre.ethers.getContractFactory('EonsLP');
   eonsLP = await EonsLP.deploy();
   await eonsLP.deployed();
-  await eonsLP.initialize();
   console.log('eonsLP deployed to:', eonsLP.address);
 };
 
-const deployEonsETHToken = async () => {
-  const EonsETH = await hre.ethers.getContractFactory('EonsETH');
-  eonsETH = await EonsETH.deploy();
-  await eonsETH.deployed();
-  await eonsETH.initialize();
-  console.log('eonsETH deployed to:', eonsETH.address);
+const deployEEonsToken = async () => {
+  const EEONS = await hre.ethers.getContractFactory('EEONS');
+  eEONS = await EEONS.deploy();
+  await eEONS.deployed();
+  console.log('eEONS deployed to:', eEONS.address);
 };
 
 const deployEonsAaveVault = async () => {
@@ -230,14 +222,14 @@ const deployController = async () => {
 const main = async () => {
   // await deployEonsToken();
   // await deployEonsLPToken();
-  // await deployEonsETHToken();
+  // await deployEEonsToken();
   // await deployFeeApprover();
   // await deployWETHGateway();
   // await deployEonsUniVault();
   // await deployEonsUniRouter();
-  await deployEonsAaveRouter();
+  // await deployEonsAaveRouter();
   // await deployEonsAaveVault();
-  // await deployController();
+  await deployController();
 };
 
 main();

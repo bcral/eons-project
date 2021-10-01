@@ -20,7 +20,7 @@ task('accounts', 'Prints the list of accounts', async () => {
  * @type import('hardhat/config').HardhatUserConfig
  */
 module.exports = {
-  defaultNetwork: 'maticMainnet',
+  defaultNetwork: 'kovan',
   networks: {
     hardhat: {},
     rinkeby: {
@@ -56,7 +56,7 @@ module.exports = {
       saveDeployments: true
     },
     maticMainnet: {
-      url: "https://rpc-mainnet.maticvigil.com",
+      url: "https://polygon-rpc.com/",
       chainId: 137,
       accounts: [process.env.PRIVATE_KEY],
       live: true,
@@ -76,6 +76,9 @@ module.exports = {
 
     // Binance
     // apiKey: process.env.BINANCE_ETHERSCAN_API_KEY
+
+    // Polygon
+    // apiKey: process.env.POLYGONSCAN_API_KEY
   },
   paths: {
     sources: './contracts',

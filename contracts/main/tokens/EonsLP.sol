@@ -6,7 +6,7 @@ import '@openzeppelin/contracts/utils/Address.sol';
 import '@openzeppelin/contracts/access/Ownable.sol';
 import "hardhat/console.sol";
 
-import '../peripheries/utilities/MinterRole.sol';
+import '../../peripheries/utilities/MinterRole.sol';
 
 contract EonsLP is ERC20('EONS LP', 'ELP'), Ownable, MinterRole {
 

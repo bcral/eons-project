@@ -1,21 +1,21 @@
 require('dotenv').config();
 const hre = require('hardhat');
 
-const wethAddress = '0xd0a1e359811322d97991e03f863a0c30c2cf029c';
-const uniswapV2FactoryAddress = '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f';
-const aaveLendingPoolProviderAddress = '0x88757f2f99175387ab4c6a4b3067c77a695b0349';
-const aavePriceOracleAddress = '0xb8be51e6563bb312cbb2aa26e352516c25c26ac1';
+const wethAddress = '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270';
+const quickswapV2FactoryAddress = '0x5757371414417b8C6CAad45bAeF941aBc7d3Ab32';
+const aaveLendingPoolProviderAddress = '0xd05e3E715d945B59290df0ae8eF85c1BdB684744';
+const aavePriceOracleAddress = '0x0229F777B0fAb107F9591a41d5F02E4e98dB6f2d';
 
-let eonsAddress = '0x63f04014E7baF85ad8DcFa66863401334025Cf5b';
-let eonsLpAddress = '0xa5C58e73F437039297d94a23dA28E4cB9b19eeeD';
-let eEONSAddress = '0xca1014d7Caa632dF73f2BBEFc6b88f05D11E440e';
-let feeApproverAddress = '0x16220134B896F8fE9f5047b0e945b6660646DB9E';
-let wethGatewayAddress = '0xf3d629C1b949F76Fd7ce20A86cFA83Ba932Eb182';
-let eonsQuickVaultProxyAddress = '';
-let eonsQuickRouterProxyAddress = '';
-let eonsAaveRouterProxyAddress = '';
-let eonsAaveVaultProxyAddress = '';
-let controllerProxyAddress = '';
+let eonsAddress = '0x531B8bf27771085f92E77646094408e1E743aa18';
+let eonsLpAddress = '0xA6057eAc9Ee8ca240789a5a11B35a8CC266365dd';
+let eEONSAddress = '0xfB144a0952f179FCD58731c21f78613613010552';
+let feeApproverAddress = '0xed8ed6e6072C80A40781FeB70cA4771978d19eD5';
+let wethGatewayAddress = '0x4e9820e9D254d87D276B1949F79b5874A0f1CB5B';
+let eonsQuickVaultProxyAddress = '0x38eB700D0158caa358362c15Df80b9c4632f511C';
+let eonsQuickRouterProxyAddress = '0x29a795C2Ab1B0330C5a8a27E84EC6a5f17f25026';
+let eonsAaveRouterProxyAddress = '0x54fc6A19FF18EC7BC740444D9215f601B9Ef457b';
+let eonsAaveVaultProxyAddress = '0xfc8dE9c2d105bd71f6b93d6Cfa4C178DE2e2a67b';
+let controllerProxyAddress = '0x4Dc6b8310335E6B49bE6212057aABDe213C762Df';
 
 const eonsVerify = async () => {
   if (eonsAddress) {
@@ -49,7 +49,7 @@ const feeApproverVerify = async () => {
       constructorArguments: [
         eonsAddress,
         wethAddress,
-        uniswapV2FactoryAddress
+        quickswapV2FactoryAddress
       ]
     })
   }
@@ -66,37 +66,37 @@ const wethGatewayAddressVerify = async () => {
   }
 }
 
-const eonsUniVaultVerify = async () => {
+const eonsQuickVaultVerify = async () => {
   await hre.run('verify:verify', {
-    address: '0xf8ae6281d3ac79a279c5cf27dd2900755c711b6f',
-    contract: 'contracts/main/vaults/EonsUniswapVault.sol:EonsUniswapVault'
+    address: '0xef538b1604b0ccc265a99b295f2fed4ad9dcddcf',
+    contract: 'contracts/main/vaults/EonsQuickSwapVault.sol:EonsQuickSwapVault'
   })
 }
 
-const eonsUniRouterVerify = async () => {
+const eonsQuickRouterVerify = async () => {
   await hre.run('verify:verify', {
-    address: '0xa8c6cff73c9026d15f2c9e4900767830bcd86246',
-    contract: 'contracts/main/routers/EonsUniswapRouter.sol:EonsUniswapRouter'
+    address: '0xca1014d7caa632df73f2bbefc6b88f05d11e440e',
+    contract: 'contracts/main/routers/EonsQuickSwapRouter.sol:EonsQuickSwapRouter'
   })
 }
 
 const eonsAaveRouterVerify = async () => {
   await hre.run('verify:verify', {
-    address: '0xc92a901f348951cb0b13010c3134e25708f015db',
+    address: '0x06919a3842dabfd62bda75f383001d4ff2b76ff1',
     contract: 'contracts/main/routers/EonsAaveRouter.sol:EonsAaveRouter'
   })
 }
 
 const eonsAaveVaultVerify = async () => {
   await hre.run('verify:verify', {
-    address: '0x34bb3921cd8c2bfe2be04a1add7ee5313443867e',
+    address: '0x51a68f45d2aa75044b6ae0bd43d0cc4d9750a7c2',
     contract: 'contracts/main/vaults/EonsAaveVault.sol:EonsAaveVault'
   })
 }
 
 const eonsControllerVerify = async () => {
   await hre.run('verify:verify', {
-    address: '0xb5b9adb01ee5f337cc4b1b268892848587f01468',
+    address: '0x1d97b8f363609c1dc426358364dabf0bb052091c',
     contract: 'contracts/main/Controller.sol:Controller'
   })
 }
@@ -107,10 +107,10 @@ const main = async () => {
   // await eEONSVerify();
   // await feeApproverVerify();
   // await wethGatewayAddressVerify();
-  // await eonsUniVaultVerify();
-  // await eonsUniRouterVerify();
+  // await eonsQuickVaultVerify();
+  // await eonsQuickRouterVerify();
   // await eonsAaveRouterVerify();
-  // await eonsAaveVaultVerify();
+  await eonsAaveVaultVerify();
   // await eonsControllerVerify();
 };
 

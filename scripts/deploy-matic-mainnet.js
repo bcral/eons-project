@@ -9,17 +9,7 @@ const { Wallet } = require('ethers');
 // When running the script with `hardhat run <script>` you'll find the Hardhat
 // Runtime Environment's members available in the global scope.
 
-let wethAddress = '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2';
-
-if (process.env.NETWORK == 'mainnet') {
-  wethAddress = '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2';
-} else if (process.env.NETWORK == 'kovan') {
-  wethAddress = '0xd0a1e359811322d97991e03f863a0c30c2cf029c';
-} else if (process.env.NETWORK == 'rinkeby') {
-  wethAddress = '0xc778417E063141139Fce010982780140Aa0cD5Ab';
-} else if (process.env.NETWORK == 'maticmain') {
-  wethAddress = '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270';
-}
+const wethAddress = '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270';
 
 const aaveLendingPoolProviderAddress = '0xd05e3E715d945B59290df0ae8eF85c1BdB684744';  // should be updated with getting latest lending pool address from lending pool provider contract
 const quickswapV2FactoryAddress = '0x5757371414417b8C6CAad45bAeF941aBc7d3Ab32';
@@ -28,20 +18,20 @@ const aavePriceOracleAddress = '0x0229F777B0fAb107F9591a41d5F02E4e98dB6f2d';
 const devAddr = '0x4Bf18d1fD330C5c32eAaB1C673593255EBA546af';
 const treasury = '0x4Bf18d1fD330C5c32eAaB1C673593255EBA546af';
 
-let eonsAddress = '0x106b6Bc5a91FBf98273f22e7d4244ed63b26C32a';
-let eonsLpAddress = '0x1c85B36fDb83a9152CC6340E0d916E31e61b87C1';
-let eEONSAddress = '';
-let feeApproverAddress = '';
-let wethGatewayAddress = '';
-let eonsQuickVaultProxyAddress = '';
-let eonsQuickRouterProxyAddress = '';
-let eonsAaveRouterProxyAddress = '';
-let eonsAaveVaultProxyAddress = '';
-let controllerProxyAddress = '';
+let eonsAddress = '0x531B8bf27771085f92E77646094408e1E743aa18';
+let eonsLpAddress = '0xA6057eAc9Ee8ca240789a5a11B35a8CC266365dd';
+let eEONSAddress = '0xfB144a0952f179FCD58731c21f78613613010552';
+let feeApproverAddress = '0xed8ed6e6072C80A40781FeB70cA4771978d19eD5';
+let wethGatewayAddress = '0x4e9820e9D254d87D276B1949F79b5874A0f1CB5B';
+let eonsQuickVaultProxyAddress = '0x38eB700D0158caa358362c15Df80b9c4632f511C';
+let eonsQuickRouterProxyAddress = '0x43aD208F63fEF4A3246AFCBF2C46652a57818235';
+let eonsAaveRouterProxyAddress = '0xD325786c21C09E1b44331084A671506FF2102FF2';
+let eonsAaveVaultProxyAddress = '0x0F93D224C9Dbf32Da34a80ce98Cf6a8bB5e7740d';
+let controllerProxyAddress = '0x8055e175719544233b7da603d5c28d5C1d828AF9';
 
-const eEONSArtifact = './artifacts/contracts/tokens/EEONS.sol/EEONS.json';
-const eonsAaveRouterArtifact = './artifacts/contracts/routers/EonsAaveRouter.sol/EonsAaveRouter.json';
-const eonsArtifact = './artifacts/contracts/tokens/Eons.sol/Eons.json';
+const eEONSArtifact = './artifacts/contracts/main/tokens/EEONS.sol/EEONS.json';
+const eonsAaveRouterArtifact = './artifacts/contracts/main/routers/EonsAaveRouter.sol/EonsAaveRouter.json';
+const eonsArtifact = './artifacts/contracts/main/tokens/Eons.sol/Eons.json';
 
 const unpackArtifact = (artifactPath) => {
   let contractData = JSON.parse(fs.readFileSync(artifactPath));
@@ -100,7 +90,7 @@ const deploy = async (tokenName, initializerName, args = []) => {
     if (tokenName === 'EonsAaveVault') {
       console.log('adding pools to EonsAaveVault...');
       await smartContract.add('eBTC', eEONSAddress, 0, 0);
-      await smartContract.add('eETH', eEONSAddress, 1000, 0);
+      await smartContract.add('eMATIC', eEONSAddress, 1000, 0);
       console.log('added pools to EonsAaveVault');
       const { abi, bytecode } = unpackArtifact(eEONSArtifact);
       const eonsETHContract = new hre.ethers.Contract(eEONSAddress, abi, wallet.connect(provider));
@@ -114,7 +104,7 @@ const deploy = async (tokenName, initializerName, args = []) => {
     if (tokenName === 'EonsAaveRouter') {
       console.log('adding assets to EonsAaveRouter...');
       await smartContract.addAaveToken('0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6', '0x28424507fefb6f7f8E9D3860F56504E4e5f5f390', 0);  // btc aave tokens
-      await smartContract.addAaveToken('0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270', '0x8dF3aad3a84da6b69A4DA8aeC3eA40d9091B2Ac4', 1);  // eth aave tokens
+      await smartContract.addAaveToken('0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270', '0x8dF3aad3a84da6b69A4DA8aeC3eA40d9091B2Ac4', 1);  // matic aave tokens
       console.log('added assets to EonsAaveRouter.');
     }
     if (tokenName === 'Controller') {
@@ -173,9 +163,9 @@ const deployEonsAaveVault = async () => {
 
 const deployEonsQuickVault = async () => {
   if (eonsQuickVaultProxyAddress) {
-    await upgrade('EonsQuickswapVault', eonsQuickVaultProxyAddress);
+    await upgrade('EonsQuickSwapVault', eonsQuickVaultProxyAddress);
   } else {
-    await deploy('EonsQuickswapVault', 'initialize', [eonsLpAddress, eonsAddress, devAddr, devAddr]);
+    await deploy('EonsQuickSwapVault', 'initialize', [eonsLpAddress, eonsAddress, devAddr, devAddr]);
   }
 };
 
@@ -205,9 +195,9 @@ const deployFeeApprover = async () => {
 
 const deployEonsQuickRouter = async () => {
   if (eonsQuickRouterProxyAddress) {
-    await upgrade('EonsQuickswapRouter', eonsQuickRouterProxyAddress);
+    await upgrade('EonsQuickSwapRouter', eonsQuickRouterProxyAddress);
   } else {
-    await deploy('EonsQuickswapRouter', 'initialize', [eonsAddress, wethAddress, quickswapV2FactoryAddress, feeApproverAddress, eonsQuickVaultProxyAddress]);
+    await deploy('EonsQuickSwapRouter', 'initialize', [eonsAddress, wethAddress, quickswapV2FactoryAddress, feeApproverAddress, eonsQuickVaultProxyAddress]);
   }
 };
 
@@ -232,14 +222,14 @@ const deployController = async () => {
 const main = async () => {
   // await deployEonsToken();
   // await deployEonsLPToken();
-  await deployEEonsToken();
+  // await deployEEonsToken();
   // await deployFeeApprover();
   // await deployWETHGateway();
-  await deployEonsQuickVault();
-  await deployEonsQuickRouter();
+  // await deployEonsQuickVault();
+  // await deployEonsQuickRouter();
   // await deployEonsAaveRouter();
   // await deployEonsAaveVault();
-  // await deployController();
+  await deployController();
 };
 
 main();

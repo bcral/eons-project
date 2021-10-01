@@ -15,7 +15,8 @@
     "verify:kovan": "node scripts/verify-kovan.js",
     "verify:mainnet": "node scripts/verify-mainnet.js",
     "verify:binanceTestnet": "node scripts/verify-binance-testnet.js",
-    "verify:binanceMainnet": "node scripts/verify-binance-mainnet.js"
+    "verify:binanceMainnet": "node scripts/verify-binance-mainnet.js",
+    "verify:maticMainnet": "node scripts/verify-matic-mainnet.js"
   },
   "repository": {
     "type": "git",

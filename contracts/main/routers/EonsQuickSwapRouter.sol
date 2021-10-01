@@ -13,7 +13,7 @@ import '../../peripheries/interfaces/IEonsUniVault.sol';
 import '../../peripheries/libraries/Math.sol';
 import '../../peripheries/libraries/UniswapV2Library.sol';
 
-contract EonsQuickswapRouter is OwnableUpgradeable {
+contract EonsQuickSwapRouter is OwnableUpgradeable {
 	mapping(address => uint256) public hardEons;
 
 	address public _eonsToken;

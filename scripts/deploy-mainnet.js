@@ -37,8 +37,8 @@ let eonsAaveRouterProxyAddress = '';
 let eonsAaveVaultProxyAddress = '';
 let controllerProxyAddress = '';
 
-const eonsETHArtifact = './artifacts/contracts/tokens/EonsETH.sol/EonsETH.json';
-const eonsArtifact = './artifacts/contracts/tokens/Eons.sol/Eons.json';
+const eonsETHArtifact = './artifacts/contracts/main/tokens/EonsETH.sol/EonsETH.json';
+const eonsArtifact = './artifacts/contracts/main/tokens/Eons.sol/Eons.json';
 
 const unpackArtifact = (artifactPath) => {
   let contractData = JSON.parse(fs.readFileSync(artifactPath));
@@ -136,7 +136,6 @@ const deployEonsToken = async () => {
   const Eons = await hre.ethers.getContractFactory('Eons');
   eons = await Eons.deploy();
   await eons.deployed();
-  await eons.initialize();
   console.log('eons deployed to:', eons.address);
 };
 
@@ -144,7 +143,6 @@ const deployEonsLPToken = async () => {
   const EonsLP = await hre.ethers.getContractFactory('EonsLP');
   eonsLP = await EonsLP.deploy();
   await eonsLP.deployed();
-  await eonsLP.initialize();
   console.log('eonsLP deployed to:', eonsLP.address);
 };
 
@@ -152,7 +150,6 @@ const deployEonsETHToken = async () => {
   const EonsETH = await hre.ethers.getContractFactory('EonsETH');
   eonsETH = await EonsETH.deploy();
   await eonsETH.deployed();
-  await eonsETH.initialize();
   console.log('eonsETH deployed to:', eonsETH.address);
 };
 
