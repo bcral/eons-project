@@ -56,13 +56,15 @@ contract Controller is OwnableUpgradeable {
 
   function getPriceOf(uint _pid) public view returns (uint256) {
     require(address(priceOracle) != address(0));
-    ( , address reserve, ) = aaveRouter.getAsset(_pid);
-    return priceOracle.getAssetPrice(reserve);
+    // causing error, so commenting out for now
+    // ( , address reserve, ) = aaveRouter.getAsset(_pid);
+    // return priceOracle.getAssetPrice(reserve);
   }
 
   function getAaveLiquidityRate(uint256 _pid) public view returns (uint256) {
-    uint256 liquidityRate = aaveRouter.liquidityRateOf(_pid);
-    return liquidityRate;
+    // causing error, so commenting out for now
+    // uint256 liquidityRate = aaveRouter.liquidityRateOf(_pid);
+    // return liquidityRate;
   }
 
   function getUniReserves() public view returns (uint256 reserve0, uint256 reserve1) {

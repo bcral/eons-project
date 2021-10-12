@@ -18,4 +18,15 @@ contract EEONS is ERC20, MinterRole, Ownable {
   function burn(address from, uint256 amount) external onlyMinter {
     _burn(from, amount);
   }
+
+  function balanceOf(address user)
+    public
+    view
+    override(ERC20)
+    returns (uint256)
+  {
+    return super.balanceOf(user); // * decimals / totalPoolUnderlying;
+  }
+
+  // Also update totalSupply()
 }

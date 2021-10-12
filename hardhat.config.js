@@ -20,48 +20,48 @@ task('accounts', 'Prints the list of accounts', async () => {
  * @type import('hardhat/config').HardhatUserConfig
  */
 module.exports = {
-  defaultNetwork: 'kovan',
+  defaultNetwork: 'hardhat',
   networks: {
     hardhat: {},
-    rinkeby: {
-      url: `https://rinkeby.infura.io/v3/${process.env.INFURA_PROJECT_ID}`,
-      accounts: [process.env.PRIVATE_KEY],
-      live: true,
-      saveDeployments: true
-    },
-    kovan: {
-      url: `https://kovan.infura.io/v3/${process.env.INFURA_PROJECT_ID}`,
-      accounts: [process.env.PRIVATE_KEY],
-      live: true,
-      saveDeployments: true
-    },
-    mainnet: {
-      url: `https://mainnet.infura.io/v3/${process.env.INFURA_PROJECT_ID}`,
-      accounts: [process.env.PRIVATE_KEY],
-      live: true,
-      saveDeployments: true
-    },
-    binanceTestnet: {
-      url: "https://data-seed-prebsc-1-s1.binance.org:8545",
-      chainId: 97,
-      accounts: [process.env.PRIVATE_KEY],
-      live: true,
-      saveDeployments: true
-    },
-    binanceMainnet: {
-      url: "https://bsc-dataseed.binance.org/",
-      chainId: 56,
-      accounts: [process.env.PRIVATE_KEY],
-      live: true,
-      saveDeployments: true
-    },
-    maticMainnet: {
-      url: "https://polygon-rpc.com/",
-      chainId: 137,
-      accounts: [process.env.PRIVATE_KEY],
-      live: true,
-      saveDeployments: true
-    }
+    // rinkeby: {
+    //   url: `https://rinkeby.infura.io/v3/${process.env.INFURA_PROJECT_ID}`,
+    //   accounts: [process.env.PRIVATE_KEY],
+    //   live: true,
+    //   saveDeployments: true
+    // },
+    // kovan: {
+    //   url: `https://kovan.infura.io/v3/${process.env.INFURA_PROJECT_ID}`,
+    //   accounts: [process.env.PRIVATE_KEY],
+    //   live: true,
+    //   saveDeployments: true
+    // },
+    // mainnet: {
+    //   url: `https://mainnet.infura.io/v3/${process.env.INFURA_PROJECT_ID}`,
+    //   accounts: [process.env.PRIVATE_KEY],
+    //   live: true,
+    //   saveDeployments: true
+    // },
+    // binanceTestnet: {
+    //   url: "https://data-seed-prebsc-1-s1.binance.org:8545",
+    //   chainId: 97,
+    //   accounts: [process.env.PRIVATE_KEY],
+    //   live: true,
+    //   saveDeployments: true
+    // },
+    // binanceMainnet: {
+    //   url: "https://bsc-dataseed.binance.org/",
+    //   chainId: 56,
+    //   accounts: [process.env.PRIVATE_KEY],
+    //   live: true,
+    //   saveDeployments: true
+    // },
+    // maticMainnet: {
+    //   url: "https://polygon-rpc.com/",
+    //   chainId: 137,
+    //   accounts: [process.env.PRIVATE_KEY],
+    //   live: true,
+    //   saveDeployments: true
+    // }
   },
   solidity: '0.8.5',
   settings: {
@@ -72,7 +72,7 @@ module.exports = {
   },
   etherscan: {
     // Ethereum
-    apiKey: process.env.ETHERSCAN_API_KEY,
+    // apiKey: process.env.ETHERSCAN_API_KEY,
 
     // Binance
     // apiKey: process.env.BINANCE_ETHERSCAN_API_KEY
