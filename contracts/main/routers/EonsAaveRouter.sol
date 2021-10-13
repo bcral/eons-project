@@ -11,8 +11,6 @@ import 'hardhat/console.sol';
 import '../../peripheries/interfaces/ILendingPool.sol';
 import '../../peripheries/interfaces/ILendingPoolAddressesProvider.sol';
 import '../../peripheries/interfaces/IAToken.sol';
-import '../../peripheries/interfaces/IWETHGateway.sol';
-import '../../peripheries/libraries/DataTypes.sol';
 import '../../peripheries/interfaces/IEonsAaveVault.sol';
 
   // Core Aave router functions:
