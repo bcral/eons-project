@@ -16,7 +16,7 @@ import '../../peripheries/interfaces/IEonsAaveVault.sol';
   // Core Aave router functions:
   // Deposit:
   //  -approve erc20 transfer to Aave
-  //  -deposit matic to Aave
+  //  -deposit native asset to Aave
   //  -return aToken from Aave to vault
   // Withdraw:
   //  -transferFrom vault to this
@@ -64,10 +64,12 @@ contract EonsAaveRouter is OwnableUpgradeable {
         lendingPool.deposit(_asset, _amount, address(aaveVault), referralCode);
     }
 
-    function withdraw(address _asset, uint256 _amount, address _recipient) external onlyEonsAaveVault {
-
+    function withdraw(address _asset, uint256 _amount, address _aToken, address _recipient) external onlyEonsAaveVault {
+        // Get most recent AAVE lendingPool address
         ILendingPool lendingPool = ILendingPool(lendingPoolAddressesProvider.getLendingPool());
-        IAToken(_asset).approve(address(lendingPool), _amount);
+        // Approve the most recent AAVE lending pool to transfer _amount
+        IAToken(_aToken).approve(address(lendingPool), _amount);
+        // Call withdraw on lending pool to return the native asset to _recipeint
         lendingPool.withdraw(_asset, _amount, _recipient);
     }
 }
