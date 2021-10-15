@@ -9,6 +9,7 @@ import '../../peripheries/interfaces/ILendingPool.sol';
 import '../../peripheries/interfaces/IeaEons.sol';
 import '../../peripheries/interfaces/IEonsAaveRouter.sol';
 import '../../peripheries/interfaces/IAToken.sol';
+import '../../peripheries/interfaces/IiEonsController.sol';
 
   // Vault core functionality:
   // -store account's aToken values/hold actual aTokens here
@@ -37,6 +38,9 @@ contract EonsAaveVault is OwnableUpgradeable {
     event Withdraw(address indexed user, address asset, uint256 amount);
 
     IEonsAaveRouter public router;
+    IiEonsController public controller;
+
+    address feeAddress;
 
     struct AssetInfo {
         address aToken;
@@ -51,14 +55,21 @@ contract EonsAaveVault is OwnableUpgradeable {
     // counter for total supported assets(used as index)
     uint256 public supportedAssets;
     
-    function initialize(address _eons, address _router) external initializer {
-        router = IEonsAaveRouter(_router);
+    function initialize(address _eons) external initializer {
         supportedAssets = 0;
         __Ownable_init();
     }
 
     function setRouterAddress(address _router) external onlyOwner {
         router = IEonsAaveRouter(_router);
+    }
+
+    function setControllerAddress(address _controller) external onlyOwner {
+        controller = IiEonsController(_controller);
+    }
+
+    function setFeeAddress(address _feeAddress) external onlyOwner {
+        feeAddress = _feeAddress;
     }
 
     // @dev
@@ -95,14 +106,18 @@ contract EonsAaveVault is OwnableUpgradeable {
     // the AAVE router contract, otherwise it will revert
     function deposit(address _asset, uint256 _amount) external {
 
-        updateEmissionDistribution();
-
         // Search the assetInfo mapping for a token at the index found by passing
         // nativeAssetInfo[_asset] as an argument
         AssetInfo memory assetTokens = assetInfo[nativeAssetInfo[_asset]];
+
         // just your basic security checks
         require(assetTokens.aToken != address(0), "That coin or token is not supported(yet!).");
         require(_amount > 0, "You can't deposit nothing.");
+
+        // send transaction to take dev fee, call must be made from vault
+        (uint256 devFee, address contTreasury) = router.updateComission(assetTokens.aToken, assetTokens.eToken);
+        IAToken(assetTokens.aToken).transfer(address(contTreasury), devFee);
+
         // call deposit() on router
         router.deposit(_asset, _amount, msg.sender);
 
@@ -123,7 +138,9 @@ contract EonsAaveVault is OwnableUpgradeable {
         require(assetTokens.aToken != address(0), "That coin or token is not supported(yet!).");
         require(_amount > 0 && _amount <= IeaEons(assetTokens.eToken).balanceOf(msg.sender), "You can't withdraw nothing.");
 
-        updateEmissionDistribution();
+        // send transaction to take dev fee, call must be made from vault
+        (uint256 devFee, address contTreasury) = router.updateComission(assetTokens.aToken, assetTokens.eToken);
+        IAToken(assetTokens.aToken).transfer(address(contTreasury), devFee);
 
         // transfer aTokens to router
         IAToken(assetTokens.aToken).transfer(address(router), _amount);
@@ -133,10 +150,5 @@ contract EonsAaveVault is OwnableUpgradeable {
         router.withdraw(_asset ,_amount, assetTokens.aToken, msg.sender);
 
         emit Withdraw(msg.sender, _asset, _amount);
-    }
-
-    // Likely replaced by call to outside contract for calculations
-    function updateEmissionDistribution() public {
-
     }
 }

@@ -12,6 +12,7 @@ import '../../peripheries/interfaces/ILendingPool.sol';
 import '../../peripheries/interfaces/ILendingPoolAddressesProvider.sol';
 import '../../peripheries/interfaces/IAToken.sol';
 import '../../peripheries/interfaces/IEonsAaveVault.sol';
+import '../../peripheries/interfaces/IiEonsController.sol';
 
   // Core Aave router functions:
   // Deposit:
@@ -33,6 +34,7 @@ contract EonsAaveRouter is OwnableUpgradeable {
     ILendingPoolAddressesProvider public lendingPoolAddressesProvider;
     uint16 public referralCode;
     IEonsAaveVault public aaveVault;
+    IiEonsController public controller;
 
     modifier onlyEonsAaveVault {
         require(msg.sender == address(aaveVault), "Only EonsAaveVault is authorized");
@@ -47,6 +49,10 @@ contract EonsAaveRouter is OwnableUpgradeable {
 
     function setReferralCode(uint16 _code) external onlyOwner {
         referralCode = _code;
+    }
+
+    function setControllerAddress(address _controller) external onlyOwner {
+        controller = IiEonsController(_controller);
     }
 
     function setVault(address _vault) external onlyOwner {
@@ -71,5 +77,11 @@ contract EonsAaveRouter is OwnableUpgradeable {
         IAToken(_aToken).approve(address(lendingPool), _amount);
         // Call withdraw on lending pool to return the native asset to _recipeint
         lendingPool.withdraw(_asset, _amount, _recipient);
+    }
+
+    // call to outside contract for calculations
+    function updateComission(address _aTokenTotal, address _eTokenTotal) public returns(uint256, address) {
+        (uint256 fee, address devAddress) = controller.updateDevRewards(_aTokenTotal, _eTokenTotal);
+        return(fee, devAddress);
     }
 }
