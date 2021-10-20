@@ -78,10 +78,4 @@ contract EonsAaveRouter is OwnableUpgradeable {
         // Call withdraw on lending pool to return the native asset to _recipeint
         lendingPool.withdraw(_asset, _amount, _recipient);
     }
-
-    // call to outside contract for calculations
-    function updateComission(address _aTokenTotal, address _eTokenTotal) public returns(uint256, address) {
-        (uint256 fee, address devAddress) = controller.updateDevRewards(_aTokenTotal, _eTokenTotal);
-        return(fee, devAddress);
-    }
 }

@@ -2,5 +2,6 @@
 pragma solidity ^0.8.0;
 
 interface IiEonsController {
-    function updateDevRewards(address a, address b) external returns(uint256, address);
+    function updateDevRewards(uint256 a, uint256 b, uint256 s, uint256 d) external returns(uint256);
+    function getUsersDiscountStat(address _user) external returns(bool);
 }
