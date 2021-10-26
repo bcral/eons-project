@@ -5,5 +5,5 @@ interface IEonsAaveVault {
   function setRouterAddress(address _router) external;
   function updateEmissionDistribution() external;
   function withdrawDevFees(address _asset, uint256 _amount, address _devWallet) external;
-  function getRollingDevFee(address _aToken) external view returns(uint256);
+  function getRollingDevFee(address _aToken) external returns(uint256);
 }

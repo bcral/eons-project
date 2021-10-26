@@ -115,4 +115,17 @@ contract Controller is OwnableUpgradeable {
       uniVault.updateEmissionDistribution();
     }
   }
+
+
+  // Returns user's discount status - true or false
+  // Calls the appropriate sources and determines eligability at user deposit
+  function getUsersDiscountStat(address _user) public view returns(bool) {
+      // Do the thing here:
+      // If discounted, return true
+      if (true) {
+          return true;
+      } else {
+          return false;
+      }
+  }
 }

@@ -22,7 +22,14 @@ task('accounts', 'Prints the list of accounts', async () => {
 module.exports = {
   defaultNetwork: 'hardhat',
   networks: {
-    hardhat: {},
+    hardhat: {
+      chainId: 1337,
+      forking: {
+        enabled: true,
+        url: "https://eth-mainnet.alchemyapi.io/v2/${process.env.alchemyKey}",
+        blockNumber: 13241496,
+      },
+    },
     // rinkeby: {
     //   url: `https://rinkeby.infura.io/v3/${process.env.INFURA_PROJECT_ID}`,
     //   accounts: [process.env.PRIVATE_KEY],
@@ -63,7 +70,7 @@ module.exports = {
     //   saveDeployments: true
     // }
   },
-  solidity: '0.8.5',
+  solidity: '0.8.4',
   settings: {
     optimizer: {
       enabled: true,

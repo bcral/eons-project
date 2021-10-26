@@ -41,8 +41,9 @@ contract EonsAaveRouter is OwnableUpgradeable {
         _;
     }
 
-    function initialize(address _lendingPoolProvider, address _wethGateway) external initializer {
+    function initialize(address _lendingPoolProvider, address _aaveVault) external initializer {
         lendingPoolAddressesProvider = ILendingPoolAddressesProvider(_lendingPoolProvider);
+        aaveVault = IEonsAaveVault(_aaveVault);
         referralCode = 0;
         __Ownable_init();
     }
@@ -55,7 +56,13 @@ contract EonsAaveRouter is OwnableUpgradeable {
         controller = IiEonsController(_controller);
     }
 
-    function setVault(address _vault) external onlyOwner {
+    // add onlyOwner back after testing
+    function setLPAP(address _lpap) external {
+        lendingPoolAddressesProvider = ILendingPoolAddressesProvider(_lpap);
+    }
+
+    // add onlyOwner back after testing
+    function setVault(address _vault) external {
         aaveVault = IEonsAaveVault(_vault);
     }
 

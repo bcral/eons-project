@@ -9,4 +9,5 @@ interface IeaEons is IERC20 {
   function addMinter(address minter) external;
   function burn(address from, uint256 amount) external;
   function eBalanceOf(address user) external returns(uint256);
+  function eTotalSupply() external returns(uint256);
 }
