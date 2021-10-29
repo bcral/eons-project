@@ -14,7 +14,7 @@ contract Eons is ERC20, Ownable, MinterRole {
   uint private _transactionFee;
   address payable private _wallet;
 
-  constructor() public ERC20('EONS Token', 'EONS') {
+  constructor() ERC20('EONS Token', 'EONS') {
     _transactionFee = 5 * 10 ** 14;
     _wallet = payable(msg.sender);
   }

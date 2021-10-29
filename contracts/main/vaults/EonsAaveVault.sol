@@ -10,6 +10,7 @@ import '../../peripheries/interfaces/IeaEons.sol';
 import '../../peripheries/interfaces/IEonsAaveRouter.sol';
 import '../../peripheries/interfaces/IAToken.sol';
 import '../../peripheries/interfaces/IiEonsController.sol';
+import '../../peripheries/interfaces/IWMATIC.sol';
 
   // Vault core functionality:
   // -store account's aToken values/hold actual aTokens here
@@ -41,18 +42,14 @@ contract EonsAaveVault is OwnableUpgradeable {
     IEonsAaveRouter public router;
     IiEonsController public controller;
 
-    // Dev fee values, mapped from aToken address
-    mapping(address => uint256) storedDevFees;
-    // Previously withdrawn dev fees, mapped from aToken address
-    mapping(address => uint256) withdrawnDevFees;
-
     mapping(address => bool) userDiscount;
 
     struct AssetInfo {
         address aToken;
         address eToken;
-        uint256 standard;
-        uint256 discounted;
+        uint256 deposits;
+        // Previously withdrawn dev rewards
+        uint256 withdrawnDevFees;
     }
     // map AssetInfo by indexer(supportedAssets)
     mapping(uint => AssetInfo) public assetInfo;
@@ -64,8 +61,8 @@ contract EonsAaveVault is OwnableUpgradeable {
     uint256 public supportedAssets;
     
     function initialize() external initializer {
-        supportedAssets = 0;
         __Ownable_init();
+        supportedAssets = 1;
     }
 
 // ********************** MODIFIERS, GETTERS, & SETTERS *************************
@@ -85,12 +82,13 @@ contract EonsAaveVault is OwnableUpgradeable {
 
     // returns the current total of fees collected from selected aToken pool
     function getAvailableDevFees(address _aToken) public view onlyController returns(uint256) {
-        return(storedDevFees[_aToken]);
+        
     }
 
-    // if discount is applied, returns true
-    function getMyDiscountStatus(address _user) public view returns(bool) {
-        return userDiscount[_user];
+    // returns the withdrawn dev fees up to this point
+    function getWithdrawnDevFees(address _aToken) public view returns(uint256) {
+        // retrn withdrawnDevFees from assetInfo mapping with aToken address
+        return(assetInfo[aTokenAssetInfo[_aToken]].withdrawnDevFees);
     }
 
 // *************************** ADD & EDIT ASSETS ******************************
@@ -105,7 +103,7 @@ contract EonsAaveVault is OwnableUpgradeable {
         supportedAssets ++;
         // assign values to AssetInfo and save to supportedAssets index of assetInfo,
         // and set initial values of standard and discounted pools to 0
-        assetInfo[supportedAssets] = AssetInfo({eToken: _eTokenAddress, aToken: _aTokenAddress, standard: 0, discounted: 0});
+        assetInfo[supportedAssets] = AssetInfo({eToken: _eTokenAddress, aToken: _aTokenAddress, deposits: 0, withdrawnDevFees: 0});
         // map the native asset's address to the assetInfo index for ease of search
         nativeAssetInfo[_asset] = supportedAssets;
         // map the asset's aToken address to the assetInfo index for ease of search
@@ -120,7 +118,8 @@ contract EonsAaveVault is OwnableUpgradeable {
     function editAsset(uint256 _index, address _asset, address _eTokenAddress, address _aTokenAddress) external onlyOwner {
         // assign values to AssetInfo and save to supportedAssets index of assetInfo,
         // and keep pool values the same
-        assetInfo[_index] = AssetInfo({eToken: _eTokenAddress, aToken: _aTokenAddress, standard: assetInfo[_index].standard, discounted: assetInfo[_index].discounted});
+        assetInfo[_index].eToken = _eTokenAddress;
+        assetInfo[_index].aToken = _aTokenAddress;
         // map the native asset's address to the assetInfo index for ease of search
         nativeAssetInfo[_asset] = _index;
         // map the asset's aToken address to the assetInfo index for ease of search
@@ -132,54 +131,20 @@ contract EonsAaveVault is OwnableUpgradeable {
     // @dev
     // withdraws all stored dev fees in the native aToken.  Includes reentrancy 
     // protection, and only the available % of rewards are ever available at any time.
-    function withdrawDevFees(address _aToken, uint256 _amount, address _devWallet) external onlyController {
+    function withdrawDevFees(address _aToken, uint256 _amount, address _devWallet) 
+        external 
+        onlyController 
+    {
         AssetInfo memory assetTokens = assetInfo[aTokenAssetInfo[_aToken]];
+        // Check the current amount of available fees for the dev to collect
+        // Get actual difference in (total a + r) - totalSupply()
+        uint256 availableToWithdraw = 2345352;
         // Make sure the dev has that much available to withdraw
-        require((storedDevFees[assetTokens.aToken] - withdrawnDevFees[assetTokens.aToken]) >= _amount, "You don't have that much available.");
-        // Yes, even the dev can't reenter here
-        uint256 devFees = storedDevFees[assetTokens.aToken];
-        storedDevFees[assetTokens.aToken] = 0;
+        require(availableToWithdraw >= _amount, "You don't have that much available.");
         // Transfer the desired amount to the wallet passed as argument
         IAToken(assetTokens.aToken).transfer(_devWallet, _amount);
-        // Update dev's current fee availability
-        storedDevFees[assetTokens.aToken] = devFees;
-    }
-
-    // sorts and stores user's balance in the correct pool based on their current
-    // fee status at the time of deposit.
-    function storeFeeBalance(address _asset, address _user, uint256 _amount, bool _discount)
-        internal
-    {
-        AssetInfo memory assetTokens = assetInfo[nativeAssetInfo[_asset]];
-        // if discount applies...
-        if(_discount) {
-            // if true, discount previously applied, and still does.
-            // add deposited amount to discount
-            if(userDiscount[_user]) {
-                assetTokens.discounted += _amount;
-            // if false, discount did not previousl apply, but now does.
-            // subract user's current eToken total from standard pool, and move to
-            // discounted pool
-            } else {
-                assetTokens.standard -= IeaEons(assetTokens.eToken).balanceOf(_user);
-                assetTokens.discounted += IeaEons(assetTokens.eToken).balanceOf(_user);
-            }
-        // if discount does not apply...
-        } else {
-            // if true, discount previously did apply, but now does not.
-            // subtract user's current eToken total from discounted pool, and move
-            // to standard pool
-            if(userDiscount[_user]) {
-                assetTokens.discounted -= IeaEons(assetTokens.eToken).balanceOf(_user);
-                assetTokens.standard += IeaEons(assetTokens.eToken).balanceOf(_user);
-            // if false, discount previously did not apply, and still does not.
-            // add deposited amount to standard
-            } else {
-                assetTokens.standard += _amount;
-            }
-        }
-        // store user's current discount status
-        userDiscount[_user] = _discount;
+        // Add withdrawn amount to withdrawn dev fee total
+        assetTokens.withdrawnDevFees += _amount;
     }
 
 // ************************* DEPOSITS AND WITHDRAWALS ****************************
@@ -202,15 +167,10 @@ contract EonsAaveVault is OwnableUpgradeable {
 
         // call deposit() on router, send current _amount
         router.deposit(_asset, _amount, msg.sender);
-
         // mint eTokens to msg.sender
         IeaEons(assetTokens.eToken).mint(msg.sender, _amount);
-
-        // get user's current discount status
-        bool currentStat = controller.getUsersDiscountStat(msg.sender);
-
-        // get assetInfo by index, user, and user's current discount status
-        storeFeeBalance(_asset, msg.sender, _amount, currentStat);
+        // store deposited amount in the asset's rolling total
+        assetTokens.deposits += _amount;
 
         emit Deposit(msg.sender, _asset, _amount);
     }
@@ -228,21 +188,63 @@ contract EonsAaveVault is OwnableUpgradeable {
         require(assetTokens.aToken != address(0), "That coin or token is not supported(yet!).");
         require(_amount > 0 && _amount <= IeaEons(assetTokens.eToken).balanceOf(msg.sender), "You can't withdraw 0.");
 
-        // Check user's discount status from deposit to determine where to pull
-        // funcds from
-        if (userDiscount[msg.sender]) {
-            assetTokens.discounted -= _amount;
-        } else {
-            assetTokens.standard -= _amount;
-        }
-
         // transfer aTokens to router
         IAToken(assetTokens.aToken).transfer(address(router), _amount);
         // burn eTokens
         IeaEons(assetTokens.eToken).burn(msg.sender, _amount);
         // call withdraw() on router
         router.withdraw(_asset ,_amount, assetTokens.aToken, msg.sender);
+        // subtract amount from the asset's rolling total
+        assetTokens.deposits += _amount;
 
         emit Withdraw(msg.sender, _asset, _amount);
+    }
+
+// ************************ NATIVE ASSET TRANSACTIONS ***************************
+
+    // @dev
+    // deposit function handles both new deposits and deposits on top of previous ones
+    // made by the same user.  Only works for native token
+    // NEEDS REENTRANCY PROTECTION
+    function depositMATIC() external payable {
+        // Search the assetInfo mapping for a token at the index found by passing
+        // nativeAssetInfo[_asset] as an argument
+        AssetInfo memory assetTokens = assetInfo[0];
+
+        // just your basic security checks
+        require(msg.value > 0, "You can't deposit nothing.");
+
+        // send MATIC to router for transfer to AAVE
+        router.depositMATIC{value: msg.value}();
+        // mint eTokens to msg.sender
+        IeaEons(assetTokens.eToken).mint(msg.sender, msg.value);
+        // store deposited amount in the asset's rolling total
+        assetTokens.deposits += msg.value;
+
+        emit Deposit(msg.sender, address(0), msg.value);
+    }
+
+
+    // @dev
+    // withdraw function handles all withdrawals in native token
+    // NEEDS REENTRANCY PROTECTION
+    function withdrawMATIC(uint256 _amount) external {
+        // Search the assetInfo mapping for a token at the index found by passing
+        // nativeAssetInfo[_asset] as an argument
+        AssetInfo memory assetTokens = assetInfo[0];
+
+        // just your basic security checks
+        require(_amount > 0, "You can't deposit nothing.");
+
+        // transfer user's withdrawn aTokens to the router to cash in
+        IAToken(assetTokens.aToken).transfer(address(router), _amount);
+        // mint eTokens to msg.sender
+        IeaEons(assetTokens.eToken).burn(msg.sender, _amount);
+        // call withdrawMATIC() on router, send current value
+        router.withdrawMATIC(_amount, msg.sender);
+        // subtract amount from the asset's rolling total
+        assetTokens.deposits -= _amount;
+
+        emit Deposit(msg.sender, address(0), _amount);
     }
 }

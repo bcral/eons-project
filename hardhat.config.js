@@ -26,8 +26,9 @@ module.exports = {
       chainId: 1337,
       forking: {
         enabled: true,
-        url: "https://eth-mainnet.alchemyapi.io/v2/${process.env.alchemyKey}",
-        blockNumber: 13241496,
+        url: `${process.env.ALCHEMY_POLYGON_KEY}`,
+        accounts: [`0x${process.env.HARDHAT_PRIVATE_KEY}`],
+        blockNumber: 20679591,
       },
     },
     // rinkeby: {

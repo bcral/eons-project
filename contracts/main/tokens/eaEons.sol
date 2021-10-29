@@ -19,18 +19,15 @@ contract eaEons is ERC20, MinterRole, Ownable {
   IiEonsController public controller;
   // indexer variable - initiated as 10**18
   uint256 i;
-  uint256 devFee;
-  uint256 discountFee;
 
   uint256 WAD = 10**18;
 
-  constructor(address _aToken, address _vault, address _controller) public ERC20('Eons Interest Bearing Token', 'eEONS') {
+  constructor(address _aToken, address _vault, address _controller) ERC20('Eons Interest Bearing Token', 'eEONS') {
     aToken = IAToken(_aToken);
     vault = IEonsAaveVault(_vault);
     controller = IiEonsController(_controller);
     i = WAD;
-    // set dev fees on deployment
-    (devFee, discountFee) = controller.getCurrentDevFees();
+
   }
 
   modifier onlyController() {
@@ -62,15 +59,18 @@ contract eaEons is ERC20, MinterRole, Ownable {
     _burn(from, burnAmnt);
   }
 
+  // read-only for displaying current dev rewards
+  function fetchDevRewards() public view returns(uint256) {
+    // ((a+r-x)*.15)-r) is fees owed
+    uint256 r = vault.getWithdrawnDevFees(address(aToken));
+    uint256 x = totalSupply();
+    uint256 a = aToken.balanceOf(address(vault));
+    return((((a + r - x) * 15) / 100) - r);
+  }
+
   // read-only for getting the current index
   function getCurrentIndex() public view returns(uint256) {
     return(i);
-  }
-
-  // call this to make this contract retrieve the most recent dev fees from the
-  // controller.
-  function updateCurrentDevFees() external onlyOwner {
-    (devFee, discountFee) = controller.getCurrentDevFees();
   }
 
   // stores new instance of i based on current values
@@ -86,8 +86,12 @@ contract eaEons is ERC20, MinterRole, Ownable {
   {
     // check for 0 total supply to prevent math confusion
     if (eTotalSupply() != 0) {
-      // ni = a/(e*i) - WAD + i
-      return((aToken.balanceOf(address(vault)).wdiv(eTotalSupply().wmul(i))) + i - WAD);
+      // NI =  ((a-((a+r-x)*.15)-r)/x)+i-WAD
+      uint256 r = vault.getWithdrawnDevFees(address(aToken));
+      uint256 x = eTotalSupply();
+      uint256 a = aToken.balanceOf(address(vault));
+
+      return((a - ((((a + r - x) * 15) / 100) - r).wdiv(x)) + i - WAD);
     } else {
       // if eToken supply is < 0, i should equal 10**18(base number)
       return(WAD);

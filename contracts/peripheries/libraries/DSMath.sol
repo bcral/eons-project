@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GNU
 
 /// math.sol -- mixin for inline numerical wizardry
 
