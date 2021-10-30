@@ -9,10 +9,11 @@ const zero = '0x0000000000000000000000000000000000000000';
 
 const aTokenMaticContract = '0x8df3aad3a84da6b69a4da8aec3ea40d9091b2ac4';
 const wmatic = '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270';
-const wETHGateway = '0xcc9a0B7c43DC2a5F023Bb9b738E45B0Ef6B06E04';
+const wETHGateway = '0xbEadf48d62aCC944a06EEaE0A9054A90E5A7dc97';
+const maticLendingPool = '0x8dFf5E27EA6b7AC08EbFdf9eB090F32ee9a30fcf';
 
 // Declare all globals that will need access elseware:
-let aaveLendingPoolProviderAddress = '0x88757f2f99175387ab4c6a4b3067c77a695b0349'; 
+let aaveLendingPoolProviderAddress = '0xd05e3E715d945B59290df0ae8eF85c1BdB684744'; 
 // David's MATIC address for simulating Dev withdrawals
 let devVault = '0x09Da980E4Ad37E340183eB71D76dc1eFFB4Dd1cA';
 
@@ -59,7 +60,7 @@ async function AaveRouterDeploy () {
     const AaveRouter = await ethers.getContractFactory('EonsAaveRouter');
     console.log('Deploying AAVE Router...');
     const aaveRouter = await AaveRouter.deploy();
-    await aaveRouter.initialize(aaveLendingPoolProviderAddress, aaveVaultAddress, wmatic, wETHGateway);
+    await aaveRouter.initialize(aaveVaultAddress, wmatic, wETHGateway);
     await aaveRouter.deployed();
     aaveRouterAddress = aaveRouter.address;
     console.log('AAVE Router deployed to:', aaveRouterAddress);
@@ -143,7 +144,13 @@ async function initRouter() {
 // ADD ROUTER AS FIRST SETUP STEP
 async function setupVault() {
     await vault.setRouterAddress(aaveRouterAddress);
-    await vault.editAsset(0, zero, eonsAddress, aTokenMaticContract);
+    await vault.editAsset(0, zero, eaEonsAddress, aTokenMaticContract, maticLendingPool);
+}
+
+// ADD ROUTER AS FIRST SETUP STEP
+async function setupEaEons() {
+    // add vault address as minter
+    await eaeons.addMinter(aaveVaultAddress);
 }
 
 
@@ -154,6 +161,7 @@ async function setup () {
     await initRouter();
 
     await setupVault();
+    await setupEaEons();
 
     console.log('Setup complete...');
 }
@@ -167,5 +175,8 @@ runEverything();
 
 // Then...(copy/paste into npx hardhat console --network localhost):
 // const Vault = await ethers.getContractFactory('EonsAaveVault');
-// vault = await Vault.attach('<deployed-vault-address>');
+// const vault = await Vault.attach('<deployed-vault-address>');
 // await vault.depositMATIC({value: '5000000000000000000'});
+
+// const eaEons = await ethers.getContractFactory('eaEons');
+// const eaeons = await eaEons.attach('<deployed-eaEons-address');

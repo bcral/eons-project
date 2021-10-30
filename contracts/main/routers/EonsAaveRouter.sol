@@ -10,7 +10,6 @@ import '@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol';
 import 'hardhat/console.sol';
 
 import '../../peripheries/interfaces/ILendingPool.sol';
-import '../../peripheries/interfaces/ILendingPoolAddressesProvider.sol';
 import '../../peripheries/interfaces/IAToken.sol';
 import '../../peripheries/interfaces/IEonsAaveVault.sol';
 import '../../peripheries/interfaces/IiEonsController.sol';
@@ -34,7 +33,6 @@ contract EonsAaveRouter is OwnableUpgradeable, PausableUpgradeable {
 
     event WithdrawError(uint256 indexed pid, string indexed erorr);
 
-    ILendingPoolAddressesProvider public lendingPoolAddressesProvider;
     uint16 public referralCode;
     IEonsAaveVault public aaveVault;
     IiEonsController public controller;
@@ -46,8 +44,7 @@ contract EonsAaveRouter is OwnableUpgradeable, PausableUpgradeable {
         _;
     }
 
-    function initialize(address _lendingPoolProvider, address _aaveVault, address _wmatic, address  _wETHGateway) external initializer {
-        lendingPoolAddressesProvider = ILendingPoolAddressesProvider(_lendingPoolProvider);
+    function initialize(address _aaveVault, address _wmatic, address  _wETHGateway) external initializer {
         aaveVault = IEonsAaveVault(_aaveVault);
         WMATIC = IWMATIC(_wmatic);
         WETHGateway = IWETHGateway(_wETHGateway);
@@ -67,37 +64,38 @@ contract EonsAaveRouter is OwnableUpgradeable, PausableUpgradeable {
         aaveVault = IEonsAaveVault(_vault);
     }
 
-    function deposit(address _asset, uint256 _amount, address _user) external onlyEonsAaveVault {
+    function deposit(address _asset, uint256 _amount, address _user, address _lp) external onlyEonsAaveVault {
+    
         // Pull the asset + amount from user
         IERC20Upgradeable(_asset).safeTransferFrom(_user, address(this), _amount);
-        // Get most recent AAVE lendingPool address
-        ILendingPool lendingPool = ILendingPool(lendingPoolAddressesProvider.getLendingPool());
         // Approve the asset + amount for the lendingPool to pull
-        IERC20Upgradeable(_asset).safeApprove(address(lendingPool), _amount);
+        IERC20Upgradeable(_asset).safeApprove(_lp, _amount);
         // Call deposit with the asset, amount, onBehalfOf(where to send aTokens), and referral code
-        lendingPool.deposit(_asset, _amount, address(aaveVault), referralCode);
+        ILendingPool(_lp).deposit(_asset, _amount, address(aaveVault), referralCode);
     }
 
-    function withdraw(address _asset, uint256 _amount, address _aToken, address _recipient) external onlyEonsAaveVault {
-        // Get most recent AAVE lendingPool address
-        ILendingPool lendingPool = ILendingPool(lendingPoolAddressesProvider.getLendingPool());
+    function withdraw(address _asset, uint256 _amount, address _aToken, address _recipient, address _lp) external onlyEonsAaveVault {
+
         // Approve the most recent AAVE lending pool to transfer _amount
-        IAToken(_aToken).approve(address(lendingPool), _amount);
+        IAToken(_aToken).approve(_lp, _amount);
         // Call withdraw on lending pool to return the native asset to _recipeint
-        lendingPool.withdraw(_asset, _amount, _recipient);
+        ILendingPool(_lp).withdraw(_asset, _amount, _recipient);
     }
 
-    function depositMATIC() external payable onlyEonsAaveVault {
+    function depositMATIC(address _lp) external payable onlyEonsAaveVault {
+    
         // Get most recent AAVE lendingPool address
-        ILendingPool lendingPool = ILendingPool(lendingPoolAddressesProvider.getLendingPool());
+        // address lp = lendingPoolAddressesProvider.getLendingPool();
+                // CONTRACT CALL TO NON-CONTRACT ACCOUNT
+                // ^^^^^^^^^ FIX THIS ^^^^^^^^^^
+
         // Send MATIC to WETHGateway for wrapping and deposit
-        WETHGateway.depositETH{value: msg.value}(address(lendingPool), address(aaveVault), referralCode);
+        WETHGateway.depositETH{value: msg.value}(_lp, address(aaveVault), referralCode);
     }
 
-    function withdrawMATIC(uint256 _amount, address _user) external onlyEonsAaveVault {
-        // Get most recent AAVE lendingPool address
-        ILendingPool lendingPool = ILendingPool(lendingPoolAddressesProvider.getLendingPool());
+    function withdrawMATIC(uint256 _amount, address _user, address _lp) external onlyEonsAaveVault {
+    
         // Send MATIC to WETHGateway for wrapping and deposit
-        WETHGateway.withdrawETH(address(lendingPool), _amount, _user);
+        WETHGateway.withdrawETH(_lp, _amount, _user);
     }
 }

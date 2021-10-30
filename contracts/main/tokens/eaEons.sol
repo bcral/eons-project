@@ -35,7 +35,11 @@ contract eaEons is ERC20, MinterRole, Ownable {
     _;
   }
 
-  // ADD onlyMinter
+  modifier onlyVault() {
+    require(msg.sender == address(vault), "Only the vault can call that.");
+    _;
+  }
+  // Add onlyVault modifier after tests
   // Mints new tokens, but first divides by current index to scale properly
   function mint(address recepient, uint amount) 
     external

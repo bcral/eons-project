@@ -35,6 +35,7 @@ import '../../peripheries/interfaces/IWMATIC.sol';
   //    -burn EaToken
 
 contract EonsAaveVault is OwnableUpgradeable {
+    using Roles for Roles.Role;
 
     event Deposit(address indexed user, address asset, uint256 amount);
     event Withdraw(address indexed user, address asset, uint256 amount);
@@ -50,6 +51,7 @@ contract EonsAaveVault is OwnableUpgradeable {
         uint256 deposits;
         // Previously withdrawn dev rewards
         uint256 withdrawnDevFees;
+        address lendingPool;
     }
     // map AssetInfo by indexer(supportedAssets)
     mapping(uint => AssetInfo) public assetInfo;
@@ -98,12 +100,12 @@ contract EonsAaveVault is OwnableUpgradeable {
     // address, and _eTokenAddress is the eToken address created for that asset, and
     // _aTokenAddress is the AAVE token address created for that asset
     // add onlyOwner back after testing
-    function addAsset(address _asset, address _eTokenAddress, address _aTokenAddress) external onlyOwner {
+    function addAsset(address _asset, address _eTokenAddress, address _aTokenAddress, address _lendingPool) external onlyOwner {
         // increment supported assets first
         supportedAssets ++;
         // assign values to AssetInfo and save to supportedAssets index of assetInfo,
         // and set initial values of standard and discounted pools to 0
-        assetInfo[supportedAssets] = AssetInfo({eToken: _eTokenAddress, aToken: _aTokenAddress, deposits: 0, withdrawnDevFees: 0});
+        assetInfo[supportedAssets] = AssetInfo({eToken: _eTokenAddress, aToken: _aTokenAddress, deposits: 0, withdrawnDevFees: 0, lendingPool: _lendingPool});
         // map the native asset's address to the assetInfo index for ease of search
         nativeAssetInfo[_asset] = supportedAssets;
         // map the asset's aToken address to the assetInfo index for ease of search
@@ -115,11 +117,12 @@ contract EonsAaveVault is OwnableUpgradeable {
     // map, _asset is the coin or token's contract address, and _eTokenAddress is the
     //  eToken address created for that asset, and _aTokenAddress is the AAVE token 
     // address created for that asset
-    function editAsset(uint256 _index, address _asset, address _eTokenAddress, address _aTokenAddress) external onlyOwner {
+    function editAsset(uint256 _index, address _asset, address _eTokenAddress, address _aTokenAddress, address _lendingPool) external onlyOwner {
         // assign values to AssetInfo and save to supportedAssets index of assetInfo,
         // and keep pool values the same
         assetInfo[_index].eToken = _eTokenAddress;
         assetInfo[_index].aToken = _aTokenAddress;
+        assetInfo[_index].lendingPool = _lendingPool;
         // map the native asset's address to the assetInfo index for ease of search
         nativeAssetInfo[_asset] = _index;
         // map the asset's aToken address to the assetInfo index for ease of search
@@ -166,10 +169,13 @@ contract EonsAaveVault is OwnableUpgradeable {
         require(_amount > 0, "You can't deposit nothing.");
 
         // call deposit() on router, send current _amount
-        router.deposit(_asset, _amount, msg.sender);
+        router.deposit(_asset, _amount, msg.sender, assetTokens.lendingPool);
         // mint eTokens to msg.sender
         IeaEons(assetTokens.eToken).mint(msg.sender, _amount);
         // store deposited amount in the asset's rolling total
+
+        
+        // MUST WRITE TO MAPPING, NOT READ-ONNLY
         assetTokens.deposits += _amount;
 
         emit Deposit(msg.sender, _asset, _amount);
@@ -193,7 +199,7 @@ contract EonsAaveVault is OwnableUpgradeable {
         // burn eTokens
         IeaEons(assetTokens.eToken).burn(msg.sender, _amount);
         // call withdraw() on router
-        router.withdraw(_asset ,_amount, assetTokens.aToken, msg.sender);
+        router.withdraw(_asset ,_amount, assetTokens.aToken, msg.sender, assetTokens.lendingPool);
         // subtract amount from the asset's rolling total
         assetTokens.deposits += _amount;
 
@@ -215,7 +221,7 @@ contract EonsAaveVault is OwnableUpgradeable {
         require(msg.value > 0, "You can't deposit nothing.");
 
         // send MATIC to router for transfer to AAVE
-        router.depositMATIC{value: msg.value}();
+        router.depositMATIC{value: msg.value}(assetTokens.lendingPool);
         // mint eTokens to msg.sender
         IeaEons(assetTokens.eToken).mint(msg.sender, msg.value);
         // store deposited amount in the asset's rolling total
@@ -241,7 +247,7 @@ contract EonsAaveVault is OwnableUpgradeable {
         // mint eTokens to msg.sender
         IeaEons(assetTokens.eToken).burn(msg.sender, _amount);
         // call withdrawMATIC() on router, send current value
-        router.withdrawMATIC(_amount, msg.sender);
+        router.withdrawMATIC(_amount, msg.sender, assetTokens.lendingPool);
         // subtract amount from the asset's rolling total
         assetTokens.deposits -= _amount;
 

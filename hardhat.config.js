@@ -27,7 +27,7 @@ module.exports = {
       forking: {
         enabled: true,
         url: `${process.env.ALCHEMY_POLYGON_KEY}`,
-        accounts: [`0x${process.env.HARDHAT_PRIVATE_KEY}`],
+        accounts: [`0x${process.env.PRIVATE_KEY}`],
         blockNumber: 20679591,
       },
     },
