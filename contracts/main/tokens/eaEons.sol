@@ -16,23 +16,33 @@ contract eaEons is ERC20, MinterRole, Ownable {
 
   IAToken public aToken;
   IEonsAaveVault public vault;
-  IiEonsController public controller;
   // indexer variable - initiated as 10**18
   uint256 i;
-
   uint256 WAD = 10**18;
+  uint8 once;
 
-  constructor(address _aToken, address _vault, address _controller) ERC20('Eons Interest Bearing Token', 'eEONS') {
-    aToken = IAToken(_aToken);
-    vault = IEonsAaveVault(_vault);
-    controller = IiEonsController(_controller);
+  constructor() ERC20("Eons Interest Bearing Token", "eaEONS") {
     i = WAD;
-
+    once = 0;
   }
 
-  modifier onlyController() {
-    require(msg.sender == address(controller), "Only the controller can call that.");
+  // Does not provide re-entrancy protection
+  modifier onlyOnce() {
+    require(once == 0, "This function can only be called one time.");
     _;
+    once = 1;
+  }
+
+  // Since the constructor isn't wanting to take these addresses as arguments, this
+  // basically simulates a constructor, but has to be manually called after deployment
+  function setFuckingDeploymentValues(address _aToken, address _vault) external onlyOwner onlyOnce {
+    aToken = IAToken(_aToken);
+    vault = IEonsAaveVault(_vault);
+  }
+
+  // FOR TESTING ONLY
+  function getA() external view returns(uint256, uint256) {
+    return(aToken.balanceOf(address(vault)), aToken.scaledBalanceOf(address(vault)));
   }
 
   modifier onlyVault() {
@@ -63,13 +73,15 @@ contract eaEons is ERC20, MinterRole, Ownable {
     _burn(from, burnAmnt);
   }
 
-  // read-only for displaying current dev rewards
-  function fetchDevRewards() public view returns(uint256) {
-    // ((a+r-x)*.15)-r) is fees owed
-    uint256 r = vault.getWithdrawnDevFees(address(aToken));
-    uint256 x = totalSupply();
+  // for withdrawing current dev rewards
+  function fetchDevRewards() internal {
+    // ((a-x)*.15) is fees owed
+    uint256 e = eTotalSupply();
     uint256 a = aToken.balanceOf(address(vault));
-    return((((a + r - x) * 15) / 100) - r);
+    uint256 r = ((a - e.mul(i)) * 15) / 100;
+    if (r != 0) {
+      vault.sendRewards(address(aToken), r);
+    }
   }
 
   // read-only for getting the current index
@@ -79,6 +91,8 @@ contract eaEons is ERC20, MinterRole, Ownable {
 
   // stores new instance of i based on current values
   function updateI() internal {
+    // transfer 15% to dev
+    fetchDevRewards();
     i = getNewIndex();
   }
 
@@ -90,12 +104,11 @@ contract eaEons is ERC20, MinterRole, Ownable {
   {
     // check for 0 total supply to prevent math confusion
     if (eTotalSupply() != 0) {
-      // NI =  ((a-((a+r-x)*.15)-r)/x)+i-WAD
-      uint256 r = vault.getWithdrawnDevFees(address(aToken));
-      uint256 x = eTotalSupply();
+      // NI =  ((a-((a-x)*.15))/x)+i-ii
+      uint256 e = eTotalSupply();
       uint256 a = aToken.balanceOf(address(vault));
 
-      return((a - ((((a + r - x) * 15) / 100) - r).wdiv(x)) + i - WAD);
+      return((a - (((a - e.wmul(i)) * 15) / 100).wdiv(e.wmul(i))) + i - WAD);
     } else {
       // if eToken supply is < 0, i should equal 10**18(base number)
       return(WAD);

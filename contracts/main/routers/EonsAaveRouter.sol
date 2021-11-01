@@ -30,7 +30,6 @@ contract EonsAaveRouter is OwnableUpgradeable, PausableUpgradeable {
     using AddressUpgradeable for address;
     using SafeERC20Upgradeable for IERC20Upgradeable;
 
-
     event WithdrawError(uint256 indexed pid, string indexed erorr);
 
     uint16 public referralCode;
@@ -44,7 +43,7 @@ contract EonsAaveRouter is OwnableUpgradeable, PausableUpgradeable {
         _;
     }
 
-    function initialize(address _aaveVault, address _wmatic, address  _wETHGateway) external initializer {
+    function initialize(address _aaveVault, address _wmatic, address _wETHGateway) external initializer {
         aaveVault = IEonsAaveVault(_aaveVault);
         WMATIC = IWMATIC(_wmatic);
         WETHGateway = IWETHGateway(_wETHGateway);
@@ -83,11 +82,6 @@ contract EonsAaveRouter is OwnableUpgradeable, PausableUpgradeable {
     }
 
     function depositMATIC(address _lp) external payable onlyEonsAaveVault {
-    
-        // Get most recent AAVE lendingPool address
-        // address lp = lendingPoolAddressesProvider.getLendingPool();
-                // CONTRACT CALL TO NON-CONTRACT ACCOUNT
-                // ^^^^^^^^^ FIX THIS ^^^^^^^^^^
 
         // Send MATIC to WETHGateway for wrapping and deposit
         WETHGateway.depositETH{value: msg.value}(_lp, address(aaveVault), referralCode);

@@ -16,7 +16,7 @@ contract MinterRole is Context {
 
 	constructor() {
 		_addMinter(_msgSender());
-	}
+  	}
 
 	modifier onlyMinter() {
 		console.log('MsgSender is ', _msgSender());

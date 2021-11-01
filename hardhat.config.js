@@ -28,7 +28,7 @@ module.exports = {
         enabled: true,
         url: `${process.env.ALCHEMY_POLYGON_KEY}`,
         accounts: [`0x${process.env.PRIVATE_KEY}`],
-        blockNumber: 20679591,
+        // blockNumber: 20823225,
       },
     },
     // rinkeby: {
@@ -63,13 +63,13 @@ module.exports = {
     //   live: true,
     //   saveDeployments: true
     // },
-    // maticMainnet: {
-    //   url: "https://polygon-rpc.com/",
-    //   chainId: 137,
-    //   accounts: [process.env.PRIVATE_KEY],
-    //   live: true,
-    //   saveDeployments: true
-    // }
+    maticMainnet: {
+      url: `${process.env.ALCHEMY_POLYGON_KEY}`,
+      chainId: 137,
+      accounts: [process.env.PRIVATE_KEY],
+      live: true,
+      saveDeployments: true
+    }
   },
   solidity: '0.8.4',
   settings: {
@@ -85,8 +85,8 @@ module.exports = {
     // Binance
     // apiKey: process.env.BINANCE_ETHERSCAN_API_KEY
 
-    // Polygon
-    // apiKey: process.env.POLYGONSCAN_API_KEY
+    //Polygon
+    apiKey: process.env.POLYGONSCAN_API_KEY
   },
   paths: {
     sources: './contracts',
@@ -95,6 +95,6 @@ module.exports = {
     artifacts: './artifacts'
   },
   mocha: {
-    timeout: 20000
+    timeout: 30000
   }
 };

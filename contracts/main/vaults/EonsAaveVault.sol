@@ -50,7 +50,6 @@ contract EonsAaveVault is OwnableUpgradeable {
         address eToken;
         uint256 deposits;
         // Previously withdrawn dev rewards
-        uint256 withdrawnDevFees;
         address lendingPool;
     }
     // map AssetInfo by indexer(supportedAssets)
@@ -61,10 +60,12 @@ contract EonsAaveVault is OwnableUpgradeable {
     mapping(address => uint) public aTokenAssetInfo;
     // counter for total supported assets(used as index)
     uint256 public supportedAssets;
+
+    address devVault;
     
     function initialize() external initializer {
         __Ownable_init();
-        supportedAssets = 1;
+        supportedAssets = 0;
     }
 
 // ********************** MODIFIERS, GETTERS, & SETTERS *************************
@@ -78,19 +79,12 @@ contract EonsAaveVault is OwnableUpgradeable {
         router = IEonsAaveRouter(_router);
     }
 
+    function setDevVaultAddress(address _devVault) external onlyOwner {
+        devVault = _devVault;
+    }
+
     function setControllerAddress(address _controller) external onlyOwner {
         controller = IiEonsController(_controller);
-    }
-
-    // returns the current total of fees collected from selected aToken pool
-    function getAvailableDevFees(address _aToken) public view onlyController returns(uint256) {
-        
-    }
-
-    // returns the withdrawn dev fees up to this point
-    function getWithdrawnDevFees(address _aToken) public view returns(uint256) {
-        // retrn withdrawnDevFees from assetInfo mapping with aToken address
-        return(assetInfo[aTokenAssetInfo[_aToken]].withdrawnDevFees);
     }
 
 // *************************** ADD & EDIT ASSETS ******************************
@@ -105,7 +99,7 @@ contract EonsAaveVault is OwnableUpgradeable {
         supportedAssets ++;
         // assign values to AssetInfo and save to supportedAssets index of assetInfo,
         // and set initial values of standard and discounted pools to 0
-        assetInfo[supportedAssets] = AssetInfo({eToken: _eTokenAddress, aToken: _aTokenAddress, deposits: 0, withdrawnDevFees: 0, lendingPool: _lendingPool});
+        assetInfo[supportedAssets] = AssetInfo({eToken: _eTokenAddress, aToken: _aTokenAddress, deposits: 0, lendingPool: _lendingPool});
         // map the native asset's address to the assetInfo index for ease of search
         nativeAssetInfo[_asset] = supportedAssets;
         // map the asset's aToken address to the assetInfo index for ease of search
@@ -131,23 +125,15 @@ contract EonsAaveVault is OwnableUpgradeable {
 
 // ******************************* FEE STUFF **********************************
 
+    // USE ROLES TO MAKE ONLY ETOKEN MODIFIER, SET AT ADD/EDIT ASSET
     // @dev
     // withdraws all stored dev fees in the native aToken.  Includes reentrancy 
     // protection, and only the available % of rewards are ever available at any time.
-    function withdrawDevFees(address _aToken, uint256 _amount, address _devWallet) 
+    function sendRewards(address _aToken, uint256 _amount) 
         external 
-        onlyController 
     {
-        AssetInfo memory assetTokens = assetInfo[aTokenAssetInfo[_aToken]];
-        // Check the current amount of available fees for the dev to collect
-        // Get actual difference in (total a + r) - totalSupply()
-        uint256 availableToWithdraw = 2345352;
-        // Make sure the dev has that much available to withdraw
-        require(availableToWithdraw >= _amount, "You don't have that much available.");
         // Transfer the desired amount to the wallet passed as argument
-        IAToken(assetTokens.aToken).transfer(_devWallet, _amount);
-        // Add withdrawn amount to withdrawn dev fee total
-        assetTokens.withdrawnDevFees += _amount;
+        IAToken(_aToken).transfer(devVault, _amount);
     }
 
 // ************************* DEPOSITS AND WITHDRAWALS ****************************
@@ -168,15 +154,12 @@ contract EonsAaveVault is OwnableUpgradeable {
         require(assetTokens.aToken != address(0), "That coin or token is not supported(yet!).");
         require(_amount > 0, "You can't deposit nothing.");
 
-        // call deposit() on router, send current _amount
-        router.deposit(_asset, _amount, msg.sender, assetTokens.lendingPool);
         // mint eTokens to msg.sender
         IeaEons(assetTokens.eToken).mint(msg.sender, _amount);
+        // call deposit() on router, send current _amount
+        router.deposit(_asset, _amount, msg.sender, assetTokens.lendingPool);
         // store deposited amount in the asset's rolling total
-
-        
-        // MUST WRITE TO MAPPING, NOT READ-ONNLY
-        assetTokens.deposits += _amount;
+        assetInfo[nativeAssetInfo[_asset]].deposits += _amount;
 
         emit Deposit(msg.sender, _asset, _amount);
     }
@@ -201,7 +184,7 @@ contract EonsAaveVault is OwnableUpgradeable {
         // call withdraw() on router
         router.withdraw(_asset ,_amount, assetTokens.aToken, msg.sender, assetTokens.lendingPool);
         // subtract amount from the asset's rolling total
-        assetTokens.deposits += _amount;
+        assetInfo[nativeAssetInfo[_asset]].deposits += _amount;
 
         emit Withdraw(msg.sender, _asset, _amount);
     }
@@ -220,12 +203,12 @@ contract EonsAaveVault is OwnableUpgradeable {
         // just your basic security checks
         require(msg.value > 0, "You can't deposit nothing.");
 
-        // send MATIC to router for transfer to AAVE
-        router.depositMATIC{value: msg.value}(assetTokens.lendingPool);
         // mint eTokens to msg.sender
         IeaEons(assetTokens.eToken).mint(msg.sender, msg.value);
+        // send MATIC to router for transfer to AAVE
+        router.depositMATIC{value: msg.value}(assetTokens.lendingPool);
         // store deposited amount in the asset's rolling total
-        assetTokens.deposits += msg.value;
+        assetInfo[0].deposits += msg.value;
 
         emit Deposit(msg.sender, address(0), msg.value);
     }
@@ -249,7 +232,7 @@ contract EonsAaveVault is OwnableUpgradeable {
         // call withdrawMATIC() on router, send current value
         router.withdrawMATIC(_amount, msg.sender, assetTokens.lendingPool);
         // subtract amount from the asset's rolling total
-        assetTokens.deposits -= _amount;
+        assetInfo[0].deposits -= _amount;
 
         emit Deposit(msg.sender, address(0), _amount);
     }
