@@ -44,6 +44,7 @@ contract EonsAaveVault is OwnableUpgradeable {
     IEonsAaveRouter public router;
     IiEonsController public controller;
     IWMATIC public WMATIC;
+    IBonusClaimer public bonusClaimer;
 
     event BonusPayout(uint256 amount);
 
@@ -65,13 +66,15 @@ contract EonsAaveVault is OwnableUpgradeable {
     // counter for total supported assets(used as index)
     uint256 public supportedAssets;
 
+    uint256 MAX_INT = type(uint256).max;
+
     address devVault;
-    address bonusAddress;
     
-    function initialize(address _wmatic, address _bonusAddress) external initializer {
+    function initialize(address _wmatic, address _bonusAddress, address _devVault) external initializer {
         __Ownable_init();
         WMATIC = IWMATIC(_wmatic);
-        bonusAddress = _bonusAddress;
+        bonusClaimer = IBonusClaimer(_bonusAddress);
+        devVault = _devVault;
         supportedAssets = 0;
     }
 
@@ -138,7 +141,6 @@ contract EonsAaveVault is OwnableUpgradeable {
 
 // ******************************* FEE STUFF **********************************
 
-    // USE ROLES TO MAKE ONLY ETOKEN MODIFIER, SET AT ADD/EDIT ASSET
     // @dev
     // withdraws all stored dev fees in the native aToken.  Includes reentrancy 
     // protection, and only the available % of rewards are ever available at any time.
@@ -148,6 +150,12 @@ contract EonsAaveVault is OwnableUpgradeable {
     {
         // Transfer the desired amount to the wallet passed as argument
         IAToken(_aToken).transfer(devVault, _amount);
+    }
+
+    // REMOVE FOR PRODUCTION
+    // FOR TESTING ONLY
+    function devA(address _aToken) external view returns(uint256) {
+        return(IAToken(_aToken).balanceOf(devVault));
     }
 
 // ************************* DEPOSITS AND WITHDRAWALS ****************************
@@ -190,6 +198,16 @@ contract EonsAaveVault is OwnableUpgradeable {
         // just your basic security checks
         require(assetTokens.aToken != address(0), "That coin or token is not supported(yet!).");
         require(_amount > 0 && _amount <= IeaEons(assetTokens.eToken).balanceOf(msg.sender), "You can't withdraw 0.");
+
+        // If threshold for bonus is met, retrieve bonus and reinvest it back into
+        // the aToken balance
+        // getBonus();
+
+        // If amount requested is the largest number possible, withdraw user's entire
+        // balance.
+        if(_amount == MAX_INT) {
+            _amount = IeaEons(assetTokens.eToken).balanceOf(msg.sender);
+        }
 
         // transfer aTokens to router
         IAToken(assetTokens.aToken).transfer(address(router), _amount);
@@ -240,7 +258,13 @@ contract EonsAaveVault is OwnableUpgradeable {
         require(_amount > 0, "You can't withdraw nothing.");
         // If threshold for bonus is met, retrieve bonus and reinvest it back into
         // the aToken balance
-        // getBonus();
+        getBonus();
+
+        // If amount requested is the largest number possible, withdraw user's entire
+        // balance.
+        if(_amount == MAX_INT) {
+            _amount = IeaEons(assetTokens.eToken).balanceOf(msg.sender);
+        }
 
         // burns eTokens from msg.sender
         IeaEons(assetTokens.eToken).burn(msg.sender, _amount);
@@ -261,20 +285,28 @@ contract EonsAaveVault is OwnableUpgradeable {
         // Search the assetInfo mapping for a token at the index found by passing
         // nativeAssetInfo[_asset] as an argument
         AssetInfo memory assetTokens = assetInfo[0];
+
+        address[] memory aTokenArray = new address[](1);
+        aTokenArray[0] = assetTokens.aToken;
         // call getRewardsBalance to check the total owed
         // send aToken address and vault address as params
-        uint256 totalOwed = IBonusClaimer(bonusAddress).getRewardsBalance(address(this), assetTokens.aToken);
+        uint256 totalOwed = bonusClaimer.getRewardsBalance(aTokenArray, address(this));
         // check that bonus meets the minimum threshold for retrieving
+
         // COME UP WITH SOME LOGICAL THRESHOLD TO PUT HERE FOR WITHDRAWAL
         if (totalOwed > 4) {
             // Send total owed through AAVE and add to total aToken supply
-            IBonusClaimer(bonusAddress).claimRewards(assetTokens.aToken, totalOwed, address(this));
-            // Call contract to unwrap and redeposit to AAVE
+            bonusClaimer.claimRewards(aTokenArray, totalOwed, address(this));
+            
+            // // Call contract to unwrap and redeposit to AAVE
             WMATIC.withdraw(totalOwed);
-            // Deposit MATIC into router, bypassing minting and depositing aTokens
-            router.depositMATIC{value: msg.value}(assetTokens.lendingPool);
+            // // Deposit MATIC into router, bypassing minting and depositing aTokens
+            router.depositMATIC{value: totalOwed}(assetTokens.lendingPool);
 
             emit BonusPayout(totalOwed);
         }
     }
+
+    // Fallbacck for receiving MATIC
+    receive() external payable {}
 }

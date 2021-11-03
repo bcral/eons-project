@@ -20,12 +20,10 @@ contract eaEons is ERC20, MinterRole, Ownable {
   uint256 i;
   uint256 WAD = 10**18;
   uint256 RAY = 10**27;
-  uint256 NIN = 10**9;
-  uint256 MAX_INT = type(uint256).max;
   uint8 once;
 
   constructor() ERC20("Eons Interest Bearing Token", "eaEONS") {
-    i = WAD;
+    i = RAY;
     once = 0;
   }
 
@@ -65,7 +63,7 @@ contract eaEons is ERC20, MinterRole, Ownable {
     external
   {
     updateI();
-    uint256 mintAmnt = amount.wdiv(i);
+    uint256 mintAmnt = amount.rdiv(i);
     require(mintAmnt > 0, "You can't mint 0.");
     _mint(recepient, mintAmnt);
   }
@@ -78,20 +76,27 @@ contract eaEons is ERC20, MinterRole, Ownable {
     // require the user  to have at least that much eTokens
     require(balanceOf(from) >= amount, "You can't burn that much.");
     updateI();
-    uint256 burnAmnt = amount.wdiv(i);
+    uint256 burnAmnt = amount.rdiv(i);
     require(burnAmnt > 0, "You can't burn 0.");
     _burn(from, burnAmnt);
   }
 
   // for withdrawing current dev rewards
-  function fetchDevRewards() internal {
+  function fetchRewards() internal {
+    // ((a-x)*.15) is fees owed
+    uint256 r = calcRewards();
+    if (r != 0) {
+      // call function in vault to take dev rewards in aTokens
+      vault.sendRewards(address(aToken), r);
+    }
+  }
+
+  // for withdrawing current dev rewards
+  function calcRewards() internal view returns(uint256) {
     // ((a-x)*.15) is fees owed
     uint256 e = eTotalSupply();
     uint256 a = aToken.balanceOf(address(vault));
-    uint256 r = ((a - e.wmul(i)) * 15) / 100;
-    if (r != 0) {
-      vault.sendRewards(address(aToken), r);
-    }
+    return(((a - e.rmul(i)) * 15) / 100);
   }
 
   // read-only for getting the current index
@@ -102,7 +107,7 @@ contract eaEons is ERC20, MinterRole, Ownable {
   // stores new instance of i based on current values
   function updateI() internal {
     // transfer 15% to dev
-    // fetchDevRewards();
+    fetchRewards();
     i = getNewIndex();
   }
 
@@ -116,11 +121,10 @@ contract eaEons is ERC20, MinterRole, Ownable {
     if (eTotalSupply() != 0) {
       // NI =  ((a-((a-x)*.15))/x)+i-ii
       uint256 e = eTotalSupply();
-      uint256 a = aToken.balanceOf(address(vault));
+      uint256 a = aToken.balanceOf(address(vault)) - calcRewards();
 
-      // return((a - (((a - e.rmul(i)) * 15) / 100).rdiv(e.rmul(i))) + i - WAD);
       // A/x+i-ii
-      return(a.wdiv(e.wmul(i)) + i - WAD);
+      return (a.rdiv(e.rmul(i)) + i - RAY);
     } else {
       // if eToken supply is < 0, i should equal 10**18(base number)
       return(i);
@@ -137,7 +141,7 @@ contract eaEons is ERC20, MinterRole, Ownable {
   {
     // send the balance and total supply of the inherited ERC20 contract with the
     // calculated balance of aTokens in the vault
-    return super.balanceOf(user).wmul(getNewIndex());
+    return (super.balanceOf(user).rmul(getNewIndex()));
   }
 
   // acts as the underlying eToken ERC20 balanceOf() function
@@ -158,7 +162,7 @@ contract eaEons is ERC20, MinterRole, Ownable {
     returns (uint256)
   {
     // aToken total supply = eaEons total supply * current i
-    return(super.totalSupply().wmul(getNewIndex()));
+    return(super.totalSupply().rmul(getNewIndex()));
   }
 
   // acts as standard ERC20 totalSupply() but for the underlying eTokens
