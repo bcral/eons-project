@@ -13,7 +13,6 @@ import '../../peripheries/interfaces/ILendingPool.sol';
 import '../../peripheries/interfaces/IAToken.sol';
 import '../../peripheries/interfaces/IEonsAaveVault.sol';
 import '../../peripheries/interfaces/IiEonsController.sol';
-import '../../peripheries/interfaces/IWMATIC.sol';
 import '../../peripheries/interfaces/IWETHGateway.sol';
 
   // Core Aave router functions:
@@ -33,19 +32,17 @@ contract EonsAaveRouter is OwnableUpgradeable, PausableUpgradeable {
     event WithdrawError(uint256 indexed pid, string indexed erorr);
 
     uint16 public referralCode;
-    IEonsAaveVault public aaveVault;
+    IEonsAaveVault public vault;
     IiEonsController public controller;
     IWETHGateway public WETHGateway;
-    IWMATIC public WMATIC;
 
     modifier onlyEonsAaveVault {
-        require(msg.sender == address(aaveVault), "Only EonsAaveVault is authorized");
+        require(msg.sender == address(vault), "Only EonsAaveVault is authorized");
         _;
     }
 
-    function initialize(address _aaveVault, address _wmatic, address _wETHGateway) external initializer {
-        aaveVault = IEonsAaveVault(_aaveVault);
-        WMATIC = IWMATIC(_wmatic);
+    function initialize(address _aaveVault, address _wETHGateway) external initializer {
+        vault = IEonsAaveVault(_aaveVault);
         WETHGateway = IWETHGateway(_wETHGateway);
         referralCode = 0;
         __Ownable_init();
@@ -60,7 +57,7 @@ contract EonsAaveRouter is OwnableUpgradeable, PausableUpgradeable {
     }
 
     function setVault(address _vault) external onlyOwner {
-        aaveVault = IEonsAaveVault(_vault);
+        vault = IEonsAaveVault(_vault);
     }
 
     function deposit(address _asset, uint256 _amount, address _user, address _lp) external onlyEonsAaveVault {
@@ -70,7 +67,7 @@ contract EonsAaveRouter is OwnableUpgradeable, PausableUpgradeable {
         // Approve the asset + amount for the lendingPool to pull
         IERC20Upgradeable(_asset).safeApprove(_lp, _amount);
         // Call deposit with the asset, amount, onBehalfOf(where to send aTokens), and referral code
-        ILendingPool(_lp).deposit(_asset, _amount, address(aaveVault), referralCode);
+        ILendingPool(_lp).deposit(_asset, _amount, address(vault), referralCode);
     }
 
     function withdraw(address _asset, uint256 _amount, address _aToken, address _recipient, address _lp) external onlyEonsAaveVault {
@@ -84,11 +81,13 @@ contract EonsAaveRouter is OwnableUpgradeable, PausableUpgradeable {
     function depositMATIC(address _lp) external payable onlyEonsAaveVault {
 
         // Send MATIC to WETHGateway for wrapping and deposit
-        WETHGateway.depositETH{value: msg.value}(_lp, address(aaveVault), referralCode);
+        WETHGateway.depositETH{value: msg.value}(_lp, address(vault), referralCode);
     }
 
-    function withdrawMATIC(uint256 _amount, address _user, address _lp) external onlyEonsAaveVault {
-    
+    function withdrawMATIC(uint256 _amount, address _user, address _lp, address _aToken) external onlyEonsAaveVault {
+        
+        // Approve WETHGateway to transfer aTokens from here
+        IAToken(_aToken).approve(address(WETHGateway), _amount);
         // Send MATIC to WETHGateway for wrapping and deposit
         WETHGateway.withdrawETH(_lp, _amount, _user);
     }

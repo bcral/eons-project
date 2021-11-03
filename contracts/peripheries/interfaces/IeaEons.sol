@@ -10,4 +10,5 @@ interface IeaEons is IERC20 {
   function burn(address from, uint256 amount) external;
   function eBalanceOf(address user) external returns(uint256);
   function eTotalSupply() external returns(uint256);
+  function setDeploymentValues(address _aToken, address _vault) external;
 }

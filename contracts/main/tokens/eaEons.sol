@@ -19,6 +19,9 @@ contract eaEons is ERC20, MinterRole, Ownable {
   // indexer variable - initiated as 10**18
   uint256 i;
   uint256 WAD = 10**18;
+  uint256 RAY = 10**27;
+  uint256 NIN = 10**9;
+  uint256 MAX_INT = type(uint256).max;
   uint8 once;
 
   constructor() ERC20("Eons Interest Bearing Token", "eaEONS") {
@@ -33,9 +36,16 @@ contract eaEons is ERC20, MinterRole, Ownable {
     once = 1;
   }
 
+  // FOR TESTING ONLY
+  // REMOVE FOR PRODUCTION
+  function add() external {
+    //add one to once, for no reason other than to do a transaction and update a's
+    once ++;
+  }
+
   // Since the constructor isn't wanting to take these addresses as arguments, this
   // basically simulates a constructor, but has to be manually called after deployment
-  function setFuckingDeploymentValues(address _aToken, address _vault) external onlyOwner onlyOnce {
+  function setDeploymentValues(address _aToken, address _vault) external onlyOwner onlyOnce {
     aToken = IAToken(_aToken);
     vault = IEonsAaveVault(_vault);
   }
@@ -66,7 +76,7 @@ contract eaEons is ERC20, MinterRole, Ownable {
     external 
   {
     // require the user  to have at least that much eTokens
-    require(balanceOf(msg.sender) >= amount, "You can't burn that much.");
+    require(balanceOf(from) >= amount, "You can't burn that much.");
     updateI();
     uint256 burnAmnt = amount.wdiv(i);
     require(burnAmnt > 0, "You can't burn 0.");
@@ -78,7 +88,7 @@ contract eaEons is ERC20, MinterRole, Ownable {
     // ((a-x)*.15) is fees owed
     uint256 e = eTotalSupply();
     uint256 a = aToken.balanceOf(address(vault));
-    uint256 r = ((a - e.mul(i)) * 15) / 100;
+    uint256 r = ((a - e.wmul(i)) * 15) / 100;
     if (r != 0) {
       vault.sendRewards(address(aToken), r);
     }
@@ -92,7 +102,7 @@ contract eaEons is ERC20, MinterRole, Ownable {
   // stores new instance of i based on current values
   function updateI() internal {
     // transfer 15% to dev
-    fetchDevRewards();
+    // fetchDevRewards();
     i = getNewIndex();
   }
 
@@ -108,10 +118,12 @@ contract eaEons is ERC20, MinterRole, Ownable {
       uint256 e = eTotalSupply();
       uint256 a = aToken.balanceOf(address(vault));
 
-      return((a - (((a - e.wmul(i)) * 15) / 100).wdiv(e.wmul(i))) + i - WAD);
+      // return((a - (((a - e.rmul(i)) * 15) / 100).rdiv(e.rmul(i))) + i - WAD);
+      // A/x+i-ii
+      return(a.wdiv(e.wmul(i)) + i - WAD);
     } else {
       // if eToken supply is < 0, i should equal 10**18(base number)
-      return(WAD);
+      return(i);
     }
   }
 

@@ -11,6 +11,7 @@ const aTokenMaticContract = '0x8dF3aad3a84da6b69A4DA8aeC3eA40d9091B2Ac4';
 const wmatic = '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270';
 const wETHGateway = '0xbEadf48d62aCC944a06EEaE0A9054A90E5A7dc97';
 const maticLendingPool = '0x8dFf5E27EA6b7AC08EbFdf9eB090F32ee9a30fcf';
+const bonusRewards = '0x357D51124f59836DeD84c8a1730D72B749d8BC23';
 
 // Declare all globals that will need access elseware:
 let aaveLendingPoolProviderAddress = '0xd05e3E715d945B59290df0ae8eF85c1BdB684744'; 
@@ -48,7 +49,7 @@ async function AaveVaultDeploy () {
     const AaveVault = await ethers.getContractFactory('EonsAaveVault');
     console.log('Deploying AAVE Vault...');
     const aaveVault = await AaveVault.deploy();
-    await aaveVault.initialize();
+    await aaveVault.initialize(wmatic, bonusRewards);
     await aaveVault.deployed();
     aaveVaultAddress = aaveVault.address;
     console.log('AAVE Vault deployed to:', aaveVaultAddress);
@@ -60,7 +61,7 @@ async function AaveRouterDeploy () {
     const AaveRouter = await ethers.getContractFactory('EonsAaveRouter');
     console.log('Deploying AAVE Router...');
     const aaveRouter = await AaveRouter.deploy();
-    await aaveRouter.initialize(aaveVaultAddress, wmatic, wETHGateway);
+    await aaveRouter.initialize(aaveVaultAddress, wETHGateway);
     await aaveRouter.deployed();
     aaveRouterAddress = aaveRouter.address;
     console.log('AAVE Router deployed to:', aaveRouterAddress);
@@ -145,7 +146,7 @@ async function setupVault() {
 async function setupEaEons() {
     // add vault address as minter
     await eaeons.addMinter(aaveVaultAddress);
-    await eaeons.setFuckingDeploymentValues(aTokenMaticContract, aaveVaultAddress);
+    await eaeons.setDeploymentValues(aTokenMaticContract, aaveVaultAddress);
 }
 
 // setup all contracts with this function
@@ -169,16 +170,23 @@ runEverything();
 
 // Then...(copy/paste into npx hardhat console --network localhost):
 // const Vault = await ethers.getContractFactory('EonsAaveVault');
-// const vault = await Vault.attach('0xDe1112a0960B9619da7F91D51fB571cdefE48B5E');
+// const vault = await Vault.attach('');
 // await vault.depositMATIC({value: '5000000000000000000'});
 
 // const eaEons = await ethers.getContractFactory('eaEons');
-// const eaeons = await eaEons.attach('0xb60971942E4528A811D24826768Bc91ad1383D21');
-// (await eaeons.getA()).toString();
+// const eaeons = await eaEons.attach('');
+// await eaeons.setDeploymentValues(aToken, vault);
 
+// (await eaeons.eTotalSupply()).toString();
 // (await eaeons.totalSupply()).toString();
+// (await eaeons.getA()).toString();
+// (await eaeons.getCurrentIndex()).toString();
+// (await eaeons.getNewIndex()).toString();
 
+// await eaeons.add();
 
+// await vault.depositMATIC({value: '50000000000000000000'});
+// await vault.withdrawMATIC('10000000000000000000');
 
 // FOR VERIFICATION
 

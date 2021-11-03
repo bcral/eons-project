@@ -63,13 +63,13 @@ module.exports = {
     //   live: true,
     //   saveDeployments: true
     // },
-    maticMainnet: {
-      url: `${process.env.ALCHEMY_POLYGON_KEY}`,
-      chainId: 137,
-      accounts: [process.env.PRIVATE_KEY],
-      live: true,
-      saveDeployments: true
-    }
+    // maticMainnet: {
+    //   url: `${process.env.ALCHEMY_POLYGON_KEY}`,
+    //   chainId: 137,
+    //   accounts: [process.env.PRIVATE_KEY],
+    //   live: true,
+    //   saveDeployments: true
+    // }
   },
   solidity: '0.8.4',
   settings: {

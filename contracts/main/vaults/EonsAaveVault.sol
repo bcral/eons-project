@@ -11,6 +11,7 @@ import '../../peripheries/interfaces/IEonsAaveRouter.sol';
 import '../../peripheries/interfaces/IAToken.sol';
 import '../../peripheries/interfaces/IiEonsController.sol';
 import '../../peripheries/interfaces/IWMATIC.sol';
+import '../../peripheries/interfaces/IBonusClaimer.sol';
 
   // Vault core functionality:
   // -store account's aToken values/hold actual aTokens here
@@ -42,6 +43,9 @@ contract EonsAaveVault is OwnableUpgradeable {
 
     IEonsAaveRouter public router;
     IiEonsController public controller;
+    IWMATIC public WMATIC;
+
+    event BonusPayout(uint256 amount);
 
     mapping(address => bool) userDiscount;
 
@@ -62,9 +66,12 @@ contract EonsAaveVault is OwnableUpgradeable {
     uint256 public supportedAssets;
 
     address devVault;
+    address bonusAddress;
     
-    function initialize() external initializer {
+    function initialize(address _wmatic, address _bonusAddress) external initializer {
         __Ownable_init();
+        WMATIC = IWMATIC(_wmatic);
+        bonusAddress = _bonusAddress;
         supportedAssets = 0;
     }
 
@@ -72,6 +79,12 @@ contract EonsAaveVault is OwnableUpgradeable {
 
     modifier onlyController() {
         require(msg.sender == address(controller), "Only the controller can call that.");
+        _;
+    }
+
+    // Requires the caller to be
+    modifier onlyEToken(address _aToken) {
+        require(msg.sender == assetInfo[aTokenAssetInfo[_aToken]].eToken, "Only the eToken contract can call this.");
         _;
     }
 
@@ -131,6 +144,7 @@ contract EonsAaveVault is OwnableUpgradeable {
     // protection, and only the available % of rewards are ever available at any time.
     function sendRewards(address _aToken, uint256 _amount) 
         external 
+        onlyEToken(_aToken)
     {
         // Transfer the desired amount to the wallet passed as argument
         IAToken(_aToken).transfer(devVault, _amount);
@@ -179,7 +193,7 @@ contract EonsAaveVault is OwnableUpgradeable {
 
         // transfer aTokens to router
         IAToken(assetTokens.aToken).transfer(address(router), _amount);
-        // burn eTokens
+        // burn eTokens from msg.sender
         IeaEons(assetTokens.eToken).burn(msg.sender, _amount);
         // call withdraw() on router
         router.withdraw(_asset ,_amount, assetTokens.aToken, msg.sender, assetTokens.lendingPool);
@@ -223,17 +237,44 @@ contract EonsAaveVault is OwnableUpgradeable {
         AssetInfo memory assetTokens = assetInfo[0];
 
         // just your basic security checks
-        require(_amount > 0, "You can't deposit nothing.");
+        require(_amount > 0, "You can't withdraw nothing.");
+        // If threshold for bonus is met, retrieve bonus and reinvest it back into
+        // the aToken balance
+        // getBonus();
 
+        // burns eTokens from msg.sender
+        IeaEons(assetTokens.eToken).burn(msg.sender, _amount);
         // transfer user's withdrawn aTokens to the router to cash in
         IAToken(assetTokens.aToken).transfer(address(router), _amount);
-        // mint eTokens to msg.sender
-        IeaEons(assetTokens.eToken).burn(msg.sender, _amount);
         // call withdrawMATIC() on router, send current value
-        router.withdrawMATIC(_amount, msg.sender, assetTokens.lendingPool);
+        router.withdrawMATIC(_amount, msg.sender, assetTokens.lendingPool, assetTokens.aToken);
         // subtract amount from the asset's rolling total
         assetInfo[0].deposits -= _amount;
 
         emit Deposit(msg.sender, address(0), _amount);
+    }
+
+ // ************************ UNWRAP AND REDEPOSIT WMATIC ***************************
+    
+    // retrieve bonus from AAVE and re-deposit rewards
+    function getBonus() internal {
+        // Search the assetInfo mapping for a token at the index found by passing
+        // nativeAssetInfo[_asset] as an argument
+        AssetInfo memory assetTokens = assetInfo[0];
+        // call getRewardsBalance to check the total owed
+        // send aToken address and vault address as params
+        uint256 totalOwed = IBonusClaimer(bonusAddress).getRewardsBalance(address(this), assetTokens.aToken);
+        // check that bonus meets the minimum threshold for retrieving
+        // COME UP WITH SOME LOGICAL THRESHOLD TO PUT HERE FOR WITHDRAWAL
+        if (totalOwed > 4) {
+            // Send total owed through AAVE and add to total aToken supply
+            IBonusClaimer(bonusAddress).claimRewards(assetTokens.aToken, totalOwed, address(this));
+            // Call contract to unwrap and redeposit to AAVE
+            WMATIC.withdraw(totalOwed);
+            // Deposit MATIC into router, bypassing minting and depositing aTokens
+            router.depositMATIC{value: msg.value}(assetTokens.lendingPool);
+
+            emit BonusPayout(totalOwed);
+        }
     }
 }
