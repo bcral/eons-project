@@ -22,7 +22,9 @@ contract eaEons is ERC20, MinterRole, Ownable {
   uint256 RAY = 10**27;
   uint8 once;
 
-  constructor() ERC20("Eons Interest Bearing Token", "eaEONS") {
+  constructor(address _aToken, address _vault) ERC20("Eons Interest Bearing Token", "eaEONS") {
+    aToken = IAToken(_aToken);
+    vault = IEonsAaveVault(_vault);
     i = RAY;
     once = 0;
   }
@@ -34,18 +36,9 @@ contract eaEons is ERC20, MinterRole, Ownable {
     once = 1;
   }
 
-  // FOR TESTING ONLY
-  // REMOVE FOR PRODUCTION
-  function add() external {
-    //add one to once, for no reason other than to do a transaction and update a's
-    once ++;
-  }
-
-  // Since the constructor isn't wanting to take these addresses as arguments, this
-  // basically simulates a constructor, but has to be manually called after deployment
-  function setDeploymentValues(address _aToken, address _vault) external onlyOwner onlyOnce {
-    aToken = IAToken(_aToken);
-    vault = IEonsAaveVault(_vault);
+  modifier onlyVault() {
+    require(msg.sender == address(vault), "Only the vault can call that.");
+    _;
   }
 
   // FOR TESTING ONLY
@@ -53,14 +46,10 @@ contract eaEons is ERC20, MinterRole, Ownable {
     return(aToken.balanceOf(address(vault)), aToken.scaledBalanceOf(address(vault)));
   }
 
-  modifier onlyVault() {
-    require(msg.sender == address(vault), "Only the vault can call that.");
-    _;
-  }
-  // Add onlyVault modifier after tests
   // Mints new tokens, but first divides by current index to scale properly
   function mint(address recepient, uint amount) 
     external
+    onlyVault
   {
     updateI();
     uint256 mintAmnt = amount.rdiv(i);
@@ -68,10 +57,10 @@ contract eaEons is ERC20, MinterRole, Ownable {
     _mint(recepient, mintAmnt);
   }
 
-  // ADD onlyMinter
   // Burns tokens, but first divides by current index to scale properly
   function burn(address from, uint256 amount) 
-    external 
+    external
+    onlyVault
   {
     // require the user  to have at least that much eTokens
     require(balanceOf(from) >= amount, "You can't burn that much.");
@@ -82,7 +71,7 @@ contract eaEons is ERC20, MinterRole, Ownable {
   }
 
   // for withdrawing current dev rewards
-  function fetchRewards() internal {
+  function fetchRewards() private {
     // ((a-x)*.15) is fees owed
     uint256 r = calcRewards();
     if (r != 0) {
@@ -92,20 +81,22 @@ contract eaEons is ERC20, MinterRole, Ownable {
   }
 
   // for withdrawing current dev rewards
-  function calcRewards() internal view returns(uint256) {
+  function calcRewards() private view returns(uint256) {
     // ((a-x)*.15) is fees owed
     uint256 e = eTotalSupply();
     uint256 a = aToken.balanceOf(address(vault));
     return(((a - e.rmul(i)) * 15) / 100);
   }
 
+  // REMOVE FOR PRODUCTION
+  // This may or may not be useful in production, but it is currently only used for testing
   // read-only for getting the current index
   function getCurrentIndex() public view returns(uint256) {
     return(i);
   }
 
   // stores new instance of i based on current values
-  function updateI() internal {
+  function updateI() private {
     // transfer 15% to dev
     fetchRewards();
     i = getNewIndex();

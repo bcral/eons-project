@@ -12,7 +12,6 @@ import 'hardhat/console.sol';
 import '../../peripheries/interfaces/ILendingPool.sol';
 import '../../peripheries/interfaces/IAToken.sol';
 import '../../peripheries/interfaces/IEonsAaveVault.sol';
-import '../../peripheries/interfaces/IiEonsController.sol';
 import '../../peripheries/interfaces/IWETHGateway.sol';
 
   // Core Aave router functions:
@@ -33,7 +32,6 @@ contract EonsAaveRouter is OwnableUpgradeable, PausableUpgradeable {
 
     uint16 public referralCode;
     IEonsAaveVault public vault;
-    IiEonsController public controller;
     IWETHGateway public WETHGateway;
 
     modifier onlyEonsAaveVault {
@@ -50,10 +48,6 @@ contract EonsAaveRouter is OwnableUpgradeable, PausableUpgradeable {
 
     function setReferralCode(uint16 _code) external onlyOwner {
         referralCode = _code;
-    }
-
-    function setControllerAddress(address _controller) external onlyOwner {
-        controller = IiEonsController(_controller);
     }
 
     function setVault(address _vault) external onlyOwner {

@@ -7,14 +7,14 @@ const zero = '0x0000000000000000000000000000000000000000';
 
 // Declare all mainnet addresses here
 
-const aTokenMaticContract = '0x8dF3aad3a84da6b69A4DA8aeC3eA40d9091B2Ac4';
-const wmatic = '0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270';
-const wETHGateway = '0xbEadf48d62aCC944a06EEaE0A9054A90E5A7dc97';
+const aTokenMaticContract = '0xF45444171435d0aCB08a8af493837eF18e86EE27';
+const wmatic = '0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889';
+const wETHGateway = '0xee9eE614Ad26963bEc1Bec0D2c92879ae1F209fA';
 const maticLendingPool = '0x8dFf5E27EA6b7AC08EbFdf9eB090F32ee9a30fcf';
 const bonusRewards = '0x357D51124f59836DeD84c8a1730D72B749d8BC23';
 
 // Declare all globals that will need access elseware:
-let aaveLendingPoolProviderAddress = '0xd05e3E715d945B59290df0ae8eF85c1BdB684744'; 
+let lendingPool = '0x9198F13B08E299d85E096929fA9781A1E3d5d827'; 
 // David's MATIC address for simulating Dev withdrawals
 // Actually just a dummy testnet address
 let devVault = '0x8626f6940e2eb28930efb4cef49b2d1f2c9c1199';
@@ -30,7 +30,6 @@ let eonsControllerAddress;
 let vault;
 let eaEons;
 let router;
-let eons;
 
 // Hardhat deployment function for adding initializer values
 const deploy = async (tokenName, initializerName, args = []) => {
@@ -50,7 +49,7 @@ const deploy = async (tokenName, initializerName, args = []) => {
 // Contracts
 // Tokens
 
-// Library deployments:
+// Libraru deployments:
 
 async function DSMathDeploy () {
     // We get the contract to deploy
@@ -66,25 +65,15 @@ async function DSMathDeploy () {
 
 async function AaveVaultDeploy () {
     // We get the contract to deploy
-    // vault = await ethers.getContractFactory('EonsAaveVault');
     console.log('Deploying AAVE Vault...');
-    // vault = await AaveVault.deploy();
     vault = await deploy('EonsAaveVault', 'initializerFunction', [wmatic, bonusRewards, devVault]);
-    // await vault.initialize([wmatic, bonusRewards, devVault]);
-    // await vault.deployed();
-    // aaveVaultAddress = vault.address;
-    // console.log('AAVE Vault deployed to:', aaveVaultAddress);
 }
 
 // router initializer needs: lendingprovider, vault
 async function AaveRouterDeploy () {
     // We get the contract to deploy
-    // router = await ethers.getContractFactory('EonsAaveRouter');
     console.log('Deploying AAVE Router...');
     router = await deploy('EonsAaveRouter', 'initialize', [vault.address, wETHGateway]);
-    // await router.deployed();
-    // aaveRouterAddress = router.address;
-    // console.log('AAVE Router deployed to:', aaveRouterAddress);
 }
 
 // initialize(address _aaveVault, address _aaveRouter, address _devVault)
@@ -115,17 +104,17 @@ async function EonsDeploy () {
     // We get the contract to deploy
     const Eons = await ethers.getContractFactory('Eons');
     console.log('Deploying Eons...');
-    eons = await Eons.deploy();
+    const eons = await Eons.deploy();
     await eons.deployed();
-    // eonsAddress = eons.address
-    console.log('Eons deployed to:', eons.address);
+    eonsAddress = eons.address
+    console.log('Eons deployed to:', eonsAddress);
 }
 
 // deploy all contracts with this function
 async function main () {
     // We get the contract to deploy
-    await EonsControllerDeploy();
     await DSMathDeploy();
+    await EonsControllerDeploy();
     await EonsDeploy();
     await AaveVaultDeploy();
     await AaveRouterDeploy();
@@ -140,8 +129,8 @@ async function main () {
 // }
 // // -eaEons
 // async function initEaEons() {
-//     const eaEons = await ethers.getContractFactory('eaEons');
-//     eaeons = await eaEons.attach(eonsAddress);
+//     const EAEONS = await ethers.getContractFactory('eaEons');
+//     eaeons = await EAEONS.attach(eonsAddress);
 // }
 // // -Router
 // async function initRouter() {
@@ -158,7 +147,7 @@ async function setupVault() {
 
 // ADD ROUTER AS FIRST SETUP STEP
 async function setupEaEons() {
-    // await eaEons.setDeploymentValues(aTokenMaticContract, aaveVaultAddress);
+    // await eaeons.setDeploymentValues(aTokenMaticContract, aaveVaultAddress);
 }
 
 // setup all contracts with this function
@@ -179,6 +168,9 @@ async function runEverything() {
 }
 
 runEverything();
+
+// To deploy contract:
+// npx hardhat run scripts/deploy_matic-testnet.js --network Mumbai
 
 // Then...(copy/paste into npx hardhat console --network localhost):
 // const Vault = await ethers.getContractFactory('EonsAaveVault');
@@ -203,22 +195,21 @@ runEverything();
 // FOR VERIFICATION
 
 // DSMath
-// npx hardhat verify --contract contracts/peripheries/libraries/DSMath.sol:DSMath <address> --network maticMainnet
+// npx hardhat verify --contract contracts/peripheries/libraries/DSMath.sol:DSMath <address> --network Mumbai
 // on Polygonscan:
-// https://polygonscan.com/address/0x2d93473AdD602006C5E4280458A426E1DDc75c5d#code
+// https://mumbai.polygonscan.com/address/0x561Bb4b1A206714b933415Bb04eF560f6444189A#code
 
 // Vault
-// npx hardhat verify --contract contracts/main/vaults/EonsAaveVault.sol:EonsAaveVault <address> --network maticMainnet
+// npx hardhat verify --contract contracts/main/vaults/EonsAaveVault.sol:EonsAaveVault <address> --network Mumbai
 // on Polygonscan:
-// https://polygonscan.com/address/0x9390064255EDb1ac6C994D7A0A43Ede5Ce90E1DF#code
+// https://mumbai.polygonscan.com/address/0x03C31A0DAb473F8B23Cf63079945144772E2b529#code
 
 // Router
-// npx hardhat verify --contract contracts/main/routers/EonsAaveRouter.sol:EonsAaveRouter <address> --network maticMainnet
+// npx hardhat verify --contract contracts/main/routers/EonsAaveRouter.sol:EonsAaveRouter <address> --network Mumbai
 // on Polygonscan:
-// https://polygonscan.com/address/0xfec2E6b5b1B8ca39F3535D4eC8dd38B6ceF79F7A#code
-
+// https://mumbai.polygonscan.com/address/0xBd1Ce7C5D13624687F9395AE8D3d1Df196e9D844#code
 
 // eaEons
-// npx hardhat verify --contract contracts/main/tokens/eaEons.sol:eaEons <address> --network maticMainnet
+// npx hardhat verify --contract contracts/main/tokens/eaEons.sol:eaEons <address> --network Mumbai
 // on Polygonscan:
-// https://polygonscan.com/address/0x564A8BF80268f1E8ACD3cB7847D05B7EB5d4c593#code
+// https://mumbai.polygonscan.com/address/0xCFcF03dc822568057830D2923e94a1Ee2300b544#code

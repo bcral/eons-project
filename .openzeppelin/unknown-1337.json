@@ -1,0 +1,1608 @@
+{
+  "manifestVersion": "3.1",
+  "impls": {
+    "836027745bc2abffcd675b40b1beac341f31102b1095b3ec6aee3a9d60317459": {
+      "address": "0xDf66AB853Fc112Ec955531bd76E9079db30A0e27",
+      "txHash": "0xa870fece593b4432024fffc6ef08bee8ccf5c2452c8ee5818fae7db9137bf89a",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Initializable",
+            "label": "_initialized",
+            "type": "t_bool",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:21"
+          },
+          {
+            "contract": "Initializable",
+            "label": "_initializing",
+            "type": "t_bool",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:26"
+          },
+          {
+            "contract": "ContextUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol:30"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "_owner",
+            "type": "t_address",
+            "src": "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:21"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:77"
+          },
+          {
+            "contract": "ReentrancyGuardUpgradeable",
+            "label": "_status",
+            "type": "t_uint256",
+            "src": "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol:37"
+          },
+          {
+            "contract": "ReentrancyGuardUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol:67"
+          },
+          {
+            "contract": "ERC165Upgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "@openzeppelin/contracts-upgradeable/utils/introspection/ERC165Upgradeable.sol:35"
+          },
+          {
+            "contract": "AccessControlUpgradeable",
+            "label": "_roles",
+            "type": "t_mapping(t_bytes32,t_struct(RoleData)43_storage)",
+            "src": "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol:63"
+          },
+          {
+            "contract": "AccessControlUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol:219"
+          },
+          {
+            "contract": "iEonsController",
+            "label": "paused",
+            "type": "t_bool",
+            "src": "contracts/main/iEonsController.sol:13"
+          },
+          {
+            "contract": "iEonsController",
+            "label": "admin",
+            "type": "t_bytes32",
+            "src": "contracts/main/iEonsController.sol:14"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "router",
+            "type": "t_contract(IEonsAaveRouter)2409",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:44"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "WMATIC",
+            "type": "t_contract(IWMATIC)2517",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:45"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "bonusClaimer",
+            "type": "t_contract(IBonusClaimer)2366",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:46"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "userDiscount",
+            "type": "t_mapping(t_address,t_bool)",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:50"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "assetInfo",
+            "type": "t_mapping(t_uint256,t_struct(AssetInfo)1534_storage)",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:60"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "nativeAssetInfo",
+            "type": "t_mapping(t_address,t_uint256)",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:62"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "aTokenAssetInfo",
+            "type": "t_mapping(t_address,t_uint256)",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:64"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "supportedAssets",
+            "type": "t_uint256",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:66"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "MAX_INT",
+            "type": "t_uint256",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:68"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "devVault",
+            "type": "t_address",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:70"
+          }
+        ],
+        "types": {
+          "t_contract(IEonsAaveRouter)2409": {
+            "label": "contract IEonsAaveRouter"
+          },
+          "t_contract(IWMATIC)2517": {
+            "label": "contract IWMATIC"
+          },
+          "t_contract(IBonusClaimer)2366": {
+            "label": "contract IBonusClaimer"
+          },
+          "t_mapping(t_address,t_bool)": {
+            "label": "mapping(address => bool)"
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_bool": {
+            "label": "bool"
+          },
+          "t_mapping(t_uint256,t_struct(AssetInfo)1534_storage)": {
+            "label": "mapping(uint256 => struct EonsAaveVault.AssetInfo)"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_struct(AssetInfo)1534_storage": {
+            "label": "struct EonsAaveVault.AssetInfo",
+            "members": [
+              {
+                "label": "aToken",
+                "type": "t_address"
+              },
+              {
+                "label": "eToken",
+                "type": "t_address"
+              },
+              {
+                "label": "deposits",
+                "type": "t_uint256"
+              },
+              {
+                "label": "lendingPool",
+                "type": "t_address"
+              }
+            ]
+          },
+          "t_mapping(t_address,t_uint256)": {
+            "label": "mapping(address => uint256)"
+          },
+          "t_bytes32": {
+            "label": "bytes32"
+          },
+          "t_mapping(t_bytes32,t_struct(RoleData)43_storage)": {
+            "label": "mapping(bytes32 => struct AccessControlUpgradeable.RoleData)"
+          },
+          "t_struct(RoleData)43_storage": {
+            "label": "struct AccessControlUpgradeable.RoleData",
+            "members": [
+              {
+                "label": "members",
+                "type": "t_mapping(t_address,t_bool)"
+              },
+              {
+                "label": "adminRole",
+                "type": "t_bytes32"
+              }
+            ]
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          }
+        }
+      }
+    },
+    "a946facc8e4e72e554135c07c20db7096f70b793213a5c3c7f929049acf1b85c": {
+      "address": "0xF2cb3cfA36Bfb95E0FD855C1b41Ab19c517FcDB9",
+      "txHash": "0xb0a9748c4ca61fe40bb2168e1d41933600a7c78667dea5769be1b2c258f404d9",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Initializable",
+            "label": "initialized",
+            "type": "t_bool",
+            "src": "contracts/peripheries/utilities/Initializable.sol:22"
+          },
+          {
+            "contract": "Initializable",
+            "label": "initializing",
+            "type": "t_bool",
+            "src": "contracts/peripheries/utilities/Initializable.sol:27"
+          },
+          {
+            "contract": "Initializable",
+            "label": "______gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "contracts/peripheries/utilities/Initializable.sol:62"
+          },
+          {
+            "contract": "ContextUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol:30"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "_owner",
+            "type": "t_address",
+            "src": "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:21"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:77"
+          },
+          {
+            "contract": "PausableUpgradeable",
+            "label": "_paused",
+            "type": "t_bool",
+            "src": "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol:28"
+          },
+          {
+            "contract": "PausableUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol:96"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "referralCode",
+            "type": "t_uint16",
+            "src": "contracts/main/routers/EonsAaveRouter.sol:33"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "vault",
+            "type": "t_contract(IEonsAaveVault)4833",
+            "src": "contracts/main/routers/EonsAaveRouter.sol:34"
+          },
+          {
+            "contract": "EonsAaveRouter",
+            "label": "WETHGateway",
+            "type": "t_contract(IWETHGateway)4925",
+            "src": "contracts/main/routers/EonsAaveRouter.sol:35"
+          }
+        ],
+        "types": {
+          "t_uint16": {
+            "label": "uint16"
+          },
+          "t_contract(IEonsAaveVault)4833": {
+            "label": "contract IEonsAaveVault"
+          },
+          "t_contract(IWETHGateway)4925": {
+            "label": "contract IWETHGateway"
+          },
+          "t_bool": {
+            "label": "bool"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          }
+        }
+      }
+    },
+    "b8d1c81b3d19c1214d1089ecc8d308a1a482ebbef70666129c3a86d40d3518f3": {
+      "address": "0xD6b8Eb34413f07a1a67A469345cFEa6633efd58d",
+      "txHash": "0xc619fa3b95b7adb6d66d6bf7b99ceb43be9c26e69913024101f492a07cc186a3",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Initializable",
+            "label": "_initialized",
+            "type": "t_bool",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:21"
+          },
+          {
+            "contract": "Initializable",
+            "label": "_initializing",
+            "type": "t_bool",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:26"
+          },
+          {
+            "contract": "ContextUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol:30"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "_owner",
+            "type": "t_address",
+            "src": "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:21"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:77"
+          },
+          {
+            "contract": "ReentrancyGuardUpgradeable",
+            "label": "_status",
+            "type": "t_uint256",
+            "src": "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol:37"
+          },
+          {
+            "contract": "ReentrancyGuardUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol:67"
+          },
+          {
+            "contract": "ERC165Upgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "@openzeppelin/contracts-upgradeable/utils/introspection/ERC165Upgradeable.sol:35"
+          },
+          {
+            "contract": "AccessControlUpgradeable",
+            "label": "_roles",
+            "type": "t_mapping(t_bytes32,t_struct(RoleData)43_storage)",
+            "src": "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol:63"
+          },
+          {
+            "contract": "AccessControlUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol:219"
+          },
+          {
+            "contract": "iEonsController",
+            "label": "paused",
+            "type": "t_bool",
+            "src": "contracts/main/iEonsController.sol:13"
+          },
+          {
+            "contract": "iEonsController",
+            "label": "admin",
+            "type": "t_bytes32",
+            "src": "contracts/main/iEonsController.sol:14"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "router",
+            "type": "t_contract(IEonsAaveRouter)2405",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:43"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "WMATIC",
+            "type": "t_contract(IWMATIC)2513",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:44"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "bonusClaimer",
+            "type": "t_contract(IBonusClaimer)2362",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:45"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "userDiscount",
+            "type": "t_mapping(t_address,t_bool)",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:49"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "assetInfo",
+            "type": "t_mapping(t_uint256,t_struct(AssetInfo)1530_storage)",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:59"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "nativeAssetInfo",
+            "type": "t_mapping(t_address,t_uint256)",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:61"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "aTokenAssetInfo",
+            "type": "t_mapping(t_address,t_uint256)",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:63"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "supportedAssets",
+            "type": "t_uint256",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:65"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "MAX_INT",
+            "type": "t_uint256",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:67"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "devVault",
+            "type": "t_address",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:69"
+          }
+        ],
+        "types": {
+          "t_contract(IEonsAaveRouter)2405": {
+            "label": "contract IEonsAaveRouter"
+          },
+          "t_contract(IWMATIC)2513": {
+            "label": "contract IWMATIC"
+          },
+          "t_contract(IBonusClaimer)2362": {
+            "label": "contract IBonusClaimer"
+          },
+          "t_mapping(t_address,t_bool)": {
+            "label": "mapping(address => bool)"
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_bool": {
+            "label": "bool"
+          },
+          "t_mapping(t_uint256,t_struct(AssetInfo)1530_storage)": {
+            "label": "mapping(uint256 => struct EonsAaveVault.AssetInfo)"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_struct(AssetInfo)1530_storage": {
+            "label": "struct EonsAaveVault.AssetInfo",
+            "members": [
+              {
+                "label": "aToken",
+                "type": "t_address"
+              },
+              {
+                "label": "eToken",
+                "type": "t_address"
+              },
+              {
+                "label": "deposits",
+                "type": "t_uint256"
+              },
+              {
+                "label": "lendingPool",
+                "type": "t_address"
+              }
+            ]
+          },
+          "t_mapping(t_address,t_uint256)": {
+            "label": "mapping(address => uint256)"
+          },
+          "t_bytes32": {
+            "label": "bytes32"
+          },
+          "t_mapping(t_bytes32,t_struct(RoleData)43_storage)": {
+            "label": "mapping(bytes32 => struct AccessControlUpgradeable.RoleData)"
+          },
+          "t_struct(RoleData)43_storage": {
+            "label": "struct AccessControlUpgradeable.RoleData",
+            "members": [
+              {
+                "label": "members",
+                "type": "t_mapping(t_address,t_bool)"
+              },
+              {
+                "label": "adminRole",
+                "type": "t_bytes32"
+              }
+            ]
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          }
+        }
+      }
+    },
+    "0347a37b16bba50f75c4da7f6c4a2e2e29ae2faa6876fb4a39d914bb504cccc5": {
+      "address": "0xAf7868a9BB72E16B930D50636519038d7F057470",
+      "txHash": "0x9a28fe6b28045dae2ae9df6ee132d433c27450b1b080e19fcd34ec5a8a7f9400",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Initializable",
+            "label": "_initialized",
+            "type": "t_bool",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:21"
+          },
+          {
+            "contract": "Initializable",
+            "label": "_initializing",
+            "type": "t_bool",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:26"
+          },
+          {
+            "contract": "ContextUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol:30"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "_owner",
+            "type": "t_address",
+            "src": "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:21"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:77"
+          },
+          {
+            "contract": "ReentrancyGuardUpgradeable",
+            "label": "_status",
+            "type": "t_uint256",
+            "src": "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol:37"
+          },
+          {
+            "contract": "ReentrancyGuardUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol:67"
+          },
+          {
+            "contract": "ERC165Upgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "@openzeppelin/contracts-upgradeable/utils/introspection/ERC165Upgradeable.sol:35"
+          },
+          {
+            "contract": "AccessControlUpgradeable",
+            "label": "_roles",
+            "type": "t_mapping(t_bytes32,t_struct(RoleData)43_storage)",
+            "src": "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol:63"
+          },
+          {
+            "contract": "AccessControlUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol:219"
+          },
+          {
+            "contract": "iEonsController",
+            "label": "paused",
+            "type": "t_bool",
+            "src": "contracts/main/iEonsController.sol:13"
+          },
+          {
+            "contract": "iEonsController",
+            "label": "admin",
+            "type": "t_bytes32",
+            "src": "contracts/main/iEonsController.sol:14"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "router",
+            "type": "t_contract(IEonsAaveRouter)2405",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:43"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "WMATIC",
+            "type": "t_contract(IWMATIC)2513",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:44"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "bonusClaimer",
+            "type": "t_contract(IBonusClaimer)2362",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:45"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "userDiscount",
+            "type": "t_mapping(t_address,t_bool)",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:49"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "assetInfo",
+            "type": "t_mapping(t_uint256,t_struct(AssetInfo)1530_storage)",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:59"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "nativeAssetInfo",
+            "type": "t_mapping(t_address,t_uint256)",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:61"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "aTokenAssetInfo",
+            "type": "t_mapping(t_address,t_uint256)",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:63"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "supportedAssets",
+            "type": "t_uint256",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:65"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "MAX_INT",
+            "type": "t_uint256",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:67"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "devVault",
+            "type": "t_address",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:69"
+          }
+        ],
+        "types": {
+          "t_contract(IEonsAaveRouter)2405": {
+            "label": "contract IEonsAaveRouter"
+          },
+          "t_contract(IWMATIC)2513": {
+            "label": "contract IWMATIC"
+          },
+          "t_contract(IBonusClaimer)2362": {
+            "label": "contract IBonusClaimer"
+          },
+          "t_mapping(t_address,t_bool)": {
+            "label": "mapping(address => bool)"
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_bool": {
+            "label": "bool"
+          },
+          "t_mapping(t_uint256,t_struct(AssetInfo)1530_storage)": {
+            "label": "mapping(uint256 => struct EonsAaveVault.AssetInfo)"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_struct(AssetInfo)1530_storage": {
+            "label": "struct EonsAaveVault.AssetInfo",
+            "members": [
+              {
+                "label": "aToken",
+                "type": "t_address"
+              },
+              {
+                "label": "eToken",
+                "type": "t_address"
+              },
+              {
+                "label": "deposits",
+                "type": "t_uint256"
+              },
+              {
+                "label": "lendingPool",
+                "type": "t_address"
+              }
+            ]
+          },
+          "t_mapping(t_address,t_uint256)": {
+            "label": "mapping(address => uint256)"
+          },
+          "t_bytes32": {
+            "label": "bytes32"
+          },
+          "t_mapping(t_bytes32,t_struct(RoleData)43_storage)": {
+            "label": "mapping(bytes32 => struct AccessControlUpgradeable.RoleData)"
+          },
+          "t_struct(RoleData)43_storage": {
+            "label": "struct AccessControlUpgradeable.RoleData",
+            "members": [
+              {
+                "label": "members",
+                "type": "t_mapping(t_address,t_bool)"
+              },
+              {
+                "label": "adminRole",
+                "type": "t_bytes32"
+              }
+            ]
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          }
+        }
+      }
+    },
+    "d188e6c7837d912f674128c1a993b6b4c6896f431c736e7c1721a40f79b8ecff": {
+      "address": "0xF62eEc897fa5ef36a957702AA4a45B58fE8Fe312",
+      "txHash": "0x889ec73ae8ba43a7bd4127aba181e36955756b3884fcebefcdf5a7893fb3365b",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Initializable",
+            "label": "_initialized",
+            "type": "t_bool",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:21"
+          },
+          {
+            "contract": "Initializable",
+            "label": "_initializing",
+            "type": "t_bool",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:26"
+          },
+          {
+            "contract": "ContextUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol:30"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "_owner",
+            "type": "t_address",
+            "src": "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:21"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:77"
+          },
+          {
+            "contract": "ReentrancyGuardUpgradeable",
+            "label": "_status",
+            "type": "t_uint256",
+            "src": "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol:37"
+          },
+          {
+            "contract": "ReentrancyGuardUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol:67"
+          },
+          {
+            "contract": "ERC165Upgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "@openzeppelin/contracts-upgradeable/utils/introspection/ERC165Upgradeable.sol:35"
+          },
+          {
+            "contract": "AccessControlUpgradeable",
+            "label": "_roles",
+            "type": "t_mapping(t_bytes32,t_struct(RoleData)43_storage)",
+            "src": "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol:63"
+          },
+          {
+            "contract": "AccessControlUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol:219"
+          },
+          {
+            "contract": "iEonsController",
+            "label": "paused",
+            "type": "t_bool",
+            "src": "contracts/main/iEonsController.sol:13"
+          },
+          {
+            "contract": "iEonsController",
+            "label": "admin",
+            "type": "t_bytes32",
+            "src": "contracts/main/iEonsController.sol:14"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "router",
+            "type": "t_contract(IEonsAaveRouter)2405",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:43"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "WMATIC",
+            "type": "t_contract(IWMATIC)2513",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:44"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "bonusClaimer",
+            "type": "t_contract(IBonusClaimer)2362",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:45"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "userDiscount",
+            "type": "t_mapping(t_address,t_bool)",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:49"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "assetInfo",
+            "type": "t_mapping(t_uint256,t_struct(AssetInfo)1530_storage)",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:59"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "nativeAssetInfo",
+            "type": "t_mapping(t_address,t_uint256)",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:61"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "aTokenAssetInfo",
+            "type": "t_mapping(t_address,t_uint256)",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:63"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "supportedAssets",
+            "type": "t_uint256",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:65"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "MAX_INT",
+            "type": "t_uint256",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:67"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "devVault",
+            "type": "t_address",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:69"
+          }
+        ],
+        "types": {
+          "t_contract(IEonsAaveRouter)2405": {
+            "label": "contract IEonsAaveRouter"
+          },
+          "t_contract(IWMATIC)2513": {
+            "label": "contract IWMATIC"
+          },
+          "t_contract(IBonusClaimer)2362": {
+            "label": "contract IBonusClaimer"
+          },
+          "t_mapping(t_address,t_bool)": {
+            "label": "mapping(address => bool)"
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_bool": {
+            "label": "bool"
+          },
+          "t_mapping(t_uint256,t_struct(AssetInfo)1530_storage)": {
+            "label": "mapping(uint256 => struct EonsAaveVault.AssetInfo)"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_struct(AssetInfo)1530_storage": {
+            "label": "struct EonsAaveVault.AssetInfo",
+            "members": [
+              {
+                "label": "aToken",
+                "type": "t_address"
+              },
+              {
+                "label": "eToken",
+                "type": "t_address"
+              },
+              {
+                "label": "deposits",
+                "type": "t_uint256"
+              },
+              {
+                "label": "lendingPool",
+                "type": "t_address"
+              }
+            ]
+          },
+          "t_mapping(t_address,t_uint256)": {
+            "label": "mapping(address => uint256)"
+          },
+          "t_bytes32": {
+            "label": "bytes32"
+          },
+          "t_mapping(t_bytes32,t_struct(RoleData)43_storage)": {
+            "label": "mapping(bytes32 => struct AccessControlUpgradeable.RoleData)"
+          },
+          "t_struct(RoleData)43_storage": {
+            "label": "struct AccessControlUpgradeable.RoleData",
+            "members": [
+              {
+                "label": "members",
+                "type": "t_mapping(t_address,t_bool)"
+              },
+              {
+                "label": "adminRole",
+                "type": "t_bytes32"
+              }
+            ]
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          }
+        }
+      }
+    },
+    "a88ea6094ea8210bd888f12e8355d7a88fbcc8310320c57a2602e955073a04aa": {
+      "address": "0x4D1338Fa46ca6060F1472b70599cc635Ad275EDa",
+      "txHash": "0xe346fbd6aaed26781134710b6b59ce8cd3189ec90f840f79ca58cc0710c7ed74",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Initializable",
+            "label": "_initialized",
+            "type": "t_bool",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:21"
+          },
+          {
+            "contract": "Initializable",
+            "label": "_initializing",
+            "type": "t_bool",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:26"
+          },
+          {
+            "contract": "ContextUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol:30"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "_owner",
+            "type": "t_address",
+            "src": "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:21"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:77"
+          },
+          {
+            "contract": "ReentrancyGuardUpgradeable",
+            "label": "_status",
+            "type": "t_uint256",
+            "src": "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol:37"
+          },
+          {
+            "contract": "ReentrancyGuardUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol:67"
+          },
+          {
+            "contract": "ERC165Upgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "@openzeppelin/contracts-upgradeable/utils/introspection/ERC165Upgradeable.sol:35"
+          },
+          {
+            "contract": "AccessControlUpgradeable",
+            "label": "_roles",
+            "type": "t_mapping(t_bytes32,t_struct(RoleData)43_storage)",
+            "src": "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol:63"
+          },
+          {
+            "contract": "AccessControlUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol:219"
+          },
+          {
+            "contract": "iEonsController",
+            "label": "paused",
+            "type": "t_bool",
+            "src": "contracts/main/iEonsController.sol:13"
+          },
+          {
+            "contract": "iEonsController",
+            "label": "admin",
+            "type": "t_bytes32",
+            "src": "contracts/main/iEonsController.sol:14"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "router",
+            "type": "t_contract(IEonsAaveRouter)2407",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:43"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "WMATIC",
+            "type": "t_contract(IWMATIC)2515",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:44"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "bonusClaimer",
+            "type": "t_contract(IBonusClaimer)2364",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:45"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "userDiscount",
+            "type": "t_mapping(t_address,t_bool)",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:49"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "assetInfo",
+            "type": "t_mapping(t_uint256,t_struct(AssetInfo)1532_storage)",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:59"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "nativeAssetInfo",
+            "type": "t_mapping(t_address,t_uint256)",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:61"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "aTokenAssetInfo",
+            "type": "t_mapping(t_address,t_uint256)",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:63"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "supportedAssets",
+            "type": "t_uint256",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:65"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "MAX_INT",
+            "type": "t_uint256",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:67"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "devVault",
+            "type": "t_address",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:69"
+          }
+        ],
+        "types": {
+          "t_contract(IEonsAaveRouter)2407": {
+            "label": "contract IEonsAaveRouter"
+          },
+          "t_contract(IWMATIC)2515": {
+            "label": "contract IWMATIC"
+          },
+          "t_contract(IBonusClaimer)2364": {
+            "label": "contract IBonusClaimer"
+          },
+          "t_mapping(t_address,t_bool)": {
+            "label": "mapping(address => bool)"
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_bool": {
+            "label": "bool"
+          },
+          "t_mapping(t_uint256,t_struct(AssetInfo)1532_storage)": {
+            "label": "mapping(uint256 => struct EonsAaveVault.AssetInfo)"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_struct(AssetInfo)1532_storage": {
+            "label": "struct EonsAaveVault.AssetInfo",
+            "members": [
+              {
+                "label": "aToken",
+                "type": "t_address"
+              },
+              {
+                "label": "eToken",
+                "type": "t_address"
+              },
+              {
+                "label": "deposits",
+                "type": "t_uint256"
+              },
+              {
+                "label": "lendingPool",
+                "type": "t_address"
+              }
+            ]
+          },
+          "t_mapping(t_address,t_uint256)": {
+            "label": "mapping(address => uint256)"
+          },
+          "t_bytes32": {
+            "label": "bytes32"
+          },
+          "t_mapping(t_bytes32,t_struct(RoleData)43_storage)": {
+            "label": "mapping(bytes32 => struct AccessControlUpgradeable.RoleData)"
+          },
+          "t_struct(RoleData)43_storage": {
+            "label": "struct AccessControlUpgradeable.RoleData",
+            "members": [
+              {
+                "label": "members",
+                "type": "t_mapping(t_address,t_bool)"
+              },
+              {
+                "label": "adminRole",
+                "type": "t_bytes32"
+              }
+            ]
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          }
+        }
+      }
+    },
+    "31595d6a2174b05c04e69ad1fc2659a35cffc0bd5898005f8727c00860a2857a": {
+      "address": "0xB92257D74B8815EC711071889cB506C8d66A6a06",
+      "txHash": "0xa955244a18c92ce56e04100801a5aecbfd01b20ca5152c749f05833ba9f97eb7",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Initializable",
+            "label": "_initialized",
+            "type": "t_bool",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:21"
+          },
+          {
+            "contract": "Initializable",
+            "label": "_initializing",
+            "type": "t_bool",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:26"
+          },
+          {
+            "contract": "ContextUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol:30"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "_owner",
+            "type": "t_address",
+            "src": "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:21"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:77"
+          },
+          {
+            "contract": "ReentrancyGuardUpgradeable",
+            "label": "_status",
+            "type": "t_uint256",
+            "src": "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol:37"
+          },
+          {
+            "contract": "ReentrancyGuardUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol:67"
+          },
+          {
+            "contract": "ERC165Upgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "@openzeppelin/contracts-upgradeable/utils/introspection/ERC165Upgradeable.sol:35"
+          },
+          {
+            "contract": "AccessControlUpgradeable",
+            "label": "_roles",
+            "type": "t_mapping(t_bytes32,t_struct(RoleData)43_storage)",
+            "src": "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol:63"
+          },
+          {
+            "contract": "AccessControlUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol:219"
+          },
+          {
+            "contract": "iEonsController",
+            "label": "paused",
+            "type": "t_bool",
+            "src": "contracts/main/iEonsController.sol:13"
+          },
+          {
+            "contract": "iEonsController",
+            "label": "admin",
+            "type": "t_bytes32",
+            "src": "contracts/main/iEonsController.sol:14"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "router",
+            "type": "t_contract(IEonsAaveRouter)2413",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:43"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "WMATIC",
+            "type": "t_contract(IWMATIC)2521",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:44"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "bonusClaimer",
+            "type": "t_contract(IBonusClaimer)2370",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:45"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "userDiscount",
+            "type": "t_mapping(t_address,t_bool)",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:49"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "assetInfo",
+            "type": "t_mapping(t_uint256,t_struct(AssetInfo)1538_storage)",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:59"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "nativeAssetInfo",
+            "type": "t_mapping(t_address,t_uint256)",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:61"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "aTokenAssetInfo",
+            "type": "t_mapping(t_address,t_uint256)",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:63"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "supportedAssets",
+            "type": "t_uint256",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:65"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "MAX_INT",
+            "type": "t_uint256",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:67"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "devVault",
+            "type": "t_address",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:69"
+          }
+        ],
+        "types": {
+          "t_contract(IEonsAaveRouter)2413": {
+            "label": "contract IEonsAaveRouter"
+          },
+          "t_contract(IWMATIC)2521": {
+            "label": "contract IWMATIC"
+          },
+          "t_contract(IBonusClaimer)2370": {
+            "label": "contract IBonusClaimer"
+          },
+          "t_mapping(t_address,t_bool)": {
+            "label": "mapping(address => bool)"
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_bool": {
+            "label": "bool"
+          },
+          "t_mapping(t_uint256,t_struct(AssetInfo)1538_storage)": {
+            "label": "mapping(uint256 => struct EonsAaveVault.AssetInfo)"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_struct(AssetInfo)1538_storage": {
+            "label": "struct EonsAaveVault.AssetInfo",
+            "members": [
+              {
+                "label": "aToken",
+                "type": "t_address"
+              },
+              {
+                "label": "eToken",
+                "type": "t_address"
+              },
+              {
+                "label": "deposits",
+                "type": "t_uint256"
+              },
+              {
+                "label": "lendingPool",
+                "type": "t_address"
+              }
+            ]
+          },
+          "t_mapping(t_address,t_uint256)": {
+            "label": "mapping(address => uint256)"
+          },
+          "t_bytes32": {
+            "label": "bytes32"
+          },
+          "t_mapping(t_bytes32,t_struct(RoleData)43_storage)": {
+            "label": "mapping(bytes32 => struct AccessControlUpgradeable.RoleData)"
+          },
+          "t_struct(RoleData)43_storage": {
+            "label": "struct AccessControlUpgradeable.RoleData",
+            "members": [
+              {
+                "label": "members",
+                "type": "t_mapping(t_address,t_bool)"
+              },
+              {
+                "label": "adminRole",
+                "type": "t_bytes32"
+              }
+            ]
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          }
+        }
+      }
+    },
+    "733ee31b2dee81e710fbe2b7445b4b57c1e5d088a730369780a87e0dfea8026a": {
+      "address": "0xA13d4a67745D4Ed129AF590c495897eE2C7F8Cfc",
+      "txHash": "0x619cdaa65a669dc9686280502e690c6f8ce908798693b2094cfd836b33993611",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Initializable",
+            "label": "_initialized",
+            "type": "t_bool",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:21"
+          },
+          {
+            "contract": "Initializable",
+            "label": "_initializing",
+            "type": "t_bool",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:26"
+          },
+          {
+            "contract": "ContextUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol:30"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "_owner",
+            "type": "t_address",
+            "src": "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:21"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:77"
+          },
+          {
+            "contract": "ReentrancyGuardUpgradeable",
+            "label": "_status",
+            "type": "t_uint256",
+            "src": "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol:37"
+          },
+          {
+            "contract": "ReentrancyGuardUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol:67"
+          },
+          {
+            "contract": "ERC165Upgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "@openzeppelin/contracts-upgradeable/utils/introspection/ERC165Upgradeable.sol:35"
+          },
+          {
+            "contract": "AccessControlUpgradeable",
+            "label": "_roles",
+            "type": "t_mapping(t_bytes32,t_struct(RoleData)43_storage)",
+            "src": "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol:63"
+          },
+          {
+            "contract": "AccessControlUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol:219"
+          },
+          {
+            "contract": "iEonsController",
+            "label": "paused",
+            "type": "t_bool",
+            "src": "contracts/main/iEonsController.sol:13"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "router",
+            "type": "t_contract(IEonsAaveRouter)2411",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:43"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "WMATIC",
+            "type": "t_contract(IWMATIC)2519",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:44"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "bonusClaimer",
+            "type": "t_contract(IBonusClaimer)2368",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:45"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "userDiscount",
+            "type": "t_mapping(t_address,t_bool)",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:49"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "assetInfo",
+            "type": "t_mapping(t_uint256,t_struct(AssetInfo)1536_storage)",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:59"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "nativeAssetInfo",
+            "type": "t_mapping(t_address,t_uint256)",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:61"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "aTokenAssetInfo",
+            "type": "t_mapping(t_address,t_uint256)",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:63"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "supportedAssets",
+            "type": "t_uint256",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:65"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "MAX_INT",
+            "type": "t_uint256",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:67"
+          },
+          {
+            "contract": "EonsAaveVault",
+            "label": "devVault",
+            "type": "t_address",
+            "src": "contracts/main/vaults/EonsAaveVault.sol:69"
+          }
+        ],
+        "types": {
+          "t_contract(IEonsAaveRouter)2411": {
+            "label": "contract IEonsAaveRouter"
+          },
+          "t_contract(IWMATIC)2519": {
+            "label": "contract IWMATIC"
+          },
+          "t_contract(IBonusClaimer)2368": {
+            "label": "contract IBonusClaimer"
+          },
+          "t_mapping(t_address,t_bool)": {
+            "label": "mapping(address => bool)"
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_bool": {
+            "label": "bool"
+          },
+          "t_mapping(t_uint256,t_struct(AssetInfo)1536_storage)": {
+            "label": "mapping(uint256 => struct EonsAaveVault.AssetInfo)"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_struct(AssetInfo)1536_storage": {
+            "label": "struct EonsAaveVault.AssetInfo",
+            "members": [
+              {
+                "label": "aToken",
+                "type": "t_address"
+              },
+              {
+                "label": "eToken",
+                "type": "t_address"
+              },
+              {
+                "label": "deposits",
+                "type": "t_uint256"
+              },
+              {
+                "label": "lendingPool",
+                "type": "t_address"
+              }
+            ]
+          },
+          "t_mapping(t_address,t_uint256)": {
+            "label": "mapping(address => uint256)"
+          },
+          "t_mapping(t_bytes32,t_struct(RoleData)43_storage)": {
+            "label": "mapping(bytes32 => struct AccessControlUpgradeable.RoleData)"
+          },
+          "t_bytes32": {
+            "label": "bytes32"
+          },
+          "t_struct(RoleData)43_storage": {
+            "label": "struct AccessControlUpgradeable.RoleData",
+            "members": [
+              {
+                "label": "members",
+                "type": "t_mapping(t_address,t_bool)"
+              },
+              {
+                "label": "adminRole",
+                "type": "t_bytes32"
+              }
+            ]
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          }
+        }
+      }
+    }
+  },
+  "admin": {
+    "address": "0x364C7188028348566E38D762f6095741c49f492B",
+    "txHash": "0x6a3911bc4e3ab90e472570b68e81c658fa885a376ea39c9a02c65224421f34b3"
+  }
+}

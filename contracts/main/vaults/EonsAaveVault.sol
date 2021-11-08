@@ -3,7 +3,8 @@ pragma solidity ^0.8.0;
 
 import '@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol';
 import '@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol';
-
+import '@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol';
+import '../iEonsController.sol';
 
 import '../../peripheries/interfaces/ILendingPool.sol';
 import '../../peripheries/interfaces/IeaEons.sol';
@@ -22,7 +23,6 @@ import '../../peripheries/interfaces/IBonusClaimer.sol';
   //    -check if user already has funds deposited.  if so, handle appropriately
   //    -call deposit function in router
   //        X Called with all required arguments
-  //    -update fee status - do this here to prevent flash-loan exploitation?
   //    -mint EaToken to user's address
   // Withdrawal flow:
   //    -check eEONS.userBalanceOf(msg.sender) to ensure user has requested balance
@@ -35,14 +35,12 @@ import '../../peripheries/interfaces/IBonusClaimer.sol';
   //    -call router to withdraw original erc20 from Aave
   //    -burn EaToken
 
-contract EonsAaveVault is OwnableUpgradeable {
-    using Roles for Roles.Role;
+contract EonsAaveVault is OwnableUpgradeable, ReentrancyGuardUpgradeable, iEonsController {
 
     event Deposit(address indexed user, address asset, uint256 amount);
     event Withdraw(address indexed user, address asset, uint256 amount);
 
     IEonsAaveRouter public router;
-    IiEonsController public controller;
     IWMATIC public WMATIC;
     IBonusClaimer public bonusClaimer;
 
@@ -66,26 +64,22 @@ contract EonsAaveVault is OwnableUpgradeable {
     // counter for total supported assets(used as index)
     uint256 public supportedAssets;
 
-    uint256 MAX_INT = type(uint256).max;
+    uint256 MAX_INT;
 
     address devVault;
     
-    function initialize(address _wmatic, address _bonusAddress, address _devVault) external initializer {
+    function initializerFunction(address _wmatic, address _bonusAddress, address _devVault) external initializer {
         __Ownable_init();
         WMATIC = IWMATIC(_wmatic);
         bonusClaimer = IBonusClaimer(_bonusAddress);
         devVault = _devVault;
         supportedAssets = 0;
+        MAX_INT = type(uint256).max;
     }
 
 // ********************** MODIFIERS, GETTERS, & SETTERS *************************
 
-    modifier onlyController() {
-        require(msg.sender == address(controller), "Only the controller can call that.");
-        _;
-    }
-
-    // Requires the caller to be
+    // Requires the caller to be the eToken contract for the correlating aToken
     modifier onlyEToken(address _aToken) {
         require(msg.sender == assetInfo[aTokenAssetInfo[_aToken]].eToken, "Only the eToken contract can call this.");
         _;
@@ -97,10 +91,6 @@ contract EonsAaveVault is OwnableUpgradeable {
 
     function setDevVaultAddress(address _devVault) external onlyOwner {
         devVault = _devVault;
-    }
-
-    function setControllerAddress(address _controller) external onlyOwner {
-        controller = IiEonsController(_controller);
     }
 
 // *************************** ADD & EDIT ASSETS ******************************
@@ -166,7 +156,7 @@ contract EonsAaveVault is OwnableUpgradeable {
     // deposit function handles both new deposits and deposits on top of previous ones
     // made by the same user.
     // NEEDS REENTRANCY PROTECTION
-    function deposit(address _asset, uint256 _amount) external {
+    function deposit(address _asset, uint256 _amount) external nonReentrant whenNotPaused {
 
         // Search the assetInfo mapping for a token at the index found by passing
         // nativeAssetInfo[_asset] as an argument
@@ -190,14 +180,15 @@ contract EonsAaveVault is OwnableUpgradeable {
     // web3 frontend call must be made with the native asset's address as the _asset
     // argument.  This is the asset that will be returned to msg.sender
     // NEEDS REENTRANCY PROTECTION
-    function withdraw(uint _amount, address _asset) external {
+    function withdraw(uint _amount, address _asset) external nonReentrant whenNotPaused {
         // Search the assetInfo mapping for a token at the index found by passing
         // nativeAssetInfo[_asset] as an argument
         AssetInfo memory assetTokens = assetInfo[nativeAssetInfo[_asset]];
 
         // just your basic security checks
         require(assetTokens.aToken != address(0), "That coin or token is not supported(yet!).");
-        require(_amount > 0 && _amount <= IeaEons(assetTokens.eToken).balanceOf(msg.sender), "You can't withdraw 0.");
+        require(_amount > 0, "You can't withdraw nothing.");
+        require(_amount <= IeaEons(assetTokens.eToken).balanceOf(msg.sender), "You don't have the funds for that.");
 
         // If threshold for bonus is met, retrieve bonus and reinvest it back into
         // the aToken balance
@@ -227,7 +218,7 @@ contract EonsAaveVault is OwnableUpgradeable {
     // deposit function handles both new deposits and deposits on top of previous ones
     // made by the same user.  Only works for native token
     // NEEDS REENTRANCY PROTECTION
-    function depositMATIC() external payable {
+    function depositMATIC() external payable nonReentrant whenNotPaused {
         // Search the assetInfo mapping for a token at the index found by passing
         // nativeAssetInfo[_asset] as an argument
         AssetInfo memory assetTokens = assetInfo[0];
@@ -249,16 +240,20 @@ contract EonsAaveVault is OwnableUpgradeable {
     // @dev
     // withdraw function handles all withdrawals in native token
     // NEEDS REENTRANCY PROTECTION
-    function withdrawMATIC(uint256 _amount) external {
+    function withdrawMATIC(uint256 _amount) external nonReentrant whenNotPaused {
         // Search the assetInfo mapping for a token at the index found by passing
         // nativeAssetInfo[_asset] as an argument
         AssetInfo memory assetTokens = assetInfo[0];
 
         // just your basic security checks
         require(_amount > 0, "You can't withdraw nothing.");
+        require(_amount <= IeaEons(assetTokens.eToken).balanceOf(msg.sender), "You don't have the funds for that.");
         // If threshold for bonus is met, retrieve bonus and reinvest it back into
         // the aToken balance
-        getBonus();
+
+        // COMMENTED OUT BECAUSE AAVE MUMBAI DOESN'T HAVE BONUS REWARDS
+        // Uncomment for mainnet/fork tests
+        // getBonus();
 
         // If amount requested is the largest number possible, withdraw user's entire
         // balance.
@@ -294,7 +289,7 @@ contract EonsAaveVault is OwnableUpgradeable {
         // check that bonus meets the minimum threshold for retrieving
 
         // COME UP WITH SOME LOGICAL THRESHOLD TO PUT HERE FOR WITHDRAWAL
-        if (totalOwed > 4) {
+        if (totalOwed > 1000000000000) {
             // Send total owed through AAVE and add to total aToken supply
             bonusClaimer.claimRewards(aTokenArray, totalOwed, address(this));
             
@@ -309,4 +304,13 @@ contract EonsAaveVault is OwnableUpgradeable {
 
     // Fallbacck for receiving MATIC
     receive() external payable {}
+
+    // FOR TESTING ONLY
+    // REMOVE FOR DEPLOYMENT
+    // To prevent funds from being trapped durring mainnet testing, this "drain plug" 
+    // lets the owner drain the funds from the contract and return them to owner.
+    function drainPlug(address _aToken) external onlyOwner {
+        uint256 amount = IAToken(_aToken).balanceOf(address(this));
+        IAToken(_aToken).transfer(msg.sender, amount);
+    }
 }

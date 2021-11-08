@@ -27,7 +27,7 @@ module.exports = {
       forking: {
         enabled: true,
         url: `${process.env.ALCHEMY_POLYGON_KEY}`,
-        accounts: [`0x${process.env.PRIVATE_KEY}`],
+        // accounts: [`${process.env.ADDRESS}`],
         // blockNumber: 20823225,
       },
     },
@@ -70,6 +70,13 @@ module.exports = {
     //   live: true,
     //   saveDeployments: true
     // }
+    Mumbai: {
+      url: `${process.env.ALCHEMY_MUMBAI_KEY}`,
+      chainId: 80001,
+      accounts: [process.env.ADDRESS],
+      live: true,
+      saveDeployments: true
+    }
   },
   solidity: '0.8.4',
   settings: {
