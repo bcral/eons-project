@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import '@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol';
-import '@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol';
-import '@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol';
+import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
+import '@openzeppelin/contracts/access/Ownable.sol';
+import '@openzeppelin/contracts/security/ReentrancyGuard.sol';
 import '../iEonsController.sol';
 
 import '../../peripheries/interfaces/ILendingPool.sol';
@@ -13,6 +13,7 @@ import '../../peripheries/interfaces/IAToken.sol';
 import '../../peripheries/interfaces/IiEonsController.sol';
 import '../../peripheries/interfaces/IWMATIC.sol';
 import '../../peripheries/interfaces/IBonusClaimer.sol';
+import '../../peripheries/utilities/Roles.sol';
 
   // Vault core functionality:
   // -store account's aToken values/hold actual aTokens here
@@ -35,7 +36,7 @@ import '../../peripheries/interfaces/IBonusClaimer.sol';
   //    -call router to withdraw original erc20 from Aave
   //    -burn EaToken
 
-contract EonsAaveVault is OwnableUpgradeable, ReentrancyGuardUpgradeable, iEonsController {
+contract EonsAaveVault is ReentrancyGuard, iEonsController {
 
     event Deposit(address indexed user, address asset, uint256 amount);
     event Withdraw(address indexed user, address asset, uint256 amount);
@@ -68,8 +69,7 @@ contract EonsAaveVault is OwnableUpgradeable, ReentrancyGuardUpgradeable, iEonsC
 
     address devVault;
     
-    function initializerFunction(address _wmatic, address _bonusAddress, address _devVault) external initializer {
-        __Ownable_init();
+    constructor(address _wmatic, address _bonusAddress, address _devVault) {
         WMATIC = IWMATIC(_wmatic);
         bonusClaimer = IBonusClaimer(_bonusAddress);
         devVault = _devVault;
@@ -100,7 +100,7 @@ contract EonsAaveVault is OwnableUpgradeable, ReentrancyGuardUpgradeable, iEonsC
     // address, and _eTokenAddress is the eToken address created for that asset, and
     // _aTokenAddress is the AAVE token address created for that asset
     // add onlyOwner back after testing
-    function addAsset(address _asset, address _eTokenAddress, address _aTokenAddress, address _lendingPool) external onlyOwner {
+    function addAsset(address _asset, address _eTokenAddress, address _aTokenAddress, address _lendingPool) external onlyAdmin {
         // increment supported assets first
         supportedAssets ++;
         // assign values to AssetInfo and save to supportedAssets index of assetInfo,
@@ -117,7 +117,7 @@ contract EonsAaveVault is OwnableUpgradeable, ReentrancyGuardUpgradeable, iEonsC
     // map, _asset is the coin or token's contract address, and _eTokenAddress is the
     //  eToken address created for that asset, and _aTokenAddress is the AAVE token 
     // address created for that asset
-    function editAsset(uint256 _index, address _asset, address _eTokenAddress, address _aTokenAddress, address _lendingPool) external onlyOwner {
+    function editAsset(uint256 _index, address _asset, address _eTokenAddress, address _aTokenAddress, address _lendingPool) external onlyAdmin whenPaused {
         // assign values to AssetInfo and save to supportedAssets index of assetInfo,
         // and keep pool values the same
         assetInfo[_index].eToken = _eTokenAddress;
@@ -155,7 +155,6 @@ contract EonsAaveVault is OwnableUpgradeable, ReentrancyGuardUpgradeable, iEonsC
     // the AAVE router contract, otherwise it will revert
     // deposit function handles both new deposits and deposits on top of previous ones
     // made by the same user.
-    // NEEDS REENTRANCY PROTECTION
     function deposit(address _asset, uint256 _amount) external nonReentrant whenNotPaused {
 
         // Search the assetInfo mapping for a token at the index found by passing
@@ -179,7 +178,6 @@ contract EonsAaveVault is OwnableUpgradeable, ReentrancyGuardUpgradeable, iEonsC
     // @dev
     // web3 frontend call must be made with the native asset's address as the _asset
     // argument.  This is the asset that will be returned to msg.sender
-    // NEEDS REENTRANCY PROTECTION
     function withdraw(uint _amount, address _asset) external nonReentrant whenNotPaused {
         // Search the assetInfo mapping for a token at the index found by passing
         // nativeAssetInfo[_asset] as an argument
@@ -192,7 +190,7 @@ contract EonsAaveVault is OwnableUpgradeable, ReentrancyGuardUpgradeable, iEonsC
 
         // If threshold for bonus is met, retrieve bonus and reinvest it back into
         // the aToken balance
-        // getBonus();
+        getBonus();
 
         // If amount requested is the largest number possible, withdraw user's entire
         // balance.
@@ -207,7 +205,9 @@ contract EonsAaveVault is OwnableUpgradeable, ReentrancyGuardUpgradeable, iEonsC
         // call withdraw() on router
         router.withdraw(_asset ,_amount, assetTokens.aToken, msg.sender, assetTokens.lendingPool);
         // subtract amount from the asset's rolling total
-        assetInfo[nativeAssetInfo[_asset]].deposits += _amount;
+        if (IeaEons(assetTokens.eToken).totalSupply() > 0) {
+            assetInfo[nativeAssetInfo[_asset]].deposits -= _amount;
+        }
 
         emit Withdraw(msg.sender, _asset, _amount);
     }
@@ -217,7 +217,6 @@ contract EonsAaveVault is OwnableUpgradeable, ReentrancyGuardUpgradeable, iEonsC
     // @dev
     // deposit function handles both new deposits and deposits on top of previous ones
     // made by the same user.  Only works for native token
-    // NEEDS REENTRANCY PROTECTION
     function depositMATIC() external payable nonReentrant whenNotPaused {
         // Search the assetInfo mapping for a token at the index found by passing
         // nativeAssetInfo[_asset] as an argument
@@ -239,7 +238,6 @@ contract EonsAaveVault is OwnableUpgradeable, ReentrancyGuardUpgradeable, iEonsC
 
     // @dev
     // withdraw function handles all withdrawals in native token
-    // NEEDS REENTRANCY PROTECTION
     function withdrawMATIC(uint256 _amount) external nonReentrant whenNotPaused {
         // Search the assetInfo mapping for a token at the index found by passing
         // nativeAssetInfo[_asset] as an argument
@@ -253,7 +251,7 @@ contract EonsAaveVault is OwnableUpgradeable, ReentrancyGuardUpgradeable, iEonsC
 
         // COMMENTED OUT BECAUSE AAVE MUMBAI DOESN'T HAVE BONUS REWARDS
         // Uncomment for mainnet/fork tests
-        // getBonus();
+        getBonus();
 
         // If amount requested is the largest number possible, withdraw user's entire
         // balance.
@@ -268,7 +266,9 @@ contract EonsAaveVault is OwnableUpgradeable, ReentrancyGuardUpgradeable, iEonsC
         // call withdrawMATIC() on router, send current value
         router.withdrawMATIC(_amount, msg.sender, assetTokens.lendingPool, assetTokens.aToken);
         // subtract amount from the asset's rolling total
-        assetInfo[0].deposits -= _amount;
+        if (IeaEons(assetTokens.eToken).totalSupply() > 0) {
+            assetInfo[0].deposits -= _amount;
+        }
 
         emit Deposit(msg.sender, address(0), _amount);
     }

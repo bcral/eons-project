@@ -1,22 +1,22 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import '@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol';
-import '@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol';
-import '@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol';
+import '@openzeppelin/contracts/utils/Address.sol';
+import '@openzeppelin/contracts/access/Ownable.sol';
 
 import '../peripheries/interfaces/IEonsAaveVault.sol';
 import '../peripheries/interfaces/IEonsAaveRouter.sol';
+import '../peripheries/utilities/Roles.sol';
 
-contract iEonsController is OwnableUpgradeable, AccessControlUpgradeable {
+contract iEonsController is Ownable {
+    using Roles for Roles.Role;
+
+    Roles.Role private admin;
 
     bool private paused;
-    bytes32 private constant admin = keccak256("ADMIN");
 
-    function initialize() external {
-        __Ownable_init();
-        _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
-        _setupRole(admin, msg.sender);
+    constructor() {
+        admin.add(msg.sender);
         paused = false;
     }
 
@@ -36,18 +36,23 @@ contract iEonsController is OwnableUpgradeable, AccessControlUpgradeable {
         _;
     }
 
-    function pause() external whenNotPaused onlyRole(admin) {
+    function pause() external whenNotPaused onlyAdmin {
         paused = true;
     }
 
-    function unPause() external whenPaused onlyRole(admin) {
+    function unPause() external whenPaused onlyAdmin {
         paused = false;
     }
 
 // ***************************** Access Control *******************************  
 
-    function addAdmin(address _user) external onlyRole(admin) {
-        grantRole(admin, _user);
+    modifier onlyAdmin() {
+        require(admin.has(msg.sender), "Only an admin can call this.");
+        _;
+    }
+
+    function addAdmin(address _user) external onlyOwner {
+        admin.add(_user);
     }
 
 }

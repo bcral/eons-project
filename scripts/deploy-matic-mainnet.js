@@ -1,235 +1,195 @@
 require('dotenv').config();
 const hre = require('hardhat');
-const fs = require('fs');
-const { Wallet } = require('ethers');
 
-// We require the Hardhat Runtime Environment explicitly here. This is optional 
-// but useful for running the script in a standalone fashion through `node <script>`.
-//
-// When running the script with `hardhat run <script>` you'll find the Hardhat
-// Runtime Environment's members available in the global scope.
+const zero = '0x0000000000000000000000000000000000000000';
 
-const wethAddress = '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270';
+// Declare all mainnet addresses here
 
-const aaveLendingPoolProviderAddress = '0xd05e3E715d945B59290df0ae8eF85c1BdB684744';  // should be updated with getting latest lending pool address from lending pool provider contract
-const quickswapV2FactoryAddress = '0x5757371414417b8C6CAad45bAeF941aBc7d3Ab32';
-const quickswapV2RouterAddress = '0x5757371414417b8C6CAad45bAeF941aBc7d3Ab32';
-const aavePriceOracleAddress = '0x0229F777B0fAb107F9591a41d5F02E4e98dB6f2d';
-const devAddr = '0x4Bf18d1fD330C5c32eAaB1C673593255EBA546af';
-const treasury = '0x4Bf18d1fD330C5c32eAaB1C673593255EBA546af';
+const aTokenMaticContract = '0x8dF3aad3a84da6b69A4DA8aeC3eA40d9091B2Ac4';
+const wmatic = '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270';
+const wETHGateway = '0xbEadf48d62aCC944a06EEaE0A9054A90E5A7dc97';
+const maticLendingPool = '0x8dff5e27ea6b7ac08ebfdf9eb090f32ee9a30fcf';
+const bonusRewards = '0x357D51124f59836DeD84c8a1730D72B749d8BC23';
 
-let eonsAddress = '0x531B8bf27771085f92E77646094408e1E743aa18';
-let eonsLpAddress = '0xA6057eAc9Ee8ca240789a5a11B35a8CC266365dd';
-let eEONSAddress = '0xfB144a0952f179FCD58731c21f78613613010552';
-let feeApproverAddress = '0xed8ed6e6072C80A40781FeB70cA4771978d19eD5';
-let wethGatewayAddress = '0x4e9820e9D254d87D276B1949F79b5874A0f1CB5B';
-let eonsQuickVaultProxyAddress = '0x38eB700D0158caa358362c15Df80b9c4632f511C';
-let eonsQuickRouterProxyAddress = '0x43aD208F63fEF4A3246AFCBF2C46652a57818235';
-let eonsAaveRouterProxyAddress = '0xD325786c21C09E1b44331084A671506FF2102FF2';
-let eonsAaveVaultProxyAddress = '0x0F93D224C9Dbf32Da34a80ce98Cf6a8bB5e7740d';
-let controllerProxyAddress = '0x8055e175719544233b7da603d5c28d5C1d828AF9';
+// Declare all globals that will need access elseware:
+let lendingPool = '0x8dff5e27ea6b7ac08ebfdf9eb090f32ee9a30fcf'; 
+// David's MATIC address for simulating Dev withdrawals
+// Actually just a dummy testnet address
+let devVault = '0xF6c7D4b4821989Ecc5dE6Fb6Ff41D110463218C5';
 
-const eEONSArtifact = './artifacts/contracts/main/tokens/EEONS.sol/EEONS.json';
-const eonsAaveRouterArtifact = './artifacts/contracts/main/routers/EonsAaveRouter.sol/EonsAaveRouter.json';
-const eonsArtifact = './artifacts/contracts/main/tokens/Eons.sol/Eons.json';
+let dsmathAddress;
+let eaEonsAddress;
+let eonsAddress;
+let eonsControllerAddress;
 
-const unpackArtifact = (artifactPath) => {
-  let contractData = JSON.parse(fs.readFileSync(artifactPath));
-  const contractBytecode = contractData["bytecode"];
-  const contractABI = contractData["abi"];
-  const constructorArgs = contractABI.filter((itm) => {
-    return itm.type == "constructor";
-  });
+// Declare all globals for testing
+let vault;
+let eaEons;
+let router;
 
-  let constructorStr;
+// Deploy contracts in this order:
+// Libraries
+// Contracts
+// Tokens
 
-  if (constructorArgs.length < 1) {
-    constructorStr = "    -- No constructor arguments -- ";
-  } else {
-    constructorJSON = constructorArgs[0].inputs;
-    constructorStr = JSON.stringify(
-      constructorJSON.map((c) => {
-        return {
-          name: c.name,
-          type: c.type,
-        };
-      })
-    );
-  }
+// Libraru deployments:
 
-  return {
-    abi: contractABI,
-    bytecode: contractBytecode,
-    contractName: contractData.contractName,
-    constructor: constructorStr,
-  };
-};
-
-let provider;
-
-if (process.env.NETWORK === 'kovan') {
-  provider = hre.ethers.getDefaultProvider('kovan');
-} else if (process.env.NETWORK === 'mainnet') {
-  provider = hre.ethers.getDefaultProvider('homestead');
-} else if (process.env.NETWORK === 'bsctest') {
-  provider = new hre.ethers.providers.JsonRpcProvider('https://data-seed-prebsc-1-s1.binance.org:8545');
-} else if (process.env.NETWORK === 'bscmain') {
-  provider = new hre.ethers.providers.JsonRpcProvider('https://bsc-dataseed.binance.org/');
-} else if (process.env.NETWORK === 'maticmain') {
-  provider = new hre.ethers.providers.JsonRpcProvider('https://rpc-mainnet.maticvigil.com');
+async function DSMathDeploy () {
+    // We get the contract to deploy
+    const DSMath = await ethers.getContractFactory('DSMath');
+    console.log('Deploying DSMath...');
+    const dsmath = await DSMath.deploy();
+    await dsmath.deployed();
+    dsmathAddress = dsmath.address;
+    console.log('DSMath deployed to:', dsmathAddress);
 }
 
-const wallet = new Wallet(process.env.PRIVATE_KEY);
+// Contract deployments:
 
-const deploy = async (tokenName, initializerName, args = []) => {
-  try {
-    const SmartContract = await hre.ethers.getContractFactory(tokenName);
-    const smartContract = await hre.upgrades.deployProxy(SmartContract, args, {initializer: initializerName});
-    await smartContract.deployed();
-    console.log(`[deploy] deployed ${tokenName} proxy to => `, smartContract.address);
-    if (tokenName === 'EonsAaveVault') {
-      console.log('adding pools to EonsAaveVault...');
-      await smartContract.add('eBTC', eEONSAddress, 0, 0);
-      await smartContract.add('eMATIC', eEONSAddress, 1000, 0);
-      console.log('added pools to EonsAaveVault');
-      const { abi, bytecode } = unpackArtifact(eEONSArtifact);
-      const eonsETHContract = new hre.ethers.Contract(eEONSAddress, abi, wallet.connect(provider));
-      console.log('adding EonsAaveVault as a minter to eonsETH...');
-      await eonsETHContract.addMinter(smartContract.address);
-      console.log('added EonsAaveVault as a minter to eonsETH.');
-      const { abi: aaveRouterAbi } = unpackArtifact(eonsAaveRouterArtifact)
-      const aaveRouter = new hre.ethers.Contract(eonsAaveRouterProxyAddress, aaveRouterAbi, wallet.connect(provider));
-      await aaveRouter.setVault(smartContract.address);
-    }
-    if (tokenName === 'EonsAaveRouter') {
-      console.log('adding assets to EonsAaveRouter...');
-      await smartContract.addAaveToken('0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6', '0x28424507fefb6f7f8E9D3860F56504E4e5f5f390', 0);  // btc aave tokens
-      await smartContract.addAaveToken('0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270', '0x8dF3aad3a84da6b69A4DA8aeC3eA40d9091B2Ac4', 1);  // matic aave tokens
-      console.log('added assets to EonsAaveRouter.');
-    }
-    if (tokenName === 'Controller') {
-      console.log('adding controller as a minter to eons token...');
-      const { abi, bytecode } = unpackArtifact(eonsArtifact);
-      const eonsContract = new hre.ethers.Contract(eonsAddress, abi, wallet.connect(provider));
-      eonsContract.addMinter(smartContract.address);
-      console.log('added controller as a minter to eons token.');
-    }
-  } catch (error) {
-    console.log('[deploy] error => ', error);
-  }
-};
-
-const upgrade = async (tokenName, proxyAddress) => {
-  try {
-    const SmartContract = await hre.ethers.getContractFactory(tokenName);
-    console.log('[upgrade] preparing upgrade...');
-    const address = await hre.upgrades.upgradeProxy(proxyAddress, SmartContract);
-    console.log(`[upgrade] upgraded ${tokenName}`);
-  } catch (error) {
-    console.log('[upgrade] error => ', error);
-  }
+async function AaveVaultDeploy () {
+    // We get the contract to deploy
+    const Vault = await ethers.getContractFactory('EonsAaveVault');
+    console.log('Deploying AAVE Vault...');
+    vault = await Vault.deploy(wmatic, bonusRewards, devVault);
+    await vault.deployed();
+    console.log('Vault deployed to:', vault.address);
 }
 
-const deployEonsToken = async () => {
-  const Eons = await hre.ethers.getContractFactory('Eons');
-  eons = await Eons.deploy();
-  await eons.deployed();
-  console.log('eons deployed to:', eons.address);
-};
+// router initializer needs: lendingprovider, vault
+async function AaveRouterDeploy () {
+    // We get the contract to deploy
+    const Router = await ethers.getContractFactory('EonsAaveRouter');
+    console.log('Deploying AAVE Router...');
+    router = await Router.deploy(vault.address, wETHGateway);
+    await router.deployed();
+    console.log('Router deployed to:', router.address);
+}
 
-const deployEonsLPToken = async () => {
-  const EonsLP = await hre.ethers.getContractFactory('EonsLP');
-  eonsLP = await EonsLP.deploy();
-  await eonsLP.deployed();
-  console.log('eonsLP deployed to:', eonsLP.address);
-};
+async function EonsControllerDeploy () {
+    // We get the contract to deploy
+    const EonsController = await ethers.getContractFactory('iEonsController');
+    console.log('Deploying Controller...');
+    const eonsController = await EonsController.deploy();
+    await eonsController.deployed();
+    eonsControllerAddress = eonsController.address;
+    console.log('Controller deployed to:', eonsControllerAddress);
+}
 
-const deployEEonsToken = async () => {
-  const EEons = await hre.ethers.getContractFactory('EEONS');
-  eEons = await EEons.deploy();
-  await eEons.deployed();
-  console.log('eEons deployed to:', eEons.address);
-};
+// Token deployments:
 
-const deployEonsAaveVault = async () => {
-  if (eonsAaveVaultProxyAddress) {
-    await upgrade('EonsAaveVault', eonsAaveVaultProxyAddress);
-  } else {
-    if (eonsAaveRouterProxyAddress) {
-      await deploy('EonsAaveVault', 'initialize', [eonsAddress, devAddr, eonsAaveRouterProxyAddress]);
-    }
-  }
-};
+async function eaEonsDeploy () {
+    // We get the contract to deploy
+    const EaEons = await ethers.getContractFactory('eaEons');
+    console.log('Deploying eaEons...');
+    eaEons = await EaEons.deploy(aTokenMaticContract, vault.address);
+    await eaEons.deployed();
+    eaEonsAddress = eaEons.address
+    console.log('eaEons deployed to:', eaEonsAddress);
+}
 
-const deployEonsQuickVault = async () => {
-  if (eonsQuickVaultProxyAddress) {
-    await upgrade('EonsQuickSwapVault', eonsQuickVaultProxyAddress);
-  } else {
-    await deploy('EonsQuickSwapVault', 'initialize', [eonsLpAddress, eonsAddress, devAddr, devAddr]);
-  }
-};
+async function EonsDeploy () {
+    // We get the contract to deploy
+    const Eons = await ethers.getContractFactory('Eons');
+    console.log('Deploying Eons...');
+    const eons = await Eons.deploy();
+    await eons.deployed();
+    eonsAddress = eons.address
+    console.log('Eons deployed to:', eonsAddress);
+}
 
-const deployWETHGateway = async () => {
-  const WETHGateway = await hre.ethers.getContractFactory('WETHGateway');
-  wETHGateway = await WETHGateway.deploy(wethAddress);
-  await wETHGateway.deployed();
-  console.log('wETHGateway deployed to:', wETHGateway.address);
-};
+// deploy all contracts with this function
+async function main () {
 
-const deployEonsAaveRouter = async () => {
-  if (eonsAaveRouterProxyAddress) {
-    await upgrade('EonsAaveRouter', eonsAaveRouterProxyAddress);
-  } else {
-    if (wethGatewayAddress) {
-      await deploy('EonsAaveRouter', 'initialize', [aaveLendingPoolProviderAddress, wethGatewayAddress]);
-    }
-  }
-};
+    await DSMathDeploy();
+    await EonsControllerDeploy();
+    await EonsDeploy();
+    await AaveVaultDeploy();
+    await AaveRouterDeploy();
+    await eaEonsDeploy();
+}
 
-const deployFeeApprover = async () => {
-  const FeeApprover = await hre.ethers.getContractFactory('FeeApprover');
-  feeApprover = await FeeApprover.deploy(eonsAddress, wethAddress, quickswapV2FactoryAddress);
-  await feeApprover.deployed();
-  console.log('feeApprover deployed to:', feeApprover.address);
-};
+// ADD ROUTER AS FIRST SETUP STEP
+async function setupVault() {
+    // const Cont = await ethers.getContractFactory('iEonsController');
+    // const cont = await Cont.attach(eonsControllerAddress);
+    // await vault.addAdmin('0x5061A60D2893fbbC5a06c88B9b0EF8a423442a55');
+    // await vault.pause();
+    // await vault.setRouterAddress(router.address);
+    // await vault.editAsset(0, zero, eaEonsAddress, aTokenMaticContract, maticLendingPool);
+    // await vault.unPause();
+    console.log('Vault setup complete...');
+}
 
-const deployEonsQuickRouter = async () => {
-  if (eonsQuickRouterProxyAddress) {
-    await upgrade('EonsQuickSwapRouter', eonsQuickRouterProxyAddress);
-  } else {
-    await deploy('EonsQuickSwapRouter', 'initialize', [eonsAddress, wethAddress, quickswapV2FactoryAddress, feeApproverAddress, eonsQuickVaultProxyAddress]);
-  }
-};
+// setup all contracts with this function
+async function setup () {
 
-const deployController = async () => {
-  if (controllerProxyAddress) {
-    await upgrade('Controller', eonsQuickRouterProxyAddress);
-  } else {
-    if (!!eonsAddress && !!eonsAaveVaultProxyAddress && !!eonsQuickVaultProxyAddress && !!eonsAaveRouterProxyAddress && !!eonsQuickRouterProxyAddress) {
-      await deploy('Controller', 'initialize', [
-        eonsAaveVaultProxyAddress,
-        eonsQuickVaultProxyAddress,
-        eonsAaveRouterProxyAddress,
-        eonsQuickRouterProxyAddress,
-        treasury,
-        eonsAddress,
-        aavePriceOracleAddress
-      ]);
-    }
-  }
-};
+    await setupVault();
 
-const main = async () => {
-  // await deployEonsToken();
-  // await deployEonsLPToken();
-  // await deployEEonsToken();
-  // await deployFeeApprover();
-  // await deployWETHGateway();
-  // await deployEonsQuickVault();
-  // await deployEonsQuickRouter();
-  // await deployEonsAaveRouter();
-  // await deployEonsAaveVault();
-  await deployController();
-};
+    console.log('Setup complete...');
+}
+  
+async function runEverything() {
+    await main();
+    await setup();
+}
 
-main();
+runEverything();
+
+// To deploy contract:
+// npx hardhat run scripts/deploy_matic-testnet.js --network Mumbai
+
+// Then...(copy/paste into npx hardhat console --network localhost):
+// const Vault = await ethers.getContractFactory('EonsAaveVault');
+// const vault = await Vault.attach('');
+
+// const eaEons = await ethers.getContractFactory('eaEons');
+// const eaeons = await eaEons.attach('');
+// await eaeons.setDeploymentValues(aToken, vault);
+
+// (await eaeons.eTotalSupply()).toString();
+// (await eaeons.totalSupply()).toString();
+// (await eaeons.getA()).toString();
+// (await eaeons.getCurrentIndex()).toString();
+// (await eaeons.getNewIndex()).toString();
+// (await vault.devA('0x8dF3aad3a84da6b69A4DA8aeC3eA40d9091B2Ac4')).toString();
+
+// await eaeons.add();
+
+// await vault.depositMATIC({value: '50000000000000000000'});
+// await vault.withdrawMATIC('10000000000000000000');
+
+// FOR VERIFICATION
+
+// DSMath
+// npx hardhat verify --contract contracts/peripheries/libraries/DSMath.sol:DSMath <address> --network Mumbai
+// on Polygonscan:
+// 
+
+// Vault
+// npx hardhat verify --contract contracts/main/vaults/EonsAaveVault.sol:EonsAaveVault <address> --network Mumbai
+// on Polygonscan:
+// https://polygonscan.com/address/0x56eBD2d571C836017968Bc8D8BF3cb8109020F46#code
+
+// Router
+// npx hardhat verify --contract contracts/main/routers/EonsAaveRouter.sol:EonsAaveRouter <address> --network Mumbai
+// on Polygonscan:
+// https://polygonscan.com/address/0xdde157c55996DE30400C12935512d83B2f0fbBb9#code
+
+// eaEons
+// npx hardhat verify --contract contracts/main/tokens/eaEons.sol:eaEons <address> --network Mumbai
+// on Polygonscan:
+// https://polygonscan.com/address/0xEa87D4471367ed605C16E4AeE8990EC485f4346D#code
+
+// npx hardhat verify \
+// --network Polygon \
+// --constructor-args scripts/args/vault-args.js \
+// --contract contracts/main/vaults/EonsAaveVault.sol:EonsAaveVault \
+// 0x56eBD2d571C836017968Bc8D8BF3cb8109020F46
+
+// npx hardhat verify \
+// --network Polygon \
+// --constructor-args scripts/args/eaeons-args.js \
+// --contract contracts/main/tokens/eaEons.sol:eaEons \
+// 0xEa87D4471367ed605C16E4AeE8990EC485f4346D
+
+// USDC eaEons address 0x9B05DA3EC5eF18D7932056324401Da8B3f0E0335

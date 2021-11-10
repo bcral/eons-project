@@ -63,13 +63,13 @@ module.exports = {
     //   live: true,
     //   saveDeployments: true
     // },
-    // maticMainnet: {
-    //   url: `${process.env.ALCHEMY_POLYGON_KEY}`,
-    //   chainId: 137,
-    //   accounts: [process.env.PRIVATE_KEY],
-    //   live: true,
-    //   saveDeployments: true
-    // }
+    Polygon: {
+      url: `${process.env.ALCHEMY_POLYGON_KEY}`,
+      chainId: 137,
+      accounts: [process.env.ADDRESS],
+      live: true,
+      saveDeployments: true
+    },
     Mumbai: {
       url: `${process.env.ALCHEMY_MUMBAI_KEY}`,
       chainId: 80001,

@@ -2,11 +2,11 @@
 pragma solidity ^0.8.0;
 pragma experimental ABIEncoderV2;
 
-import '@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol';
-import '@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol';
-import '@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol';
-import '@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol';
-import '@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol';
+import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
+import '@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol';
+import '@openzeppelin/contracts/utils/Address.sol';
+import '@openzeppelin/contracts/access/Ownable.sol';
+import '@openzeppelin/contracts/security/Pausable.sol';
 import 'hardhat/console.sol';
 
 import '../../peripheries/interfaces/ILendingPool.sol';
@@ -24,9 +24,9 @@ import '../../peripheries/interfaces/IWETHGateway.sol';
   //  -approve aToken transfer to Aave
   //  -
 
-contract EonsAaveRouter is OwnableUpgradeable, PausableUpgradeable {
-    using AddressUpgradeable for address;
-    using SafeERC20Upgradeable for IERC20Upgradeable;
+contract EonsAaveRouter is Ownable, Pausable {
+    using Address for address;
+    using SafeERC20 for IERC20;
 
     event WithdrawError(uint256 indexed pid, string indexed erorr);
 
@@ -39,27 +39,26 @@ contract EonsAaveRouter is OwnableUpgradeable, PausableUpgradeable {
         _;
     }
 
-    function initialize(address _aaveVault, address _wETHGateway) external initializer {
+    constructor(address _aaveVault, address _wETHGateway) {
         vault = IEonsAaveVault(_aaveVault);
         WETHGateway = IWETHGateway(_wETHGateway);
         referralCode = 0;
-        __Ownable_init();
     }
 
     function setReferralCode(uint16 _code) external onlyOwner {
         referralCode = _code;
     }
 
-    function setVault(address _vault) external onlyOwner {
+    function setVault(address _vault) external onlyOwner whenPaused {
         vault = IEonsAaveVault(_vault);
     }
 
     function deposit(address _asset, uint256 _amount, address _user, address _lp) external onlyEonsAaveVault {
     
         // Pull the asset + amount from user
-        IERC20Upgradeable(_asset).safeTransferFrom(_user, address(this), _amount);
+        IERC20(_asset).safeTransferFrom(_user, address(this), _amount);
         // Approve the asset + amount for the lendingPool to pull
-        IERC20Upgradeable(_asset).safeApprove(_lp, _amount);
+        IERC20(_asset).safeApprove(_lp, _amount);
         // Call deposit with the asset, amount, onBehalfOf(where to send aTokens), and referral code
         ILendingPool(_lp).deposit(_asset, _amount, address(vault), referralCode);
     }

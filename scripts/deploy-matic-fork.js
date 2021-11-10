@@ -132,23 +132,6 @@ async function main () {
     await eaEonsDeploy();
 }
 
-// // -setup(addAsset, add vault/router addresses, etc)
-// // -Vault
-// async function initVault() {
-//     const Vault = await ethers.getContractFactory('EonsAaveVault');
-//     vault = await Vault.attach(aaveVaultAddress);
-// }
-// // -eaEons
-// async function initEaEons() {
-//     const eaEons = await ethers.getContractFactory('eaEons');
-//     eaeons = await eaEons.attach(eonsAddress);
-// }
-// // -Router
-// async function initRouter() {
-//     const Router = await ethers.getContractFactory('EonsAaveRouter');
-//     router = await Router.attach(aaveRouterAddress);
-// }
-
 // ADD ROUTER AS FIRST SETUP STEP
 async function setupVault() {
     await vault.setRouterAddress(router.address);
@@ -163,10 +146,6 @@ async function setupEaEons() {
 
 // setup all contracts with this function
 async function setup () {
-    // await initVault();
-    // await initEaEons();
-    // await initRouter();
-
     await setupVault();
     await setupEaEons();
 

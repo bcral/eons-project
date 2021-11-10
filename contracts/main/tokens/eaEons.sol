@@ -29,13 +29,6 @@ contract eaEons is ERC20, MinterRole, Ownable {
     once = 0;
   }
 
-  // Does not provide re-entrancy protection
-  modifier onlyOnce() {
-    require(once == 0, "This function can only be called one time.");
-    _;
-    once = 1;
-  }
-
   modifier onlyVault() {
     require(msg.sender == address(vault), "Only the vault can call that.");
     _;
@@ -71,7 +64,9 @@ contract eaEons is ERC20, MinterRole, Ownable {
   }
 
   // for withdrawing current dev rewards
-  function fetchRewards() private {
+  function fetchRewards() 
+    private 
+  {
     // ((a-x)*.15) is fees owed
     uint256 r = calcRewards();
     if (r != 0) {
