@@ -48,9 +48,10 @@ async function DSMathDeploy () {
 
 async function AaveVaultDeploy () {
     // We get the contract to deploy
-    const Vault = await ethers.getContractFactory('EonsAaveVault');
+    const Vault = await ethers.getContractFactory('EonsMATICAaveVault');
     console.log('Deploying AAVE Vault...');
-    vault = await Vault.deploy(wmatic, bonusRewards, devVault);
+    // (_wmatic, _bonusAddress, _devVault, _aTokenAddress)
+    vault = await Vault.deploy(wmatic, bonusRewards, devVault, aTokenMaticContract);
     await vault.deployed();
     console.log('Vault deployed to:', vault.address);
 }
@@ -115,7 +116,7 @@ async function setupVault() {
     // await vault.addAdmin('0x5061A60D2893fbbC5a06c88B9b0EF8a423442a55');
     // await vault.pause();
     // await vault.setRouterAddress(router.address);
-    // await vault.editAsset(0, zero, eaEonsAddress, aTokenMaticContract, maticLendingPool);
+    // await vault.editAsset(eaEonsAddress, maticLendingPool);
     // await vault.unPause();
     console.log('Vault setup complete...');
 }
@@ -140,11 +141,12 @@ runEverything();
 
 // Then...(copy/paste into npx hardhat console --network localhost):
 // const Vault = await ethers.getContractFactory('EonsAaveVault');
+// or
+// const Vault = await ethers.getContractFactory('EonsMATICAaveVault');
 // const vault = await Vault.attach('');
 
 // const eaEons = await ethers.getContractFactory('eaEons');
 // const eaeons = await eaEons.attach('');
-// await eaeons.setDeploymentValues(aToken, vault);
 
 // (await eaeons.eTotalSupply()).toString();
 // (await eaeons.totalSupply()).toString();
@@ -168,17 +170,17 @@ runEverything();
 // Vault
 // npx hardhat verify --contract contracts/main/vaults/EonsAaveVault.sol:EonsAaveVault <address> --network Mumbai
 // on Polygonscan:
-// https://polygonscan.com/address/0x56eBD2d571C836017968Bc8D8BF3cb8109020F46#code
+// https://polygonscan.com/address/0x034ADB2853bCd9EAa2A6059dB8b676385C6a1caa#code
 
 // Router
 // npx hardhat verify --contract contracts/main/routers/EonsAaveRouter.sol:EonsAaveRouter <address> --network Mumbai
 // on Polygonscan:
-// https://polygonscan.com/address/0xdde157c55996DE30400C12935512d83B2f0fbBb9#code
+// https://polygonscan.com/address/0xD502bC719a0DB6Ab57eeAf45Fe29B6e4dcabc8ac#code
 
 // eaEons
 // npx hardhat verify --contract contracts/main/tokens/eaEons.sol:eaEons <address> --network Mumbai
 // on Polygonscan:
-// https://polygonscan.com/address/0xEa87D4471367ed605C16E4AeE8990EC485f4346D#code
+// https://polygonscan.com/address/0x5A8aCC41da94a173586C740cc3d9559a0b08feC7#code
 
 // npx hardhat verify \
 // --network Polygon \
@@ -188,8 +190,8 @@ runEverything();
 
 // npx hardhat verify \
 // --network Polygon \
-// --constructor-args scripts/args/eaeons-args.js \
-// --contract contracts/main/tokens/eaEons.sol:eaEons \
-// 0xEa87D4471367ed605C16E4AeE8990EC485f4346D
+// --constructor-args scripts/args/vault-args.js \
+// --contract contracts/main/vaults/EonsMATICAaveVault.sol:EonsMATICAaveVault \
+// 0x034ADB2853bCd9EAa2A6059dB8b676385C6a1caa
 
 // USDC eaEons address 0x9B05DA3EC5eF18D7932056324401Da8B3f0E0335

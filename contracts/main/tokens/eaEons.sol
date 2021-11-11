@@ -71,7 +71,7 @@ contract eaEons is ERC20, MinterRole, Ownable {
     uint256 r = calcRewards();
     if (r != 0) {
       // call function in vault to take dev rewards in aTokens
-      vault.sendRewards(address(aToken), r);
+      vault.sendRewards(r);
     }
   }
 
