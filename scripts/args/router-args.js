@@ -1,6 +1,6 @@
 module.exports = [
     // vault
-    "",
+    "0x9842531e0F4fdD446F6223c750DB6627Ea554F57",
     // wETHGateway
-    "0xbEadf48d62aCC944a06EEaE0A9054A90E5A7dc97"
+    "0xee9eE614Ad26963bEc1Bec0D2c92879ae1F209fA"
 ];

@@ -170,30 +170,22 @@ runEverything();
 // Vault
 // npx hardhat verify --contract contracts/main/vaults/EonsAaveVault.sol:EonsAaveVault <address> --network Mumbai
 // on Polygonscan:
-// https://polygonscan.com/address/0x9D13DA4c2377EFa3F0Ccb82C24959B709B490409#code
+// 
 
 // Router
 // npx hardhat verify --contract contracts/main/routers/EonsAaveRouter.sol:EonsAaveRouter <address> --network Mumbai
 // on Polygonscan:
-// https://polygonscan.com/address/0xD502bC719a0DB6Ab57eeAf45Fe29B6e4dcabc8ac#code
+// 
 
 // eaEons
 // npx hardhat verify --contract contracts/main/tokens/eaEons.sol:eaEons <address> --network Mumbai
 // on Polygonscan:
-// https://polygonscan.com/address/0x74C053E17B26DeB725F30890C5922e4bb8fde5A2#code
+// 
+
+// Verification template:
 
 // npx hardhat verify \
 // --network Polygon \
 // --constructor-args scripts/args/vault-args.js \
 // --contract contracts/main/vaults/EonsAaveVault.sol:EonsAaveVault \
 // 0x56eBD2d571C836017968Bc8D8BF3cb8109020F46
-
-// npx hardhat verify \
-// --network Polygon \
-// --constructor-args scripts/args/vault-args.js \
-// --contract contracts/main/vaults/EonsMATICAaveVault.sol:EonsMATICAaveVault \
-// 0x9D13DA4c2377EFa3F0Ccb82C24959B709B490409
-
-// USDC eaEons address 0x9B05DA3EC5eF18D7932056324401Da8B3f0E0335
-
-// Other acct: 0x8D6f2449833AF09c29652B759147a83Ff44fee46

@@ -112,96 +112,9 @@ async function main () {
     await AaveRouterDeploy();
     await eaEonsDeploy();
 }
-
-// // -setup(addAsset, add vault/router addresses, etc)
-// // -Vault
-// async function initVault() {
-//     const Vault = await ethers.getContractFactory('EonsAaveVault');
-//     vault = await Vault.attach(aaveVaultAddress);
-// }
-// // -eaEons
-// async function initEaEons() {
-//     const EAEONS = await ethers.getContractFactory('eaEons');
-//     eaeons = await EAEONS.attach(eonsAddress);
-// }
-// // -Router
-// async function initRouter() {
-//     const Router = await ethers.getContractFactory('EonsAaveRouter');
-//     router = await Router.attach(aaveRouterAddress);
-// }
-
-// ADD ROUTER AS FIRST SETUP STEP
-async function setupVault() {
-    // await vault.setRouterAddress(router.address);
-    // await vault.editAsset(0, zero, eaEonsAddress, aTokenMaticContract, maticLendingPool);
-    // console.log('Vault setup complete...');
-}
-
-// ADD ROUTER AS FIRST SETUP STEP
-async function setupEaEons() {
-    // await eaeons.setDeploymentValues(aTokenMaticContract, aaveVaultAddress);
-}
-
-// setup all contracts with this function
-async function setup () {
-    // await initVault();
-    // await initEaEons();
-    // await initRouter();
-
-    await setupVault();
-    await setupEaEons();
-
-    console.log('Setup complete...');
-}
   
 async function runEverything() {
     await main();
-    await setup();
 }
 
 runEverything();
-
-// To deploy contract:
-// npx hardhat run scripts/deploy_matic-testnet.js --network Mumbai
-
-// Then...(copy/paste into npx hardhat console --network localhost):
-// const Vault = await ethers.getContractFactory('EonsAaveVault');
-// const vault = await Vault.attach('');
-
-// const eaEons = await ethers.getContractFactory('eaEons');
-// const eaeons = await eaEons.attach('');
-// await eaeons.setDeploymentValues(aToken, vault);
-
-// (await eaeons.eTotalSupply()).toString();
-// (await eaeons.totalSupply()).toString();
-// (await eaeons.getA()).toString();
-// (await eaeons.getCurrentIndex()).toString();
-// (await eaeons.getNewIndex()).toString();
-// (await vault.devA('0x8dF3aad3a84da6b69A4DA8aeC3eA40d9091B2Ac4')).toString();
-
-// await eaeons.add();
-
-// await vault.depositMATIC({value: '50000000000000000000'});
-// await vault.withdrawMATIC('10000000000000000000');
-
-// FOR VERIFICATION
-
-// DSMath
-// npx hardhat verify --contract contracts/peripheries/libraries/DSMath.sol:DSMath <address> --network Mumbai
-// on Polygonscan:
-// https://mumbai.polygonscan.com/address/0x561Bb4b1A206714b933415Bb04eF560f6444189A#code
-
-// Vault
-// npx hardhat verify --contract contracts/main/vaults/EonsAaveVault.sol:EonsAaveVault <address> --network Mumbai
-// on Polygonscan:
-// https://mumbai.polygonscan.com/address/0x03C31A0DAb473F8B23Cf63079945144772E2b529#code
-
-// Router
-// npx hardhat verify --contract contracts/main/routers/EonsAaveRouter.sol:EonsAaveRouter <address> --network Mumbai
-// on Polygonscan:
-// https://mumbai.polygonscan.com/address/0xBd1Ce7C5D13624687F9395AE8D3d1Df196e9D844#code
-
-// eaEons
-// npx hardhat verify --contract contracts/main/tokens/eaEons.sol:eaEons <address> --network Mumbai
-// on Polygonscan:
-// https://mumbai.polygonscan.com/address/0xCFcF03dc822568057830D2923e94a1Ee2300b544#code

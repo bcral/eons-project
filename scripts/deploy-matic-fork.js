@@ -15,7 +15,7 @@ const bonusRewards = '0x357D51124f59836DeD84c8a1730D72B749d8BC23';
 
 // Declare all globals that will need access elseware:
 let aaveLendingPoolProviderAddress = '0xd05e3E715d945B59290df0ae8eF85c1BdB684744'; 
-// David's MATIC address for simulating Dev withdrawals
+
 // Actually just a dummy testnet address
 let devVault = '0x8626f6940e2eb28930efb4cef49b2d1f2c9c1199';
 
@@ -158,46 +158,3 @@ async function runEverything() {
 }
 
 runEverything();
-
-// Then...(copy/paste into npx hardhat console --network localhost):
-// const Vault = await ethers.getContractFactory('EonsAaveVault');
-// const vault = await Vault.attach('');
-
-// const eaEons = await ethers.getContractFactory('eaEons');
-// const eaeons = await eaEons.attach('');
-// await eaeons.setDeploymentValues(aToken, vault);
-
-// (await eaeons.eTotalSupply()).toString();
-// (await eaeons.totalSupply()).toString();
-// (await eaeons.getA()).toString();
-// (await eaeons.getCurrentIndex()).toString();
-// (await eaeons.getNewIndex()).toString();
-// (await vault.devA('0x8dF3aad3a84da6b69A4DA8aeC3eA40d9091B2Ac4')).toString();
-
-// await eaeons.add();
-
-// await vault.depositMATIC({value: '50000000000000000000'});
-// await vault.withdrawMATIC('10000000000000000000');
-
-// FOR VERIFICATION
-
-// DSMath
-// npx hardhat verify --contract contracts/peripheries/libraries/DSMath.sol:DSMath <address> --network maticMainnet
-// on Polygonscan:
-// https://polygonscan.com/address/0x2d93473AdD602006C5E4280458A426E1DDc75c5d#code
-
-// Vault
-// npx hardhat verify --contract contracts/main/vaults/EonsAaveVault.sol:EonsAaveVault <address> --network maticMainnet
-// on Polygonscan:
-// https://polygonscan.com/address/0x9390064255EDb1ac6C994D7A0A43Ede5Ce90E1DF#code
-
-// Router
-// npx hardhat verify --contract contracts/main/routers/EonsAaveRouter.sol:EonsAaveRouter <address> --network maticMainnet
-// on Polygonscan:
-// https://polygonscan.com/address/0xfec2E6b5b1B8ca39F3535D4eC8dd38B6ceF79F7A#code
-
-
-// eaEons
-// npx hardhat verify --contract contracts/main/tokens/eaEons.sol:eaEons <address> --network maticMainnet
-// on Polygonscan:
-// https://polygonscan.com/address/0x564A8BF80268f1E8ACD3cB7847D05B7EB5d4c593#code
