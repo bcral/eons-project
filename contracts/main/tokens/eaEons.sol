@@ -5,10 +5,8 @@ import '@openzeppelin/contracts/token/ERC20/ERC20.sol';
 import '@openzeppelin/contracts/access/Ownable.sol';
 
 import '../../peripheries/interfaces/IAToken.sol';
-import '../../peripheries/utilities/MinterRole.sol';
 import '../../peripheries/interfaces/IEonsAaveVault.sol';
 
-import '../../peripheries/interfaces/IiEonsController.sol';
 import '../../peripheries/libraries/DSMath.sol';
 
 contract eaEons is ERC20, Ownable {

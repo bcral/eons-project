@@ -4,13 +4,12 @@ pragma solidity ^0.8.0;
 import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
 import '@openzeppelin/contracts/access/Ownable.sol';
 import '@openzeppelin/contracts/security/ReentrancyGuard.sol';
-import '../iEonsController.sol';
+import '../EonsController.sol';
 
 import '../../peripheries/interfaces/ILendingPool.sol';
 import '../../peripheries/interfaces/IeaEons.sol';
 import '../../peripheries/interfaces/IEonsAaveRouter.sol';
 import '../../peripheries/interfaces/IAToken.sol';
-import '../../peripheries/interfaces/IiEonsController.sol';
 import '../../peripheries/interfaces/IWMATIC.sol';
 import '../../peripheries/interfaces/IBonusClaimer.sol';
 import '../../peripheries/utilities/Roles.sol';
@@ -36,7 +35,7 @@ import '../../peripheries/utilities/Roles.sol';
   //    -call router to withdraw original erc20 from Aave
   //    -burn EaToken
 
-contract EonsMATICAaveVault is ReentrancyGuard, iEonsController {
+contract EonsMATICAaveVault is ReentrancyGuard, EonsController {
 
     event Deposit(address indexed user, address asset, uint256 amount);
     event Withdraw(address indexed user, address asset, uint256 amount);

@@ -68,7 +68,7 @@ async function AaveRouterDeploy () {
 
 async function EonsControllerDeploy () {
     // We get the contract to deploy
-    const EonsController = await ethers.getContractFactory('iEonsController');
+    const EonsController = await ethers.getContractFactory('EonsController');
     console.log('Deploying Controller...');
     const eonsController = await EonsController.deploy();
     await eonsController.deployed();

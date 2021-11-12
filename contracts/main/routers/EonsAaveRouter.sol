@@ -6,7 +6,6 @@ import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
 import '@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol';
 import '@openzeppelin/contracts/utils/Address.sol';
 import '@openzeppelin/contracts/access/Ownable.sol';
-import '@openzeppelin/contracts/security/Pausable.sol';
 import 'hardhat/console.sol';
 
 import '../../peripheries/interfaces/ILendingPool.sol';
@@ -24,7 +23,7 @@ import '../../peripheries/interfaces/IWETHGateway.sol';
   //  -approve aToken transfer to Aave
   //  -
 
-contract EonsAaveRouter is Ownable, Pausable {
+contract EonsAaveRouter is Ownable {
     using Address for address;
     using SafeERC20 for IERC20;
 

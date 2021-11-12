@@ -4,11 +4,9 @@ pragma solidity ^0.8.0;
 import '@openzeppelin/contracts/utils/Address.sol';
 import '@openzeppelin/contracts/access/Ownable.sol';
 
-import '../peripheries/interfaces/IEonsAaveVault.sol';
-import '../peripheries/interfaces/IEonsAaveRouter.sol';
 import '../peripheries/utilities/Roles.sol';
 
-contract iEonsController is Ownable {
+contract EonsController is Ownable {
     using Roles for Roles.Role;
 
     Roles.Role private admin;
