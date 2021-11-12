@@ -8,7 +8,7 @@ import '../iEonsController.sol';
 
 import '../../peripheries/interfaces/ILendingPool.sol';
 import '../../peripheries/interfaces/IeaEons.sol';
-import '../../peripheries/interfaces/IEonsAaveRouter.sol';
+import '../../peripheries/interfaces/IEonsERC20AaveRouter.sol';
 import '../../peripheries/interfaces/IAToken.sol';
 import '../../peripheries/interfaces/IiEonsController.sol';
 import '../../peripheries/interfaces/IWMATIC.sol';
@@ -41,7 +41,7 @@ contract EonsAaveVault is ReentrancyGuard, iEonsController {
     event Deposit(address indexed user, address asset, uint256 amount);
     event Withdraw(address indexed user, address asset, uint256 amount);
 
-    IEonsAaveRouter public router;
+    IEonsERC20AaveRouter public router;
     IWMATIC public WMATIC;
     IBonusClaimer public bonusClaimer;
 
@@ -54,6 +54,7 @@ contract EonsAaveVault is ReentrancyGuard, iEonsController {
     address lendingPool;
 
     uint256 MAX_INT;
+    uint256 bonusThreshold;
 
     address devVault;
     
@@ -79,7 +80,7 @@ contract EonsAaveVault is ReentrancyGuard, iEonsController {
     }
 
     function setRouterAddress(address _router) external onlyOwner {
-        router = IEonsAaveRouter(_router);
+        router = IEonsERC20AaveRouter(_router);
     }
 
     function setDevVaultAddress(address _devVault) external onlyOwner {
@@ -146,20 +147,19 @@ contract EonsAaveVault is ReentrancyGuard, iEonsController {
     // argument.  This is the asset that will be returned to msg.sender
     function withdraw(uint _amount, address _asset) external nonReentrant whenNotPaused {
 
-        // just your basic security checks
-        require(_asset == nativeAsset, "This is the wrong asset for this pool.");
-        require(_amount > 0, "You can't withdraw nothing.");
-        require(_amount <= IeaEons(eToken).balanceOf(msg.sender), "You don't have the funds for that.");
-
-        // If threshold for bonus is met, retrieve bonus and reinvest it back into
-        // the aToken balance
-        getBonus();
-
         // If amount requested is the largest number possible, withdraw user's entire
         // balance.
         if(_amount == MAX_INT) {
             _amount = IeaEons(eToken).balanceOf(msg.sender);
         }
+
+        // just your basic security checks
+        require(_amount > 0, "You can't withdraw nothing.");
+        require(_amount <= IeaEons(eToken).balanceOf(msg.sender), "You don't have the funds for that.");
+
+        // If threshold for bonus is met, retrieve bonus and reinvest it back into
+        // the aToken balance
+        // getBonus(aToken, address(this));
 
         // transfer aTokens to router
         IAToken(aToken).transfer(address(router), _amount);
@@ -188,14 +188,15 @@ contract EonsAaveVault is ReentrancyGuard, iEonsController {
         // check that bonus meets the minimum threshold for retrieving
 
         // COME UP WITH SOME LOGICAL THRESHOLD TO PUT HERE FOR WITHDRAWAL
-        if (totalOwed > 1000000000000) {
+        if (totalOwed > bonusThreshold) {
             // Send total owed through AAVE and add to total aToken supply
             bonusClaimer.claimRewards(aTokenArray, totalOwed, address(this));
             
-            // // Call contract to unwrap and redeposit to AAVE
+            // Call contract to unwrap and redeposit to AAVE
             WMATIC.withdraw(totalOwed);
-            // // Deposit MATIC into router, bypassing minting and depositing aTokens
-            router.depositMATIC{value: totalOwed}(lendingPool);
+            // Deposit MATIC into router, bypassing minting and depositing aTokens
+            // ********** UNCOMMENT FOR ROUTER MATIC DEPOSITS **********
+            // router.depositMATIC{value: totalOwed}(lendingPool);
 
             emit BonusPayout(totalOwed);
         }

@@ -49,21 +49,17 @@ contract EonsMATICAaveVault is ReentrancyGuard, iEonsController {
 
     event BonusPayout(uint256 amount);
 
-    uint256 deposits;
     address lendingPool;
-
-    uint256 MAX_INT;
-
+    uint256 bonusThreshold;
     address devVault;
     
     constructor(address _wmatic, address _bonusAddress, address _devVault, address _aTokenAddress) {
         WMATIC = IWMATIC(_wmatic);
         bonusClaimer = IBonusClaimer(_bonusAddress);
         devVault = _devVault;
-        MAX_INT = type(uint256).max;
+        bonusThreshold = 1000000000000;
 
         aToken = IAToken(_aTokenAddress);
-        deposits = 0;
     }
 
 // ********************** MODIFIERS, GETTERS, & SETTERS *************************
@@ -72,6 +68,10 @@ contract EonsMATICAaveVault is ReentrancyGuard, iEonsController {
     modifier onlyEToken() {
         require(msg.sender == address(eToken), "Only the eToken contract can call this.");
         _;
+    }
+
+    function setBonusThreshold(uint256 _newThreshold) external onlyOwner {
+        bonusThreshold = _newThreshold;
     }
 
     function setRouterAddress(address _router) external onlyOwner {
@@ -107,12 +107,6 @@ contract EonsMATICAaveVault is ReentrancyGuard, iEonsController {
         aToken.transfer(devVault, _amount);
     }
 
-    // REMOVE FOR PRODUCTION
-    // FOR TESTING ONLY
-    function devA() external view returns(uint256) {
-        return(aToken.balanceOf(devVault));
-    }
-
 // ************************ NATIVE ASSET TRANSACTIONS ***************************
 
     // @dev
@@ -127,8 +121,6 @@ contract EonsMATICAaveVault is ReentrancyGuard, iEonsController {
         eToken.mint(msg.sender, msg.value);
         // send MATIC to router for transfer to AAVE
         router.depositMATIC{value: msg.value}(lendingPool);
-        // store deposited amount in the asset's rolling total
-        deposits += msg.value;
 
         emit Deposit(msg.sender, address(0), msg.value);
     }
@@ -141,17 +133,10 @@ contract EonsMATICAaveVault is ReentrancyGuard, iEonsController {
         // just your basic security checks
         require(_amount > 0, "You can't withdraw nothing.");
         require(_amount <= eToken.balanceOf(msg.sender), "You don't have the funds for that.");
+        
         // If threshold for bonus is met, retrieve bonus and reinvest it back into
         // the aToken balance
-
-        // Uncomment for mainnet/fork tests
         getBonus();
-
-        // If amount requested is the largest number possible, withdraw user's entire
-        // balance.
-        if(_amount == MAX_INT) {
-            _amount = eToken.balanceOf(msg.sender);
-        }
 
         // burns eTokens from msg.sender
         eToken.burn(msg.sender, _amount);
@@ -159,10 +144,6 @@ contract EonsMATICAaveVault is ReentrancyGuard, iEonsController {
         aToken.transfer(address(router), _amount);
         // call withdrawMATIC() on router, send current value
         router.withdrawMATIC(_amount, msg.sender, lendingPool, address(aToken));
-        // subtract amount from the asset's rolling total
-        if (eToken.totalSupply() > 0) {
-            deposits -= _amount;
-        }
 
         emit Deposit(msg.sender, address(0), _amount);
     }
@@ -180,7 +161,7 @@ contract EonsMATICAaveVault is ReentrancyGuard, iEonsController {
         // check that bonus meets the minimum threshold for retrieving
 
         // COME UP WITH SOME LOGICAL THRESHOLD TO PUT HERE FOR WITHDRAWAL
-        if (totalOwed > 1000000000000) {
+        if (totalOwed > bonusThreshold) {
             // Send total owed through AAVE and add to total aToken supply
             bonusClaimer.claimRewards(aTokenArray, totalOwed, address(this));
             
@@ -193,15 +174,7 @@ contract EonsMATICAaveVault is ReentrancyGuard, iEonsController {
         }
     }
 
-    // Fallbacck for receiving MATIC
+    // Receive function for receiving MATIC for bonus re-deposit
     receive() external payable {}
 
-    // FOR TESTING ONLY
-    // REMOVE FOR DEPLOYMENT
-    // To prevent funds from being trapped durring mainnet testing, this "drain plug" 
-    // lets the owner drain the funds from the contract and return them to owner.
-    function drainPlug() external onlyOwner {
-        uint256 amount = aToken.balanceOf(address(this));
-        aToken.transfer(msg.sender, amount);
-    }
 }

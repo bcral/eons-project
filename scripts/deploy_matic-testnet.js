@@ -31,25 +31,12 @@ let vault;
 let eaEons;
 let router;
 
-// Hardhat deployment function for adding initializer values
-const deploy = async (tokenName, initializerName, args = []) => {
-    try {
-      const SmartContract = await hre.ethers.getContractFactory(tokenName);
-      const smartContract = await hre.upgrades.deployProxy(SmartContract, args, {initializer: initializerName});
-      await smartContract.deployed();
-      console.log(`[deploy] deployed ${tokenName} proxy to => `, smartContract.address);
-      return smartContract;
-    } catch (error) {
-      console.log('[deploy] error => ', error);
-    }
-  };
-
 // Deploy contracts in this order:
 // Libraries
 // Contracts
 // Tokens
 
-// Libraru deployments:
+// Library deployments:
 
 async function DSMathDeploy () {
     // We get the contract to deploy
@@ -65,24 +52,29 @@ async function DSMathDeploy () {
 
 async function AaveVaultDeploy () {
     // We get the contract to deploy
+    const Vault = await ethers.getContractFactory('EonsMATICAaveVault');
     console.log('Deploying AAVE Vault...');
-    vault = await deploy('EonsAaveVault', 'initializerFunction', [wmatic, bonusRewards, devVault]);
+    // (_wmatic, _bonusAddress, _devVault, _aTokenAddress)
+    vault = await Vault.deploy(wmatic, bonusRewards, devVault, aTokenMaticContract);
+    await vault.deployed();
+    console.log('Vault deployed to:', vault.address);
 }
 
 // router initializer needs: lendingprovider, vault
 async function AaveRouterDeploy () {
     // We get the contract to deploy
+    const Router = await ethers.getContractFactory('EonsAaveRouter');
     console.log('Deploying AAVE Router...');
-    router = await deploy('EonsAaveRouter', 'initialize', [vault.address, wETHGateway]);
+    router = await Router.deploy(vault.address, wETHGateway);
+    await router.deployed();
+    console.log('Router deployed to:', router.address);
 }
 
-// initialize(address _aaveVault, address _aaveRouter, address _devVault)
 async function EonsControllerDeploy () {
     // We get the contract to deploy
     const EonsController = await ethers.getContractFactory('iEonsController');
     console.log('Deploying Controller...');
     const eonsController = await EonsController.deploy();
-    await eonsController.initialize();
     await eonsController.deployed();
     eonsControllerAddress = eonsController.address;
     console.log('Controller deployed to:', eonsControllerAddress);
@@ -115,7 +107,7 @@ async function main () {
     // We get the contract to deploy
     await DSMathDeploy();
     await EonsControllerDeploy();
-    await EonsDeploy();
+    // await EonsDeploy();
     await AaveVaultDeploy();
     await AaveRouterDeploy();
     await eaEonsDeploy();
@@ -140,9 +132,9 @@ async function main () {
 
 // ADD ROUTER AS FIRST SETUP STEP
 async function setupVault() {
-    await vault.setRouterAddress(router.address);
-    await vault.editAsset(0, zero, eaEonsAddress, aTokenMaticContract, maticLendingPool);
-    console.log('Vault setup complete...');
+    // await vault.setRouterAddress(router.address);
+    // await vault.editAsset(0, zero, eaEonsAddress, aTokenMaticContract, maticLendingPool);
+    // console.log('Vault setup complete...');
 }
 
 // ADD ROUTER AS FIRST SETUP STEP

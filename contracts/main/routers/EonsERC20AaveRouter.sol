@@ -24,7 +24,7 @@ import '../../peripheries/interfaces/IWETHGateway.sol';
   //  -approve aToken transfer to Aave
   //  -
 
-contract EonsAaveRouter is Ownable, Pausable {
+contract EonsERC20AaveRouter is Ownable, Pausable {
     using Address for address;
     using SafeERC20 for IERC20;
 
@@ -45,24 +45,29 @@ contract EonsAaveRouter is Ownable, Pausable {
         referralCode = 0;
     }
 
-    // Not required for AAVE - defaulted to 0 - but able to be reset in the future
     function setReferralCode(uint16 _code) external onlyOwner {
         referralCode = _code;
     }
 
-    // Routes deposit to AAVE
-    function depositMATIC(address _lp) external payable onlyVault {
-
-        // Send MATIC to WETHGateway for wrapping and deposit
-        WETHGateway.depositETH{value: msg.value}(_lp, address(vault), referralCode);
+    function setVault(address _vault) external onlyOwner whenPaused {
+        vault = IEonsAaveVault(_vault);
     }
 
-    // Routes withdrawal transactions to AAVE
-    function withdrawMATIC(uint256 _amount, address _user, address _lp, address _aToken) external onlyVault {
-        
-        // Approve WETHGateway to transfer aTokens from here
-        IAToken(_aToken).approve(address(WETHGateway), _amount);
-        // Send MATIC to WETHGateway for wrapping and deposit
-        WETHGateway.withdrawETH(_lp, _amount, _user);
+    function deposit(address _asset, uint256 _amount, address _user, address _lp) external onlyVault {
+    
+        // Pull the asset + amount from user
+        IERC20(_asset).safeTransferFrom(_user, address(this), _amount);
+        // Approve the asset + amount for the lendingPool to pull
+        IERC20(_asset).safeApprove(_lp, _amount);
+        // Call deposit with the asset, amount, onBehalfOf(where to send aTokens), and referral code
+        ILendingPool(_lp).deposit(_asset, _amount, address(vault), referralCode);
+    }
+
+    function withdraw(address _asset, uint256 _amount, address _aToken, address _recipient, address _lp) external onlyVault {
+
+        // Approve the most recent AAVE lending pool to transfer _amount
+        IAToken(_aToken).approve(_lp, _amount);
+        // Call withdraw on lending pool to return the native asset to _recipeint
+        ILendingPool(_lp).withdraw(_asset, _amount, _recipient);
     }
 }

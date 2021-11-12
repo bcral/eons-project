@@ -11,7 +11,7 @@ import '../../peripheries/interfaces/IEonsAaveVault.sol';
 import '../../peripheries/interfaces/IiEonsController.sol';
 import '../../peripheries/libraries/DSMath.sol';
 
-contract eaEons is ERC20, MinterRole, Ownable {
+contract eaEons is ERC20, Ownable {
   using DSMath for uint256;
 
   IAToken public aToken;
@@ -22,7 +22,7 @@ contract eaEons is ERC20, MinterRole, Ownable {
   uint256 RAY = 10**27;
   uint8 once;
 
-  constructor(address _aToken, address _vault) ERC20("Eons Interest Bearing Token", "eaEONS") {
+  constructor(address _aToken, address _vault) ERC20("Eons/AAVE Interest Bearing Token", "eaMATIC") {
     aToken = IAToken(_aToken);
     vault = IEonsAaveVault(_vault);
     i = RAY;
@@ -32,11 +32,6 @@ contract eaEons is ERC20, MinterRole, Ownable {
   modifier onlyVault() {
     require(msg.sender == address(vault), "Only the vault can call that.");
     _;
-  }
-
-  // FOR TESTING ONLY
-  function getA() external view returns(uint256, uint256) {
-    return(aToken.balanceOf(address(vault)), aToken.scaledBalanceOf(address(vault)));
   }
 
   // Mints new tokens, but first divides by current index to scale properly
@@ -83,8 +78,6 @@ contract eaEons is ERC20, MinterRole, Ownable {
     return(((a - e.rmul(i)) * 15) / 100);
   }
 
-  // REMOVE FOR PRODUCTION
-  // This may or may not be useful in production, but it is currently only used for testing
   // read-only for getting the current index
   function getCurrentIndex() public view returns(uint256) {
     return(i);
@@ -105,7 +98,7 @@ contract eaEons is ERC20, MinterRole, Ownable {
   {
     // check for 0 total supply to prevent math confusion
     if (eTotalSupply() != 0) {
-      // NI =  ((a-((a-x)*.15))/x)+i-ii
+  
       uint256 e = eTotalSupply();
       uint256 a = aToken.balanceOf(address(vault)) - calcRewards();
 
