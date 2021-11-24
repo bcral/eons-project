@@ -69,7 +69,7 @@ async function AaveVaultDeploy () {
     // vault = await ethers.getContractFactory('EonsAaveVault');
     console.log('Deploying AAVE Vault...');
     // vault = await AaveVault.deploy();
-    vault = await deploy('EonsAaveVault', 'initializerFunction', [wmatic, bonusRewards, devVault]);
+    vault = await deploy('EonsERC20AaveVault', 'initializerFunction', [wmatic, bonusRewards, devVault]);
     // await vault.initialize([wmatic, bonusRewards, devVault]);
     // await vault.deployed();
     // aaveVaultAddress = vault.address;

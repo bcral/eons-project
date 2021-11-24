@@ -6,13 +6,11 @@ import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
 import '@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol';
 import '@openzeppelin/contracts/utils/Address.sol';
 import '@openzeppelin/contracts/access/Ownable.sol';
-import '@openzeppelin/contracts/security/Pausable.sol';
 import 'hardhat/console.sol';
 
+import '../iEonsController.sol';
 import '../../peripheries/interfaces/ILendingPool.sol';
 import '../../peripheries/interfaces/IAToken.sol';
-import '../../peripheries/interfaces/IEonsAaveVault.sol';
-import '../../peripheries/interfaces/IWETHGateway.sol';
 
   // Core Aave router functions:
   // Deposit:
@@ -24,24 +22,23 @@ import '../../peripheries/interfaces/IWETHGateway.sol';
   //  -approve aToken transfer to Aave
   //  -
 
-contract EonsERC20AaveRouter is Ownable, Pausable {
+contract EonsERC20AaveRouter is Ownable, iEonsController {
     using Address for address;
     using SafeERC20 for IERC20;
 
     event WithdrawError(uint256 indexed pid, string indexed erorr);
 
-    uint16 public referralCode;
-    IEonsAaveVault public vault;
-    IWETHGateway public WETHGateway;
+    // mapping connecting each native asset address to it's EONS vault address
+    mapping(address => address) assetVault;
 
-    modifier onlyVault {
-        require(msg.sender == address(vault), "Only Vault is authorized");
+    uint16 public referralCode;
+
+    modifier onlyVault(address _nativeAsset) {
+        require(msg.sender == assetVault[_nativeAsset], "Only Vaults are authorized");
         _;
     }
 
-    constructor(address _aaveVault, address _wETHGateway) {
-        vault = IEonsAaveVault(_aaveVault);
-        WETHGateway = IWETHGateway(_wETHGateway);
+    constructor() {
         referralCode = 0;
     }
 
@@ -49,21 +46,25 @@ contract EonsERC20AaveRouter is Ownable, Pausable {
         referralCode = _code;
     }
 
-    function setVault(address _vault) external onlyOwner whenPaused {
-        vault = IEonsAaveVault(_vault);
+    function setVault(address _nativeAddress, address _vaultAddress) external onlyOwner whenPaused {
+        
+        // Revert if this asset is already stored
+        require(assetVault[_nativeAddress] == address(0), "That address is already saved.");
+        // Save new vault address under the native asset address
+        assetVault[_nativeAddress] = _vaultAddress;
     }
 
-    function deposit(address _asset, uint256 _amount, address _user, address _lp) external onlyVault {
+    function deposit(address _asset, uint256 _amount, address _user, address _lp) external onlyVault(_asset) {
     
         // Pull the asset + amount from user
         IERC20(_asset).safeTransferFrom(_user, address(this), _amount);
         // Approve the asset + amount for the lendingPool to pull
         IERC20(_asset).safeApprove(_lp, _amount);
         // Call deposit with the asset, amount, onBehalfOf(where to send aTokens), and referral code
-        ILendingPool(_lp).deposit(_asset, _amount, address(vault), referralCode);
+        ILendingPool(_lp).deposit(_asset, _amount, assetVault[_asset], referralCode);
     }
 
-    function withdraw(address _asset, uint256 _amount, address _aToken, address _recipient, address _lp) external onlyVault {
+    function withdraw(address _asset, uint256 _amount, address _aToken, address _recipient, address _lp) external onlyVault(_asset) {
 
         // Approve the most recent AAVE lending pool to transfer _amount
         IAToken(_aToken).approve(_lp, _amount);

@@ -630,9 +630,9 @@
   "version" "2.0.2"
 
 "@nomiclabs/hardhat-etherscan@^2.1.6":
-  "integrity" "sha512-gCvT5fj8GbXS9+ACS3BzrX0pzYHHZqAHCb+NcipOkl2cy48FakUXlzrCf4P4sTH+Y7W10OgT62ezD1sJ+/NikQ=="
-  "resolved" "https://registry.npmjs.org/@nomiclabs/hardhat-etherscan/-/hardhat-etherscan-2.1.6.tgz"
-  "version" "2.1.6"
+  "integrity" "sha512-9nt9EXubnkd2aTMnQIqKtp80bQFhun88krfB31FN2wB0T54b8YuK0riG2d+EKq/D3t1Kb00oA7oFSFpHLIbLDQ=="
+  "resolved" "https://registry.npmjs.org/@nomiclabs/hardhat-etherscan/-/hardhat-etherscan-2.1.7.tgz"
+  "version" "2.1.7"
   dependencies:
     "@ethersproject/abi" "^5.1.2"
     "@ethersproject/address" "^5.0.2"
@@ -4282,9 +4282,9 @@
     "sha1" "^1.1.1"
 
 "hardhat@^2.0.0", "hardhat@^2.0.2", "hardhat@^2.0.4", "hardhat@^2.6.7":
-  "integrity" "sha512-Mua01f6ZN1feQLktHSH2p5A5LCdA+Wf7+O2lJDH6wClvWPtI2eqKNNY2gxBwYXoQ28GZrT3K6mqQOZeRWAca6Q=="
-  "resolved" "https://registry.npmjs.org/hardhat/-/hardhat-2.6.7.tgz"
-  "version" "2.6.7"
+  "integrity" "sha512-iRVd5DgcIVV3rNXMlogOfwlXAhHp7Wy/OjjFiUhTey8Unvo6oq5+Is5ANiKVN+Iw07Pcb/HpkGt7jCB6a4ITgg=="
+  "resolved" "https://registry.npmjs.org/hardhat/-/hardhat-2.6.8.tgz"
+  "version" "2.6.8"
   dependencies:
     "@ethereumjs/block" "^3.4.0"
     "@ethereumjs/blockchain" "^5.4.0"

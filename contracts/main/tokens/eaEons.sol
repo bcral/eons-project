@@ -5,10 +5,8 @@ import '@openzeppelin/contracts/token/ERC20/ERC20.sol';
 import '@openzeppelin/contracts/access/Ownable.sol';
 
 import '../../peripheries/interfaces/IAToken.sol';
-import '../../peripheries/utilities/MinterRole.sol';
 import '../../peripheries/interfaces/IEonsAaveVault.sol';
 
-import '../../peripheries/interfaces/IiEonsController.sol';
 import '../../peripheries/libraries/DSMath.sol';
 
 contract eaEons is ERC20, Ownable {
@@ -16,18 +14,20 @@ contract eaEons is ERC20, Ownable {
 
   IAToken public aToken;
   IEonsAaveVault public vault;
-  // indexer variable - initiated as 10**18
+  
+  // indexer variable - initiated as 10**27
   uint256 i;
-  uint256 WAD = 10**18;
   uint256 RAY = 10**27;
-  uint8 once;
 
-  constructor(address _aToken, address _vault) ERC20("Eons/AAVE Interest Bearing Token", "eaMATIC") {
+  constructor(address _aToken, address _vault) ERC20("Eons/AAVE Interest Bearing Token", "eaDAI") {
     aToken = IAToken(_aToken);
     vault = IEonsAaveVault(_vault);
     i = RAY;
-    once = 0;
   }
+
+  // function decimals() public pure override returns (uint8) {
+  //   return 6;
+  // }
 
   modifier onlyVault() {
     require(msg.sender == address(vault), "Only the vault can call that.");
