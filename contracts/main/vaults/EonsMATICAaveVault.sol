@@ -4,17 +4,15 @@ pragma solidity ^0.8.0;
 import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
 import '@openzeppelin/contracts/access/Ownable.sol';
 import '@openzeppelin/contracts/security/ReentrancyGuard.sol';
-import '../iEonsController.sol';
+import '../EonsController.sol';
 
 import '../../peripheries/interfaces/ILendingPool.sol';
 import '../../peripheries/interfaces/IeaEons.sol';
-import '../../peripheries/interfaces/IEonsERC20AaveRouter.sol';
+import '../../peripheries/interfaces/IEonsAaveRouter.sol';
 import '../../peripheries/interfaces/IAToken.sol';
-import '../../peripheries/interfaces/IiEonsController.sol';
 import '../../peripheries/interfaces/IWMATIC.sol';
 import '../../peripheries/interfaces/IBonusClaimer.sol';
 import '../../peripheries/utilities/Roles.sol';
-import '../../peripheries/interfaces/IQSRouter.sol';
 
   // Vault core functionality:
   // -store account's aToken values/hold actual aTokens here
@@ -37,63 +35,50 @@ import '../../peripheries/interfaces/IQSRouter.sol';
   //    -call router to withdraw original erc20 from Aave
   //    -burn EaToken
 
-contract EonsERC20AaveVault is ReentrancyGuard, iEonsController {
+contract EonsMATICAaveVault is ReentrancyGuard, EonsController {
 
     event Deposit(address indexed user, address asset, uint256 amount);
     event Withdraw(address indexed user, address asset, uint256 amount);
 
-    IEonsERC20AaveRouter public router;
+    IEonsAaveRouter public router;
     IWMATIC public WMATIC;
     IBonusClaimer public bonusClaimer;
-    IQSRouter public QSRouter;
+    IeaEons public eToken;
+    IAToken public aToken;
 
     event BonusPayout(uint256 amount);
 
-    uint256 bonusThreshold;
     address lendingPool;
-    address nativeAsset;
+    uint256 bonusThreshold;
     address devVault;
-    address aToken;
-    address eToken;
     
-    constructor(address _wmatic, address _bonusAddress, address _devVault, address _aTokenAddress, address _nativeAssetAddress, address _lendingPoolAddress, address _QSRouter) {
+    constructor(address _wmatic, address _bonusAddress, address _devVault, address _aTokenAddress) {
         WMATIC = IWMATIC(_wmatic);
         bonusClaimer = IBonusClaimer(_bonusAddress);
         devVault = _devVault;
+        bonusThreshold = 1000000000000;
 
-        aToken = _aTokenAddress;
-        nativeAsset = _nativeAssetAddress;
-        lendingPool = _lendingPoolAddress;
-        bonusThreshold = 1;
-        QSRouter = IQSRouter(_QSRouter);
+        aToken = IAToken(_aTokenAddress);
     }
 
 // ********************** MODIFIERS, GETTERS, & SETTERS *************************
 
     // Requires the caller to be the eToken contract for the correlating aToken
     modifier onlyEToken() {
-        require(msg.sender == eToken, "Only the eToken contract can call this.");
+        require(msg.sender == address(eToken), "Only the eToken contract can call this.");
         _;
-    }
-
-    function setETokenAddress(address _eToken) external onlyOwner whenPaused {
-        eToken = _eToken;
-    }
-
-    function setRouterAddress(address _router) external onlyOwner whenPaused {
-        router = IEonsERC20AaveRouter(_router);
-    }
-
-    function setDevVaultAddress(address _devVault) external onlyOwner {
-        devVault = _devVault;
     }
 
     function setBonusThreshold(uint256 _newThreshold) external onlyOwner {
         bonusThreshold = _newThreshold;
     }
 
-    function setQSRouter(address _QSRouter) external onlyOwner whenPaused {
-        QSRouter = IQSRouter(_QSRouter);
+    function setRouterAddress(address _router) external onlyOwner {
+        router = IEonsAaveRouter(_router);
+    }
+
+    function setDevVaultAddress(address _devVault) external onlyOwner {
+        devVault = _devVault;
     }
 
 // ****************************** EDIT ASSETS *********************************
@@ -103,9 +88,8 @@ contract EonsERC20AaveVault is ReentrancyGuard, iEonsController {
     // map, _asset is the coin or token's contract address, and _eTokenAddress is the
     //  eToken address created for that asset, and _aTokenAddress is the AAVE token 
     // address created for that asset
-    function editAsset(address _lendingPool) external onlyOwner whenPaused {
-        // assign values to AssetInfo and save to supportedAssets index of assetInfo,
-        // and keep pool values the same
+    function editAsset(address _eTokenAddress, address _lendingPool) external onlyOwner whenPaused {
+        eToken = IeaEons(_eTokenAddress);
         lendingPool = _lendingPool;
     }
 
@@ -119,50 +103,48 @@ contract EonsERC20AaveVault is ReentrancyGuard, iEonsController {
         onlyEToken
     {
         // Transfer the desired amount to the wallet passed as argument
-        IAToken(aToken).transfer(devVault, _amount);
+        aToken.transfer(devVault, _amount);
     }
 
-// ************************* DEPOSITS AND WITHDRAWALS ****************************
+// ************************ NATIVE ASSET TRANSACTIONS ***************************
 
     // @dev
-    // web3 frontend interface must first approve their asset to be transfered by
-    // the AAVE router contract, otherwise it will revert
     // deposit function handles both new deposits and deposits on top of previous ones
-    // made by the same user.
-    function deposit(uint256 _amount) external nonReentrant whenNotPaused {
+    // made by the same user.  Only works for native token
+    function depositMATIC() external payable nonReentrant whenNotPaused {
 
         // just your basic security checks
-        require(_amount > 0, "You can't deposit nothing.");
+        require(msg.value > 0, "You can't deposit nothing.");
 
         // mint eTokens to msg.sender
-        IeaEons(eToken).mint(msg.sender, _amount);
-        // call deposit() on router, send current _amount
-        router.deposit(nativeAsset, _amount, msg.sender, lendingPool);
+        eToken.mint(msg.sender, msg.value);
+        // send MATIC to router for transfer to AAVE
+        router.depositMATIC{value: msg.value}(lendingPool);
 
-        emit Deposit(msg.sender, nativeAsset, _amount);
+        emit Deposit(msg.sender, address(0), msg.value);
     }
 
+
     // @dev
-    // web3  This is the amount of the native asset that will be returned to msg.sender
-    function withdraw(uint _amount) external nonReentrant whenNotPaused {
+    // withdraw function handles all withdrawals in native token
+    function withdrawMATIC(uint256 _amount) external nonReentrant whenNotPaused {
 
         // just your basic security checks
         require(_amount > 0, "You can't withdraw nothing.");
-        require(_amount <= IeaEons(eToken).balanceOf(msg.sender), "You don't have the funds for that.");
-
+        require(_amount <= eToken.balanceOf(msg.sender), "You don't have the funds for that.");
+        
         // If threshold for bonus is met, retrieve bonus and reinvest it back into
         // the aToken balance
-        // ************** UNCOMMENT FOR MAINNET / FORK TESTS ***************
         getBonus();
 
-        // burn eTokens from msg.sender
-        IeaEons(eToken).burn(msg.sender, _amount);
-        // transfer aTokens to router
-        IAToken(aToken).transfer(address(router), _amount);
-        // call withdraw() on router
-        router.withdraw(nativeAsset, _amount, aToken, msg.sender, lendingPool);
+        // burns eTokens from msg.sender
+        eToken.burn(msg.sender, _amount);
+        // transfer user's withdrawn aTokens to the router to cash in
+        aToken.transfer(address(router), _amount);
+        // call withdrawMATIC() on router, send current value
+        router.withdrawMATIC(_amount, msg.sender, lendingPool, address(aToken));
 
-        emit Withdraw(msg.sender, nativeAsset, _amount);
+        emit Deposit(msg.sender, address(0), _amount);
     }
 
  // ************************ UNWRAP AND REDEPOSIT WMATIC ***************************
@@ -171,7 +153,7 @@ contract EonsERC20AaveVault is ReentrancyGuard, iEonsController {
     function getBonus() internal {
 
         address[] memory aTokenArray = new address[](1);
-        aTokenArray[0] = aToken;
+        aTokenArray[0] = address(aToken);
         // call getRewardsBalance to check the total owed
         // send aToken address and vault address as params
         uint256 totalOwed = bonusClaimer.getRewardsBalance(aTokenArray, address(this));
@@ -181,31 +163,17 @@ contract EonsERC20AaveVault is ReentrancyGuard, iEonsController {
         if (totalOwed > bonusThreshold) {
             // Send total owed through AAVE and add to total aToken supply
             bonusClaimer.claimRewards(aTokenArray, totalOwed, address(this));
-
-            // Approve nativeAsset transfer to Quickswap
-            WMATIC.approve(address(QSRouter), totalOwed);
-
-            // Create array for quickswap route
-            address[2] memory pair = [address(WMATIC), nativeAsset];
             
-            // Quickswap convert WMATIC to nativeAsset
-            uint256[] memory amounts = QSRouter.swapExactTokensForTokens(totalOwed, 0, pair, address(this), 10000000);
-            // Deposit nativeAsset into router, bypassing minting and depositing aTokens
-            router.deposit(nativeAsset, amounts[1], address(this), lendingPool);
+            // // Call contract to unwrap and redeposit to AAVE
+            WMATIC.withdraw(totalOwed);
+            // // Deposit MATIC into router, bypassing minting and depositing aTokens
+            router.depositMATIC{value: totalOwed}(lendingPool);
 
             emit BonusPayout(totalOwed);
         }
     }
 
-    // Fallbacck for receiving MATIC
+    // Receive function for receiving MATIC for bonus re-deposit
     receive() external payable {}
 
-    // FOR TESTING ONLY
-    // REMOVE FOR DEPLOYMENT
-    // To prevent funds from being trapped durring mainnet testing, this "drain plug" 
-    // lets the owner drain the funds from the contract and return them to owner.
-    function drainPlug() external onlyOwner {
-        uint256 amount = IAToken(aToken).balanceOf(address(this));
-        IAToken(aToken).transfer(msg.sender, amount);
-    }
 }
